@@ -63,6 +63,7 @@ SOURCES += \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
     econengine.cpp \
+    lemonade.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -114,7 +115,11 @@ HEADERS += \
     Box2D/Dynamics/b2World.h \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
+<<<<<<< HEAD
     econengine.h \
+=======
+    lemonade.h \
+>>>>>>> 49dda05f81a562f1e9701e137366d57c2dc43b6c
     mainwindow.h
 
 FORMS += \
