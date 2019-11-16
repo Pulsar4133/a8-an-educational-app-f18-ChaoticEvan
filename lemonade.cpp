@@ -4,12 +4,14 @@ Lemonade::Lemonade()
 {
     _lemon = 0;
     _sugar = 0;
-    _price = 0;
+    _ice = 0;
+    _pricePerCup = 0;
+    _numPitchers = 0;
 }
 
-void Lemonade::setPrice(double price)
+void Lemonade::setPricePerCup(double pricePerCup)
 {
-    this->_price = price;
+    this->_pricePerCup = pricePerCup;
 }
 
 void Lemonade::setLemon(int lemon)
@@ -22,6 +24,16 @@ void Lemonade::setSugar(int sugar)
     this->_sugar = sugar;
 }
 
+void Lemonade::setIce(int ice)
+{
+    this->_ice = ice;
+}
+
+void Lemonade::setNumPitchers(int numPitchers)
+{
+    this->_numPitchers = numPitchers;
+}
+
 void Lemonade::addOneLemon()
 {
     ++_lemon;
@@ -30,4 +42,14 @@ void Lemonade::addOneLemon()
 void Lemonade::addOneSugar()
 {
     ++_sugar;
+}
+
+void Lemonade::addOneIce()
+{
+    ++_ice;
+}
+
+void Lemonade::addOnePitcher()
+{
+    ++_numPitchers;
 }
