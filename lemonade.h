@@ -10,19 +10,19 @@ public:
     Lemonade();
 
     void setPricePerCup(double pricePerCup);
-    double getPricePerCup(){return _pricePerCup;}
+    double getPricePerCup(){return pricePerCup;}
 
     void setLemon(int lemon);
-    int getLemon(){return _lemon;}
+    int getLemon(){return lemon;}
 
     void setSugar(int sugar);
-    int getSugar(){return _sugar;}
+    int getSugar(){return sugar;}
 
     void setIce(int ice);
-    int getIce(){return _ice;}
+    int getIce(){return ice;}
 
     void setNumPitchers(int numPitchers);
-    int getNumPitchers(){return _numPitchers;}
+    int getNumPitchers(){return numPitchers;}
 
     void addOneLemon();
     void addOneSugar();
@@ -30,13 +30,13 @@ public:
     void addOnePitcher();
 
 private:
-    int _sugar;
-    int _lemon;
-    int _ice;
+    int sugar;
+    int lemon;
+    int ice;
 
     //Might be moved out of this class, but starting with it here for now.
-    double _pricePerCup;
-    int _numPitchers;
+    double pricePerCup;
+    int numPitchers;
 
 
 
