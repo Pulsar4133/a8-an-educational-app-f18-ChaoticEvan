@@ -127,32 +127,32 @@ private:
     /**
      * @brief _standStats stats for current game stand
      */
-    StandStats _standStats;
+    StandStats standStats;
 
     /**
      * @brief _worldStats stats for current world state
      */
-    WorldStats _worldStats;
+    WorldStats worldStats;
 
     /**
      * @brief _upgradeStats stats for current stand upgrades
      */
-    UpgradeStats _upgradeStats;
+    UpgradeStats upgradeStats;
 
     /**
      * @brief _currentDayStats stats for the results of the current day
      */
-    DayStats _currentDayStats;
+    DayStats currentDayStats;
 
     /**
      * @brief _currentLemonadeStats stats for the current day's lemonade
      */
-    LemonadeStats _currentLemonadeStats;
+    LemonadeStats currentLemonadeStats;
 
     /**
      * @brief _perfectLemonadeStats stats for the current day's ideal lemonade mix
      */
-    LemonadeStats _perfectLemonadeStats;
+    LemonadeStats perfectLemonadeStats;
 
     /**
      * @brief runSimulation runs a one-day simulation according to the
