@@ -6,40 +6,66 @@
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
 
+    // SETTLE: Do we want to calculate/randomize game conditions
+    //		   at the beginning of the game, in order to give forecasts
+    // 		   through the calendar and foreshadow news events?
+
 }
 
-void EconEngine::onNewDay(LemonadeStats newLemonadeStats)
+void EconEngine::onNewDayStats(LemonadeRecipe newLemonadeRecipe)
 {
-    // Stores the new lemonade stats in the model.
-    this->currentLemonadeStats = newLemonadeStats;
 
+    // Increment the day, and set today's lemonade recipe.
+    game.currentDay++;
+    game.today.lemonade = newLemonadeRecipe;
+
+    // Runs the simulation using the new LemonadeStats provided
     this->runSimulation();
 
-    emit this->sigSimulationComplete(this->currentDayStats);
+    // Signals that a simuation has been completed, providing
+    // the stats for the current day.
+    emit this->sigSimulationComplete(game);
+
+    return;
+}
+
+void EconEngine::onNewDayLemonade(Lemonade newLemonade)
+{
+    // Convert Lemonade to a LemonadeStats struct
+    LemonadeRecipe stats(newLemonade);
+
+
+    // Use onNewDayStats to give the converted LemonadeStats
+    // to the simulator.
+    this->onNewDayStats(stats);
+
+    return;
+}
+
+void EconEngine::onGameStatePushRequest()
+{
+    emit this->sigPushGameState(game);
 }
 
 void EconEngine::runSimulation()
 {
 
-    // Reset current day defaults
-    this->currentDayStats.reset();
+    game.currentDay++;
 
     // TODO: Recalculate ideal lemonade stats,
     //		 e.g. different ice cubes based on
     //		 temperature or something.
-    this->perfectLemonadeStats = this->perfectLemonadeStats;
+    game.perfectLemonade.ice = 2;
 
     // TODO: Recalculate weights of internal structures based
     //		 on any conditions that may have changed.
-    this->standStats   = this->standStats;
-    this->worldStats   = this->worldStats;
-    this->upgradeStats = this->upgradeStats;
+    game.weights.reputation = 1.50;
 
     // Calculates demand based on internal states
     int cupsDemanded = this->calculateDemand();
 
     // Set the number of cups sold to the number demanded
-    int cupsMade = this->currentLemonadeStats.pitchers * this->standStats.cupsPerPitcher;
+    int cupsMade = game.today.lemonade.pitchers * game.stand.cupsPerPitcher;
     int cupsSold = cupsDemanded;
 
     // If more cups were demanded than made,
@@ -48,17 +74,21 @@ void EconEngine::runSimulation()
     if (cupsDemanded > cupsMade)
     {
         cupsSold = cupsMade;
-        this->currentDayStats.soldOut = true;
+        game.today.soldOut = true;
     }
 
-    this->currentDayStats.sales = cupsSold;
-    this->currentDayStats.demanded = cupsDemanded;
-    this->currentDayStats.income = cupsSold * this->currentLemonadeStats.pricePerCup;
+    // Set the status of today's cups sold, cups demanded, and income.
+    game.today.sales = cupsSold;
+    game.today.demanded = cupsDemanded;
+    game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
+    // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
+    // 		   team, or would we like to use this emit to poll the Ingredients team for
+    //		   their calculation?
     emit sigCost();
 
     // TODO change placeholder of 0 to the actual cost obtained from emit ^.
-    calculateProfit(0,currentDayStats.income);
+    calculateProfit(0, game.today.income);
 
     return;
 }
