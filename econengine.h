@@ -27,11 +27,13 @@ struct StandStats
     float reputation		= 0.00;
     float weightReputation	= 0.00;
 
-    int   sampleDummy		= 0;
-    float weightSampleDummy	= 0.00;
-
     float marketing			= 0;
     float weightMarketing	= 0.00;
+
+    int   cupsPerPitcher	= 8;
+
+    int   sampleDummy		= 0;
+    float weightSampleDummy	= 0.00;
 };
 
 /**
@@ -43,6 +45,10 @@ struct WorldStats
 {
     int   weatherSeverity		= 0;
     float weightWeatherSeverity = 0.00;
+
+    double priceLemons	= 0.50;
+    double priceSugar	= 0.40;
+    double priceIce		= 0.10;
 
     int   sampleDummy		= 0;
     float weightSampleDummy	= 0.00;
@@ -69,9 +75,22 @@ struct UpgradeStats
 struct DayStats
 {
     int   sales	= 0;
+    int   demanded = 0;
+    bool  soldOut = false;
     float cost	= 0;
     float income = 0;
     float profit = 0;
+
+    void reset()
+    {
+        this->sales = 0;
+        this->demanded = 0;
+        this->soldOut = false;
+        this->cost   = 0.00;
+        this->income = 0.00;
+        this->profit = 0.00;
+    }
+
 };
 
 class EconEngine : public QObject
@@ -85,12 +104,6 @@ public:
      * @param parent
      */
     explicit EconEngine(QObject *parent = nullptr);
-
-    /**
-     * @brief runSimulation runs a one-day simulation according to the
-     * 		  internal states of the EconEngine.
-     */
-    void runSimulation();
 
 signals:
     /**
@@ -140,6 +153,18 @@ private:
      * @brief _perfectLemonadeStats stats for the current day's ideal lemonade mix
      */
     LemonadeStats _perfectLemonadeStats;
+
+    /**
+     * @brief runSimulation runs a one-day simulation according to the
+     * 		  internal states of the EconEngine.
+     */
+    void runSimulation();
+
+    /**
+     * @brief calculateDemand calculates one day's lemonade demand according
+     * 		  to the internal state of the EconModel's member structs.
+     */
+    int calculateDemand();
 
 };
 
