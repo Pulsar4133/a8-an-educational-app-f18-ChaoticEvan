@@ -64,5 +64,6 @@ float Lemonade::totalCostOfLemonade(){
     float total_cost_of_ingredients = cost_of_ice+ cost_of_sugar+ cost_of_lemons;
     //calculate cost in relation to number of pitchers.
     total_cost_of_ingredients = numPitchers * total_cost_of_ingredients;
+    //emit sigReturnCost(total_cost_of_ingredients);
     return total_cost_of_ingredients;
 }

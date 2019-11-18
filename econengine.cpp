@@ -56,10 +56,9 @@ void EconEngine::runSimulation()
     this->currentDayStats.income = cupsSold * this->currentLemonadeStats.pricePerCup;
 
     emit sigCost();
-    // TODO change placeholder of 0 to the actual cost.
-    calculateProfit(0,currentDayStats.income);
 
-    // TODO: Calculate profit.
+    // TODO change placeholder of 0 to the actual cost obtained from emit ^.
+    calculateProfit(0,currentDayStats.income);
 
     return;
 }
