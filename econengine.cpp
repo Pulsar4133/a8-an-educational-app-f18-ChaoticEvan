@@ -1,3 +1,6 @@
+/**
+  * This class is mimicing a "model".
+  */
 #include "econengine.h"
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
@@ -52,10 +55,17 @@ void EconEngine::runSimulation()
     this->currentDayStats.demanded = cupsDemanded;
     this->currentDayStats.income = cupsSold * this->currentLemonadeStats.pricePerCup;
 
-    // TODO: Calculate cost and profit.
+    emit sigCost();
+    // TODO change placeholder of 0 to the actual cost.
+    calculateProfit(0,currentDayStats.income);
+
+    // TODO: Calculate profit.
 
     return;
+}
 
+float EconEngine::calculateProfit(float cost, float income){
+    return income - cost;
 }
 
 int EconEngine::calculateDemand()

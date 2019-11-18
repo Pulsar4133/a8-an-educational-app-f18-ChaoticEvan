@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
     QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDay);
-    QObject::connect(model, &EconEngine::sigCost, &lemonade, &lemonade::cost);
+    //QObject::connect(model, &EconEngine::sigCost, &lemonade, &lemonade::totalCostOfLemonade);
+    //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.

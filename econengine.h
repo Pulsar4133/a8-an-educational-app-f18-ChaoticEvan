@@ -112,6 +112,7 @@ signals:
      * @param dayStats, statistics for the just-completed day.
      */
     void sigSimulationComplete(DayStats dayStats);
+    void sigCost();
 
 public slots:
     /**
@@ -121,6 +122,7 @@ public slots:
      * @param newLemonStats
      */
     void onNewDay(LemonadeStats newLemonadeStats);
+    float calculateProfit(float cost, float income);
 
 private:
 
