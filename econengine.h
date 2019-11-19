@@ -13,10 +13,29 @@
  */
 struct LemonadeRecipe
 {
+    /**
+     * @brief the amount of sugar in one pitcher of lemonade
+     */
     int sugar	= 0;
+
+    /**
+     * @brief the amount of ice in one pitcher of lemonade
+     */
     int ice		= 0;
+
+    /**
+     * @brief the amount of lemons in one pitcher of lemonade
+     */
     int lemons	= 0;
+
+    /**
+     * @brief the price of one cup of lemonade
+     */
     float pricePerCup	= 1.00;
+
+    /**
+     * @brief the number of pitchers of lemonade the player chose to create
+     */
     int pitchers	= 0;
 
     /**
@@ -56,7 +75,14 @@ enum UPGRADE_ENUM
 
 struct Upgrades
 {
+    /**
+     * @brief A list of ownership status for all upgrades
+     */
     bool  purchased [UPGRADE_ENUM::NUM_UPGRADES];
+
+    /**
+     * @brief A list of costs for all upgrades
+     */
     float cost      [UPGRADE_ENUM::NUM_UPGRADES];
 };
 
@@ -66,11 +92,27 @@ struct Upgrades
  */
 struct Stand
 {
+    /**
+     * @brief reputation points to represent the current reputation of
+     * 		  the player's stand
+     */
     int reputation	= 0;
+
+    /**
+     * @brief marketing points to represent how much draw the player has
+     * 		  to new customers
+     */
     int marketing	= 0;
 
+    /**
+     * @brief the number of cups the player can make out of one pitcher
+     * 		  of lemonade.
+     */
     int cupsPerPitcher = 8;
 
+    /**
+     * @brief the upgrades the player has bought for their stand.
+     */
     Upgrades upgrades;
 };
 
@@ -120,14 +162,50 @@ struct Weights
  */
 struct GameState
 {
-    int currentDay   = 0;
-    int currentLevel = this->currentDay / 5;
+    /**
+     * @brief current in-game date, starting at 0.
+     */
+    int currentDate   = 0;
+
+    /**
+     * @brief current in-game level, starting at 0 and increasing with
+     *        every 5 days.
+     */
+    int currentLevel = this->currentDate / 5;
+
+    /**
+     * @brief statistics for the player's stand
+     */
     Stand stand;
+
+    /**
+     * @brief statistics for the current state of the world.
+     */
     World world;
-    Day   day[GAME_LENGTH];
-    Day   today = this->day[this->currentDay];
+
+    /**
+     * @brief an array of all the stats for every in-game day
+     */
+    Day day[GAME_LENGTH];
+
+    /**
+     * @brief the currentDate's statistics.
+     */
+    Day today = this->day[this->currentDate];
+
+    /**
+     * @brief the current day's recipe for lemonade.
+     */
     LemonadeRecipe currentLemonade = this->today.lemonade;
+
+    /**
+     * @brief the ideal recipe for lemonade
+     */
     LemonadeRecipe perfectLemonade;
+
+    /**
+     * @brief the weights used in the demand calculations during the simulation
+     */
     Weights weights;
 };
 
@@ -168,7 +246,7 @@ public slots:
      * 		  required.
      * @param newLemonStats
      */
-    void onNewDayStats(LemonadeRecipe newLemonadeRecipe);
+    void onNewDayRecipe(LemonadeRecipe newLemonadeRecipe);
 
     /**
      * @brief onNewDay is signalled whenever a new day is requested. In

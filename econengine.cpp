@@ -12,11 +12,11 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
 
 }
 
-void EconEngine::onNewDayStats(LemonadeRecipe newLemonadeRecipe)
+void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 {
 
     // Increment the day, and set today's lemonade recipe.
-    game.currentDay++;
+    game.currentDate++;
     game.today.lemonade = newLemonadeRecipe;
 
     // Runs the simulation using the new LemonadeStats provided
@@ -37,7 +37,7 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 
     // Use onNewDayStats to give the converted LemonadeStats
     // to the simulator.
-    this->onNewDayStats(stats);
+    this->onNewDayRecipe(stats);
 
     return;
 }
@@ -50,7 +50,7 @@ void EconEngine::onGameStatePushRequest()
 void EconEngine::runSimulation()
 {
 
-    game.currentDay++;
+    game.currentDate++;
 
     // TODO: Recalculate ideal lemonade stats,
     //		 e.g. different ice cubes based on
@@ -84,7 +84,7 @@ void EconEngine::runSimulation()
 
     // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
     // 		   team, or would we like to use this emit to poll the Ingredients team for
-    //		   their calculation?
+    //		   costs that they calculate on their end?
     emit sigCost();
 
     // TODO change placeholder of 0 to the actual cost obtained from emit ^.
@@ -99,7 +99,7 @@ float EconEngine::calculateProfit(float cost, float income){
 
 int EconEngine::calculateDemand()
 {
-    // TODO: Calculate the demand according to the weights and values of all internal variables.
+    // TODO: Calculate the demand according to the weights and values of internal variables.
 
     return 100;
 }
