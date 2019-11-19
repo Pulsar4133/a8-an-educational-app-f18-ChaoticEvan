@@ -79,12 +79,9 @@ void EconEngine::runSimulation()
     game.today.demanded = cupsDemanded;
     game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
-    // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
-    // 		   team, or would we like to use this emit to poll the Ingredients team for
-    //		   costs that they calculate on their end?
+    // Calculate the total cost of the lemonade, and the profit
 
-    float cost = totalCostOfLemonade();
-    calculateProfit(cost, game.today.income);
+    calculateProfit(0, game.today.income);
 
     return;
 }
@@ -100,6 +97,7 @@ int EconEngine::calculateDemand()
     return 100;
 }
 
+/*
 float EconEngine::totalCostOfLemonade(){
     float cost_of_lemons;
     float cost_of_sugar;
@@ -117,3 +115,4 @@ float EconEngine::totalCostOfLemonade(){
     total_cost_of_ingredients = game.today.lemonade.pitchers * total_cost_of_ingredients;
     return total_cost_of_ingredients;
 }
+*/

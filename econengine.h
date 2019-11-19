@@ -283,7 +283,9 @@ private:
 
     float calculateProfit(float cost, float income);
 
+    /*
     float totalCostOfLemonade();
+    */
 
 };
 
