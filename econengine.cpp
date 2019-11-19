@@ -49,7 +49,6 @@ void EconEngine::onGameStatePushRequest()
 
 void EconEngine::runSimulation()
 {
-
     game.currentDate++;
 
     // TODO: Recalculate ideal lemonade stats,
@@ -85,10 +84,9 @@ void EconEngine::runSimulation()
     // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
     // 		   team, or would we like to use this emit to poll the Ingredients team for
     //		   costs that they calculate on their end?
-    emit sigCost();
 
-    // TODO change placeholder of 0 to the actual cost obtained from emit ^.
-    calculateProfit(0, game.today.income);
+    float cost = totalCostOfLemonade();
+    calculateProfit(cost, game.today.income);
 
     return;
 }
@@ -102,4 +100,22 @@ int EconEngine::calculateDemand()
     // TODO: Calculate the demand according to the weights and values of internal variables.
 
     return 100;
+}
+
+float EconEngine::totalCostOfLemonade(){
+    float cost_of_lemons;
+    float cost_of_sugar;
+    //Todo: if organic upgrade is made, change the prices of lemons (and sugar).
+    //if organic{
+//    float cost_of_lemons = lemon * .8;
+//    float cost_of_sugar = sugar * .1;
+    //}
+    //else{
+    cost_of_lemons = game.today.lemonade.lemons * .4;
+    cost_of_sugar = game.today.lemonade.sugar * .5;
+    float cost_of_ice = game.today.lemonade.ice * .1;
+    float total_cost_of_ingredients = cost_of_ice+ cost_of_sugar+ cost_of_lemons;
+    //calculate cost in relation to number of pitchers.
+    total_cost_of_ingredients = game.today.lemonade.pitchers * total_cost_of_ingredients;
+    return total_cost_of_ingredients;
 }
