@@ -5,9 +5,11 @@
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
+
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
+
 }
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
@@ -79,9 +81,12 @@ void EconEngine::runSimulation()
     game.today.demanded = cupsDemanded;
     game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
-    // Calculate the total cost of the lemonade, and the profit
+    // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
+    // 		   team, or would we like to use this emit to poll the Ingredients team for
+    //		   costs that they calculate on their end?
 
-    calculateProfit(0, game.today.income);
+    float cost = totalCostOfLemonade();
+    calculateProfit(cost, game.today.income);
 
     return;
 }
@@ -97,7 +102,6 @@ int EconEngine::calculateDemand()
     return 100;
 }
 
-/*
 float EconEngine::totalCostOfLemonade(){
     float cost_of_lemons;
     float cost_of_sugar;
@@ -109,10 +113,10 @@ float EconEngine::totalCostOfLemonade(){
     //else{
     cost_of_lemons = game.today.lemonade.lemons * .4;
     cost_of_sugar = game.today.lemonade.sugar * .5;
+    //}
     float cost_of_ice = game.today.lemonade.ice * .1;
     float total_cost_of_ingredients = cost_of_ice+ cost_of_sugar+ cost_of_lemons;
     //calculate cost in relation to number of pitchers.
     total_cost_of_ingredients = game.today.lemonade.pitchers * total_cost_of_ingredients;
     return total_cost_of_ingredients;
 }
-*/
