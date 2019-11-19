@@ -5,11 +5,9 @@
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
-
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
-
 }
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
