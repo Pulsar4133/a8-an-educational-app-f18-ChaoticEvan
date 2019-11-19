@@ -29,12 +29,6 @@ public:
     void addOneIce();
     void addOnePitcher();
 
-public slots:
-    float totalCostOfLemonade();
-
-signals:
-    float sigReturnCost(float total_cost_of_ingredients);
-
 private:
     int sugar;
     int lemon;
@@ -43,9 +37,6 @@ private:
     //Might be moved out of this class, but starting with it here for now.
     double pricePerCup;
     int numPitchers;
-
-
-
 };
 
 #endif // LEMONADE_H

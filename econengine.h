@@ -237,8 +237,6 @@ signals:
      */
     void sigPushGameState(GameState game);
 
-    void sigCost();
-
 public slots:
     /**
      * @brief onNewDay is signalled whenever a new day is requested. In
@@ -284,6 +282,8 @@ private:
     int calculateDemand();
 
     float calculateProfit(float cost, float income);
+
+    float totalCostOfLemonade();
 
 };
 

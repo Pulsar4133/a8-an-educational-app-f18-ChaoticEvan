@@ -54,16 +54,3 @@ void Lemonade::addOnePitcher()
     ++numPitchers;
 }
 
-float Lemonade::totalCostOfLemonade(){
-    //Todo: if organic upgrade is made, change the prices of lemons (and sugar).
-//    float cost_of_lemons = lemon * .8;
-//    float cost_of_sugar = sugar * .1;
-    float cost_of_ice = ice * .1;
-    float cost_of_lemons = lemon * .4;
-    float cost_of_sugar = sugar * .5;
-    float total_cost_of_ingredients = cost_of_ice+ cost_of_sugar+ cost_of_lemons;
-    //calculate cost in relation to number of pitchers.
-    total_cost_of_ingredients = numPitchers * total_cost_of_ingredients;
-    //emit sigReturnCost(total_cost_of_ingredients);
-    return total_cost_of_ingredients;
-}
