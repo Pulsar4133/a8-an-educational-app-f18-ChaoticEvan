@@ -351,19 +351,27 @@ private:
     int calculateDemand();
 
     /**
-     * @brief calculateCost will calculate the total cost for some amount of
-     * 		  pitchers
-     * @return the cost, in dollars, of the day.
-     */
-    float calculateCost(int pitchersSold);
-
-    /**
      * @brief setWeatherPattern will set the weather pattern of every unsimulated
      *		  day in the game.
      * @param days, the array of all days in the game.
      * @param numDays, the number of days in the game.
      */
     void  setWeatherPattern(Day* days, int numDays);
+
+		/**
+     * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
+     * @param cost
+     * @param income
+     * @return profit
+     */
+    float calculateProfit(float cost, float income);
+
+    /**
+     * @brief totalCostOfLemonade A method that calculates the cost of lemonade by analyzing the
+     * inputs of number of lemons, sugar, and ice.
+     * @return cost
+     */
+    float totalCostOfLemonade();
 
 };
 

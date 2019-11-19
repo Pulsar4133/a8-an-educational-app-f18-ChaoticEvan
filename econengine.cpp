@@ -5,6 +5,7 @@
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
+
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
@@ -84,8 +85,8 @@ void EconEngine::runSimulation()
     game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
     // Calculate the total cost of the lemonade, and the profit
-    game.today.cost = this->calculateCost(game.today.sales);
-    game.today.profit = game.today.income - game.today.profit;
+    game.today.cost   = totalCostOfLemonade();
+    game.today.profit = calculateProfit(game.today.cost, game.today.income);
 
     // Add the profit (whether it be positive or negative) to the player's
     // wallet.
@@ -96,6 +97,11 @@ void EconEngine::runSimulation()
     return;
 }
 
+float EconEngine::calculateProfit(float cost, float income)
+{
+    return income - cost;
+}
+
 int EconEngine::calculateDemand()
 {
     // TODO: Calculate the demand according to the weights and values of internal variables.
@@ -103,23 +109,6 @@ int EconEngine::calculateDemand()
     int result = 100;
 
     return result;
-}
-
-float EconEngine::calculateCost(int pitchersSold)
-{
-    float costLemons = pitchersSold
-                     * game.today.lemonade.lemons
-                     * game.world.priceLemons;
-
-    float costSugar  = pitchersSold
-                     * game.today.lemonade.sugar
-                     * game.world.priceSugar;
-
-    float costIce    = pitchersSold
-                     * game.today.lemonade.ice
-                     * game.world.priceIce;
-
-    return costLemons + costSugar + costIce;
 }
 
 void EconEngine::setWeatherPattern(Day* days, int numDays)
@@ -137,4 +126,18 @@ void EconEngine::setWeatherPattern(Day* days, int numDays)
     }
 
     return;
+
+}
+
+float EconEngine::totalCostOfLemonade()
+{
+    float costOfLemons = game.today.lemonade.lemons * game.world.priceLemons;
+    float costOfSugar  = game.today.lemonade.sugar * game.world.priceSugar;
+    float costOfIce    = game.today.lemonade.ice * game.world.priceIce;
+
+    float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
+
+    //calculate cost in relation to number of pitchers.
+    totalCostOfIngredients = game.today.lemonade.pitchers * totalCostOfIngredients;
+    return totalCostOfIngredients;
 }
