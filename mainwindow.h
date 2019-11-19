@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "Box2D/Box2D.h"
+#include "econengine.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -12,14 +13,18 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, EconEngine* model = new EconEngine());
     ~MainWindow();
 
 signals:
-    void newPos(int);
+    void sigNewPos(int);
+    void sigStartSimulation();
 
 public slots:
     void updateWorld();
+
+private slots:
+    void on_startButton_clicked();
 
 private:
     Ui::MainWindow *ui;
