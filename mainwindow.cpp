@@ -13,8 +13,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->setupUi(this);
 
     QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
-    //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDay);
-    //QObject::connect(model, &EconEngine::sigCost, &lemonade, &lemonade::totalCostOfLemonade);
+    //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 

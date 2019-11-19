@@ -281,11 +281,20 @@ private:
      */
     int calculateDemand();
 
+    /**
+     * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
+     * @param cost
+     * @param income
+     * @return profit
+     */
     float calculateProfit(float cost, float income);
 
-    /*
+    /**
+     * @brief totalCostOfLemonade A method that calculates the cost of lemonade by analyzing the
+     * inputs of number of lemons, sugar, and ice.
+     * @return cost
+     */
     float totalCostOfLemonade();
-    */
 
 };
 
