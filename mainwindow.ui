@@ -76,6 +76,24 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="newsLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>191</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>News:</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="dayFrame">
      <property name="geometry">
@@ -229,8 +247,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>10</y>
+      <x>260</x>
+      <y>440</y>
       <width>801</width>
       <height>411</height>
      </rect>
