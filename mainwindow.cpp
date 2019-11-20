@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTimer>
+#include <QGraphicsPixmapItem>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -12,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
-    QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
+    QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
@@ -72,8 +73,17 @@ void MainWindow::updateWorld(){
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 }
 
-
 void MainWindow::on_startButton_clicked()
 {
+    ui->welcomeFrame->setVisible(false);
+
     emit sigStartSimulation();
+}
+
+void MainWindow::onGameUpdate(GameState state)
+{
+    ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
+    ui->salesLabel->setText("Sales: $" + QString::number(state.day->sales));
+    ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
+    ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
