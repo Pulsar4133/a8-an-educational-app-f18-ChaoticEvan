@@ -23,14 +23,14 @@ signals:
      * @param gameState, updated to contain data regarding the recently
      * 		  completed day
      */
-    void sigSimulationComplete(GameState game);
+    void sigSimulationComplete(const GameState& game);
 
     /**
      * @brief sigPushWorldStats signals out the current game state upon
      * 		  request.
      * @param game
      */
-    void sigPushGameState(GameState game);
+    void sigPushGameState(const GameState& game);
 
 public slots:
     /**

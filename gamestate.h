@@ -278,6 +278,11 @@ struct GameState
     Stand stand;
 
     /**
+     * @brief The current amount of money in the player's wallet.
+     */
+    float& wallet = this->stand.wallet;
+
+    /**
      * @brief statistics for the current state of the world.
      */
     World world;
@@ -285,17 +290,17 @@ struct GameState
     /**
      * @brief an array of all the stats for every in-game day
      */
-    Day day[DEFAULT_GAME_LENGTH];
+    Day days[DEFAULT_GAME_LENGTH];
 
     /**
      * @brief the currentDate's statistics.
      */
-    Day today = this->day[this->currentDate];
+    Day& today = this->days[this->currentDate];
 
     /**
      * @brief the current day's recipe for lemonade.
      */
-    LemonadeRecipe currentLemonade = this->today.lemonade;
+    LemonadeRecipe& currentLemonade = this->today.lemonade;
 
     /**
      * @brief the ideal recipe for lemonade
@@ -308,10 +313,5 @@ struct GameState
     Weights weights;
 
 };
-
-
-
-
-
 
 #endif // GAMESTATE_H

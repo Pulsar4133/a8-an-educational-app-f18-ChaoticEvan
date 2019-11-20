@@ -11,6 +11,9 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
 
+    // Set the future weather for all days in the game.
+    this->setWeatherPattern(game.days, game.gameLength);
+
 }
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
@@ -46,6 +49,11 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
     return;
 }
 
+void EconEngine::onGameStatePushRequest()
+{
+    emit sigPushGameState(game);
+}
+
 void EconEngine::onUpgradePurchased(int upgradeId)
 {
 
@@ -60,6 +68,8 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 
     // Execute the upgrade's effect.
     upgrade->effect(game);
+
+    return;
 }
 
 void EconEngine::runSimulation()
