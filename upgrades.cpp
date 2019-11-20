@@ -5,11 +5,11 @@ Upgrades::Upgrades()
 {
 
         this->m_upgradeList[UPGRADE_ENUM::NEON_SIGN] = new Upgrade(
-                    "Neon Sign",
-                    "Throw a neon sign on that dingy stand to attract some new customers!",
-                    50.00,
-                    UPGRADE_ENUM::NEON_SIGN,
-                    [] (GameState& game)
+                    "Neon Sign", // Name
+                    "Throw a neon sign on that dingy stand to attract some new customers!", // Description
+                    50.00, // Cost
+                    UPGRADE_ENUM::NEON_SIGN, // Enum ID
+                    [] (GameState& game) // Effect
                     {
                         game.stand.marketing += 10;
                     });
