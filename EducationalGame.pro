@@ -116,8 +116,10 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    gamestate.h \
     lemonade.h \
-    mainwindow.h
+    mainwindow.h \
+    upgrades.h
 
 FORMS += \
     mainwindow.ui
