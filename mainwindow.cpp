@@ -1,16 +1,24 @@
+#include "Box2D/Box2D.h"
+//#include "lemonade.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Box2D/Box2D.h"
 #include <QTimer>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
-      world(b2Vec2 (0.0f, -10.0f))
-    , ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    world(b2Vec2 (0.0f, -10.0f))
+
 {
     ui->setupUi(this);
 
+<<<<<<< HEAD
     QObject::connect(ui->welcomeButton, &QPushButton::pressed, this, &MainWindow::onGameStart);
+=======
+    QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
+    //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
+    //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
+>>>>>>> 6aa6255ae19bf600775b35c81cd4e978911081d9
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
@@ -64,10 +72,11 @@ void MainWindow::updateWorld(){
 
     // Now print the position and angle of the body.
     b2Vec2 position = body->GetPosition();
-    emit newPos(position.y*100);
+    emit sigNewPos(position.y*100);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 }
 
+<<<<<<< HEAD
 void MainWindow::onGameStart()
 {
     ui->welcomeFrame->setVisible(false);
@@ -76,4 +85,10 @@ void MainWindow::onGameStart()
 void MainWindow::onModelUpdate()
 {
 
+=======
+
+void MainWindow::on_startButton_clicked()
+{
+    emit sigStartSimulation();
+>>>>>>> 6aa6255ae19bf600775b35c81cd4e978911081d9
 }
