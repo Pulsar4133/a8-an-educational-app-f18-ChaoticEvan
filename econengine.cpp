@@ -14,13 +14,17 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 {
-
-    // Increment the day, and set today's lemonade recipe.
-    game.currentDate++;
+    // Set today's lemonade recipe from the provided recipe.
     game.today.lemonade = newLemonadeRecipe;
 
     // Runs the simulation using the new LemonadeStats provided
     this->runSimulation();
+
+    // Mark the day as completed.
+    game.today.complete = true;
+
+    // Increment the day.
+    game.currentDate++;
 
     // Signals that a simuation has been completed, providing
     // the stats for the current day.
@@ -33,7 +37,6 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 {
     // Convert Lemonade to a LemonadeStats struct
     LemonadeRecipe stats(newLemonade);
-
 
     // Use onNewDayStats to give the converted LemonadeStats
     // to the simulator.
@@ -81,42 +84,60 @@ void EconEngine::runSimulation()
     game.today.demanded = cupsDemanded;
     game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
-    // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
-    // 		   team, or would we like to use this emit to poll the Ingredients team for
-    //		   costs that they calculate on their end?
+    // Calculate the total cost of the lemonade, and the profit
+    game.today.cost   = totalCostOfLemonade();
+    game.today.profit = calculateProfit(game.today.cost, game.today.income);
 
-    float cost = totalCostOfLemonade();
-    calculateProfit(cost, game.today.income);
+    // Add the profit (whether it be positive or negative) to the player's
+    // wallet.
+    game.stand.wallet += game.today.profit;
+
+    // SETTLE: Do we want bankruptcy to be a Game Over condition?
 
     return;
 }
 
-float EconEngine::calculateProfit(float cost, float income){
+float EconEngine::calculateProfit(float cost, float income)
+{
     return income - cost;
 }
 
 int EconEngine::calculateDemand()
 {
     // TODO: Calculate the demand according to the weights and values of internal variables.
+    //       currently
+    int result = 100;
 
-    return 100;
+    return result;
 }
 
-float EconEngine::totalCostOfLemonade(){
-    float cost_of_lemons;
-    float cost_of_sugar;
-    //Todo: if organic upgrade is made, change the prices of lemons (and sugar).
-    //if organic{
-//    float cost_of_lemons = lemon * .8;
-//    float cost_of_sugar = sugar * .1;
-    //}
-    //else{
-    cost_of_lemons = game.today.lemonade.lemons * .4;
-    cost_of_sugar = game.today.lemonade.sugar * .5;
-    //}
-    float cost_of_ice = game.today.lemonade.ice * .1;
-    float total_cost_of_ingredients = cost_of_ice+ cost_of_sugar+ cost_of_lemons;
+void EconEngine::setWeatherPattern(Day* days, int numDays)
+{
+    // TODO: Determine how we want to "randomize" weather patterns.
+    for (int i = 0; i < numDays; i++)
+    {
+        // Skip day if it has already been simulated.
+        if (days[i].complete)
+        {
+            continue;
+        }
+
+        days[i].temperature = 65;
+    }
+
+    return;
+
+}
+
+float EconEngine::totalCostOfLemonade()
+{
+    float costOfLemons = game.today.lemonade.lemons * game.world.priceLemons;
+    float costOfSugar  = game.today.lemonade.sugar * game.world.priceSugar;
+    float costOfIce    = game.today.lemonade.ice * game.world.priceIce;
+
+    float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
+
     //calculate cost in relation to number of pitchers.
-    total_cost_of_ingredients = game.today.lemonade.pitchers * total_cost_of_ingredients;
-    return total_cost_of_ingredients;
+    totalCostOfIngredients = game.today.lemonade.pitchers * totalCostOfIngredients;
+    return totalCostOfIngredients;
 }

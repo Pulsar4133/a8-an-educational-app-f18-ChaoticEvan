@@ -4,7 +4,8 @@
 #include <QObject>
 #include "lemonade.h"
 
-#define GAME_LENGTH 15
+#define DEFAULT_GAME_LENGTH 15
+#define STARTING_PLAYER_MONEY 100.00
 
 /**
  * @brief The LemonadeStats struct contains statistics for one day's
@@ -73,6 +74,10 @@ enum UPGRADE_ENUM
     NUM_UPGRADES,
 };
 
+/**
+ * @brief The Upgrades struct contains a ledger of all purchased
+ * 		  /purchasable upgrades in the game, and their costs.
+ */
 struct Upgrades
 {
     /**
@@ -111,6 +116,11 @@ struct Stand
     int cupsPerPitcher = 8;
 
     /**
+     * @brief The current amount of money in the player's wallet.
+     */
+    float wallet = STARTING_PLAYER_MONEY;
+
+    /**
      * @brief the upgrades the player has bought for their stand.
      */
     Upgrades upgrades;
@@ -122,13 +132,49 @@ struct Stand
  */
 struct Day
 {
+    /**
+     * @brief Describes whether or not this day has been simulated
+     */
+    bool  complete = false;
+
+    /**
+     * @brief Temperature of the day
+     */
+    int   temperature = 70;
+
+    /**
+     * @brief Number of sales for this day. 0 prior to simulation.
+     */
     int   sales	= 0;
+
+    /**
+     * @brief Number of units demanded for this day. 0 prior to simulation.
+     */
     int   demanded = 0;
+
+    /**
+     * @brief Describes if the player sold out of lemonade that day
+     */
     bool  soldOut = false;
+
+    /**
+     * @brief Total cost of lemonade materials that day. 0 prior to simulation
+     */
     float cost	= 0;
+
+    /**
+     * @brief Total income from sales for that day. 0 prior to simulation.
+     */
     float income = 0;
+
+    /**
+     * @brief Total profit for that day. 0 prior to simulation.
+     */
     float profit = 0;
 
+    /**
+     * @brief Recipe for lemonade that day.
+     */
     LemonadeRecipe lemonade;
 
 };
@@ -141,8 +187,19 @@ struct World
 {
     int weatherSeverity	= 0;
 
+    /**
+     * @brief Current price per unit of lemons
+     */
     float priceLemons	= 0.50;
+
+    /**
+     * @brief Current price per unit of sugar
+     */
     float priceSugar	= 0.40;
+
+    /**
+     * @brief Current price per unit of ice
+     */
     float priceIce		= 0.10;
 };
 
@@ -152,7 +209,14 @@ struct World
  */
 struct Weights
 {
+    /**
+     * @brief Demand increase per reputation point
+     */
     float reputation = 1.00;
+
+    /**
+     * @brief Demand increase per marketing unit
+     */
     float marketing = 1.00;
 };
 
@@ -174,6 +238,11 @@ struct GameState
     int currentLevel = this->currentDate / 5;
 
     /**
+     * @brief gameLength represents the length of the game, in days
+     */
+    int gameLength = DEFAULT_GAME_LENGTH;
+
+    /**
      * @brief statistics for the player's stand
      */
     Stand stand;
@@ -186,7 +255,7 @@ struct GameState
     /**
      * @brief an array of all the stats for every in-game day
      */
-    Day day[GAME_LENGTH];
+    Day day[DEFAULT_GAME_LENGTH];
 
     /**
      * @brief the currentDate's statistics.
@@ -282,6 +351,14 @@ private:
     int calculateDemand();
 
     /**
+     * @brief setWeatherPattern will set the weather pattern of every unsimulated
+     *		  day in the game.
+     * @param days, the array of all days in the game.
+     * @param numDays, the number of days in the game.
+     */
+    void  setWeatherPattern(Day* days, int numDays);
+
+		/**
      * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
      * @param cost
      * @param income
