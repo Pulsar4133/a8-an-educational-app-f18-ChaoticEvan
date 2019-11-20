@@ -4,8 +4,6 @@
 #include <QObject>
 #include "lemonade.h"
 #include "gamestate.h"
-#include "upgrades.h"
-
 
 class EconEngine : public QObject
 {

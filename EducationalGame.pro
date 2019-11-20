@@ -65,7 +65,8 @@ SOURCES += \
     econengine.cpp \
     lemonade.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    upgrades.cpp
 
 HEADERS += \
     Box2D/Box2D.h \

@@ -5,7 +5,7 @@
 #define STARTING_PLAYER_MONEY 100.00
 
 #include "lemonade.h"
-#include "upgrades.h"
+#include <functional>
 
 /**
  * @brief The LemonadeStats struct contains statistics for one day's
@@ -56,6 +56,38 @@ struct LemonadeRecipe
         this->pricePerCup 	= newLemonade.getPricePerCup();
         this->pitchers		= newLemonade.getNumPitchers();
     }
+
+};
+
+struct Upgrade;
+/**
+ * @brief The UPGRADE_ENUM enum provides an enumeration of all
+ * 		  purchasable upgrades.
+ */
+enum UPGRADE_ENUM
+{
+    NEON_SIGN,
+    WHALE_UMBRELLA,
+    SUGAR_DEALER,
+    ORGANIC_LEMONS,
+
+    // Maximum enum value. Keep at end of enum.
+    // TECHNICALLY UNSAFE.
+    NUM_UPGRADES,
+};
+
+class Upgrades
+{
+
+private:
+
+    Upgrade* m_upgradeList[UPGRADE_ENUM::NUM_UPGRADES];
+
+public:
+
+    Upgrades();
+
+    Upgrade*& operator[](int i) { return m_upgradeList[i]; }
 
 };
 
@@ -274,6 +306,12 @@ struct GameState
      * @brief the weights used in the demand calculations during the simulation
      */
     Weights weights;
+
 };
+
+
+
+
+
 
 #endif // GAMESTATE_H
