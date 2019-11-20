@@ -23,6 +23,7 @@ signals:
 public slots:
     void updateWorld();
     void onGameUpdate(GameState);
+    void redirectKhanAcademy();
 
 private slots:
     void on_startButton_clicked();
