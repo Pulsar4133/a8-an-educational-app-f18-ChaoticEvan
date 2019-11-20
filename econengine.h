@@ -296,6 +296,11 @@ private:
      */
     float totalCostOfLemonade();
 
+    /**
+     * @brief plotGraph is a method that will plot graphs accordingly.
+     */
+    void plotGraph();
+
 };
 
 #endif // ECONENGINE_H

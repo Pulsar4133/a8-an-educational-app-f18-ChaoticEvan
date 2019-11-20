@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
+    //start -> Lemonade with object -> EconEngine into on new day lemonade
     //QObject::connect(ui-> startButton, SIGNAL(clicked()), model, SLOT(onNewDayLemonade()));
     //QObject::connect(this, &MainWindow::sigStartSimulation(), model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model,&EconEngine::onNewDayLemonade);

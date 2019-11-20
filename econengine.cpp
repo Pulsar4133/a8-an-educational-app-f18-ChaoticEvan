@@ -2,6 +2,7 @@
   * This class is mimicing a "model".
   */
 #include "econengine.h"
+#include <iostream>
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
@@ -31,6 +32,7 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 
 void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 {
+    std::cout<< "inNewDay"<< std::endl;
     // Convert Lemonade to a LemonadeStats struct
     LemonadeRecipe stats(newLemonade);
 
@@ -81,10 +83,6 @@ void EconEngine::runSimulation()
     game.today.demanded = cupsDemanded;
     game.today.income = cupsSold * game.today.lemonade.pricePerCup;
 
-    // SETTLE: Would we like the cost to be contained here, and sent to the Ingredients
-    // 		   team, or would we like to use this emit to poll the Ingredients team for
-    //		   costs that they calculate on their end?
-
     float cost = totalCostOfLemonade();
     calculateProfit(cost, game.today.income);
 
@@ -105,7 +103,7 @@ int EconEngine::calculateDemand()
 float EconEngine::totalCostOfLemonade(){
     float cost_of_lemons;
     float cost_of_sugar;
-    //Todo: if organic upgrade is made, change the prices of lemons (and sugar).
+    //if organic upgrade is made, change the prices of lemons (and sugar).
     //if organic{
 //    float cost_of_lemons = lemon * .8;
 //    float cost_of_sugar = sugar * .1;
@@ -119,4 +117,12 @@ float EconEngine::totalCostOfLemonade(){
     //calculate cost in relation to number of pitchers.
     total_cost_of_ingredients = game.today.lemonade.pitchers * total_cost_of_ingredients;
     return total_cost_of_ingredients;
+}
+
+void EconEngine::plotGraph(){
+//    QLineSeries *series = new QLineSeries();
+//    series ->append();
+//    QChart *chart = new QChart();
+//    chart ->legend() ->show();
+//    chart ->addSeries
 }
