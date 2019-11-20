@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QObject::connect(this,&MainWindow::newPos,ui->verticalSlider,&QSlider::setValue);
+    QObject::connect(ui->welcomeButton, &QPushButton::pressed, this, &MainWindow::onGameStart);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
@@ -68,3 +68,12 @@ void MainWindow::updateWorld(){
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 }
 
+void MainWindow::onGameStart()
+{
+    ui->welcomeFrame->setVisible(false);
+}
+
+void MainWindow::onModelUpdate()
+{
+
+}

@@ -21,6 +21,7 @@ signals:
 public slots:
     void updateWorld();
     void onGameStart();
+    void onModelUpdate();
 
 private:
     Ui::MainWindow *ui;

@@ -34,7 +34,7 @@
       <rect>
        <x>90</x>
        <y>120</y>
-       <width>67</width>
+       <width>151</width>
        <height>17</height>
       </rect>
      </property>
@@ -47,7 +47,7 @@
       <rect>
        <x>90</x>
        <y>160</y>
-       <width>67</width>
+       <width>141</width>
        <height>17</height>
       </rect>
      </property>
@@ -60,12 +60,12 @@
       <rect>
        <x>90</x>
        <y>180</y>
-       <width>67</width>
+       <width>131</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Sales</string>
+      <string>Sales:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
@@ -73,12 +73,12 @@
       <rect>
        <x>90</x>
        <y>140</y>
-       <width>67</width>
+       <width>171</width>
        <height>17</height>
       </rect>
      </property>
      <property name="text">
-      <string>Cost</string>
+      <string>Cost:</string>
      </property>
     </widget>
    </widget>
