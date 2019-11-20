@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTimer>
+#include <QDebug>
 #include <QGraphicsPixmapItem>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
@@ -17,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -80,6 +82,16 @@ void MainWindow::on_startButton_clicked()
     emit sigStartSimulation();
 }
 
+void MainWindow::createLemonade(){
+    lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value());
+    qDebug() << lemonade->getSugar();
+    qDebug() << lemonade->getLemon();
+    qDebug() << lemonade->getIce();
+
+}
+
+
+
 void MainWindow::onGameUpdate(GameState state)
 {
     ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
@@ -87,3 +99,4 @@ void MainWindow::onGameUpdate(GameState state)
     ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
+

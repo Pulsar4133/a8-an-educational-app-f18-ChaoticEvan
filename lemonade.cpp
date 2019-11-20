@@ -1,12 +1,12 @@
 #include "lemonade.h"
 
-Lemonade::Lemonade()
+Lemonade::Lemonade(int lemons,int sugar,int ice)
 {
-    lemon = 0;
-    sugar = 0;
-    ice = 0;
+    this->lemon = lemons;
+    this->sugar = sugar;
+    this->ice = ice;
     pricePerCup = 0;
-    numPitchers = 0;
+    numPitchers = 1;
 }
 
 void Lemonade::setPricePerCup(double pricePerCup)

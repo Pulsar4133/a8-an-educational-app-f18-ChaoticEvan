@@ -7,7 +7,7 @@ class Lemonade
 {
 
 public:
-    Lemonade();
+    Lemonade(int,int,int);
 
     void setPricePerCup(double pricePerCup);
     double getPricePerCup(){return pricePerCup;}

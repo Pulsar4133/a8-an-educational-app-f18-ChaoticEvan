@@ -3,6 +3,7 @@
 #include "Box2D/Box2D.h"
 #include "econengine.h"
 #include <QMainWindow>
+#include "lemonade.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,9 +27,11 @@ public slots:
 
 private slots:
     void on_startButton_clicked();
+    void createLemonade();
 
 private:
     Ui::MainWindow *ui;
+    Lemonade* lemonade;
     b2Body* body;
     b2World world;
 };
