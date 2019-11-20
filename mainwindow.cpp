@@ -12,13 +12,9 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
-<<<<<<< HEAD
-    QObject::connect(ui->welcomeButton, &QPushButton::pressed, this, &MainWindow::onGameStart);
-=======
-    QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
+    QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
->>>>>>> 6aa6255ae19bf600775b35c81cd4e978911081d9
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
@@ -76,19 +72,17 @@ void MainWindow::updateWorld(){
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 }
 
-<<<<<<< HEAD
-void MainWindow::onGameStart()
-{
-    ui->welcomeFrame->setVisible(false);
-}
-
-void MainWindow::onModelUpdate()
-{
-
-=======
-
 void MainWindow::on_startButton_clicked()
 {
+    ui->welcomeFrame->setVisible(false);
+
     emit sigStartSimulation();
->>>>>>> 6aa6255ae19bf600775b35c81cd4e978911081d9
+}
+
+void MainWindow::onGameUpdate(GameState state)
+{
+    ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
+    ui->salesLabel->setText("Sales: $" + QString::number(state.day->sales));
+    ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
+    ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }

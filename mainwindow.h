@@ -22,7 +22,7 @@ signals:
 
 public slots:
     void updateWorld();
-    void onGameStart();
+    void onGameUpdate(GameState);
 
 private slots:
     void on_startButton_clicked();
