@@ -2,6 +2,7 @@
   * This class is mimicing a "model".
   */
 #include "econengine.h"
+#include "upgrades.h"
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
@@ -45,9 +46,20 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
     return;
 }
 
-void EconEngine::onGameStatePushRequest()
+void EconEngine::onUpgradePurchased(int upgradeId)
 {
-    emit this->sigPushGameState(game);
+
+    // Get the upgrade from the stand Upgrades
+    Upgrade* upgrade = game.stand.upgrades[upgradeId];
+
+    // Deduct the cost of the upgrade from the player's wallet.
+    game.stand.wallet -= upgrade->cost;
+
+    // Designate that this upgrade has now been purchased.
+    upgrade->purchased = true;
+
+    // Execute the upgrade's effect.
+    upgrade->effect(game);
 }
 
 void EconEngine::runSimulation()

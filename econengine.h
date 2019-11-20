@@ -56,6 +56,12 @@ public slots:
      */
     void onGameStatePushRequest();
 
+    /**
+     * @brief onUpgradePurchased will purchase the upgrade at the given upgradeId
+     * @param upgradeId, the ID of the stand upgrade.
+     */
+    void onUpgradePurchased(int upgradeId);
+
 private:
 
     /**
