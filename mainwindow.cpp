@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
+
+    // Connects the Create Lemonade button to the main window.
+    // Allows us to build a lemonade object from the values within the UI.
     QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
 
     // Define the ground body.
@@ -81,9 +84,13 @@ void MainWindow::on_startButton_clicked()
 
     emit sigStartSimulation();
 }
-
+/// Slot used to build a lemonade object based on the values within the UI,
+/// and then pass by reference to the data member lemonade.
+/// \brief MainWindow::createLemonade
+///
 void MainWindow::createLemonade(){
     lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value());
+    //Debug info produced below for testing
     qDebug() << lemonade->getSugar();
     qDebug() << lemonade->getLemon();
     qDebug() << lemonade->getIce();
