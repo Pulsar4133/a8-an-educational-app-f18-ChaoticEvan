@@ -5,16 +5,34 @@
 #include "lemonade.h"
 #include "gamestate.h"
 
+/**
+ * @brief The EconEngine class has two functions:
+ * 			- Maintain the state of the game
+ * 			- Run the calculations for the economic simulation.
+ * 		  It is a Singleton; the program's EconEngine singleton
+ * 		  can be accessed at any time via:
+ *
+ * 		  EconEngine::instance();
+ *
+ * 		  Additionally, the state of the game can be accessed via:
+ *
+ * 		  EconEngine::gameState();
+ */
 class EconEngine : public QObject
 {
     Q_OBJECT
 public:
+
     /**
-     * @brief Creates a new EconEngine able to run economic simulations
-     * 		  of a lemonade stand.
-     * @param parent
+     * @brief getInstance will return the program's EconModel instance
      */
-    explicit EconEngine(QObject *parent = nullptr);
+    static EconEngine* instance();
+
+    /**
+     * @brief getState will provide a read-only reference to the GameState
+     * 		  structure of the program's EconModel singleton.
+     */
+    static const GameState& gameState();
 
 signals:
     /**
@@ -24,13 +42,6 @@ signals:
      * 		  completed day
      */
     void sigSimulationComplete(const GameState& game);
-
-    /**
-     * @brief sigPushWorldStats signals out the current game state upon
-     * 		  request.
-     * @param game
-     */
-    void sigPushGameState(const GameState& game);
 
 public slots:
     /**
@@ -51,18 +62,23 @@ public slots:
     void onNewDayLemonade(Lemonade newLemonade);
 
     /**
-     * @brief onWorldStatPushRequest sends out the current state of the
-     * 		  world via sigPushWorldStats when signalled.
-     */
-    void onGameStatePushRequest();
-
-    /**
      * @brief onUpgradePurchased will purchase the upgrade at the given upgradeId
      * @param upgradeId, the ID of the stand upgrade.
      */
     void onUpgradePurchased(int upgradeId);
 
 private:
+
+    /**
+     * @brief Creates a new EconEngine able to run economic simulations
+     * 		  of a lemonade stand.
+     */
+    explicit EconEngine(QObject *parent = nullptr);
+
+    // TODO: Assignment Operator
+    // TODO: Copy Constructor
+
+    static EconEngine* m_engineInstance;
 
     /**
      * @brief game contains all of the current game state data, such as
