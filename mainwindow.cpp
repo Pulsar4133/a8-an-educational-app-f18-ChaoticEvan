@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Add the shape to the body.
     body->CreateFixture(&fixtureDef);
+
+    loadStartImages();
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +80,8 @@ void MainWindow::updateWorld(){
 void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
+    ui->dayFrame->setVisible(true);
+    ui->progressFrame->setVisible(false);
 
     emit sigStartSimulation();
 }
@@ -97,19 +101,9 @@ void MainWindow::onGameUpdate(GameState state)
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
 
-void MainWindow::onDayStart()
-{
-    ui->dayFrame->setVisible(true);
-    ui->progressFrame->setVisible(false);
-}
-
-void MainWindow::onDayEnd()
-{
-    ui->progressFrame->setVisible(true);
-    ui->dayFrame->setVisible(false);
-}
-
 void MainWindow::loadStartImages()
 {
+    QPixmap welcomeImage(":/img/Images/Background Default.png");
+    ui->welcomePicture->setPixmap(welcomeImage);
 
 }

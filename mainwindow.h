@@ -27,8 +27,6 @@ public slots:
 
 private slots:
     void on_startButton_clicked();
-    void onDayStart();
-    void onDayEnd();
 
 private:
     Ui::MainWindow *ui;
