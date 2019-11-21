@@ -23,7 +23,6 @@ signals:
 
 public slots:
     void updateWorld();
-    void onGameUpdate(GameState);
     void redirectKhanAcademy();
     void onSimulationComplete();
 
