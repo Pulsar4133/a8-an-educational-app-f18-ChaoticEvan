@@ -15,10 +15,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->setupUi(this);
 
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
+
+    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+
+
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
-    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -103,7 +107,47 @@ void MainWindow::onGameUpdate(GameState state)
 
 void MainWindow::loadStartImages()
 {
-    QPixmap welcomeImage(":/img/Images/Background Default.png");
-    ui->welcomePicture->setPixmap(welcomeImage);
+    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+
+    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
+            startBackground.fill(QColor(47, 191, 235));
+    QPixmap defaultImage(":/img/Images/Background Default.png");
+    QPixmap startLogo(":/img/Images/logo.png");
+
+    ui->welcomeBackground->setPixmap(startBackground);
+    ui->welcomeLogo->setPixmap(startLogo);
+    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
 
 }
+
+void MainWindow::on_welcomeCheck4_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck4->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck3_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck3->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck2_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck2->setVisible(false);
+    }
+}
+
+//void MainWindow::on_welcomeCheck1_clicked(bool checked)
+//{
+//    if (checked)
+//    {
+//        ui->welcomeCheck1->setVisible(false);
+//    }
+//}

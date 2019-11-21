@@ -28,6 +28,12 @@ public slots:
 private slots:
     void on_startButton_clicked();
 
+    void on_welcomeCheck4_clicked(bool checked);
+    void on_welcomeCheck3_clicked(bool checked);
+    void on_welcomeCheck2_clicked(bool checked);
+   // void on_welcomeCheck1_clicked(bool checked);
+
+
 private:
     Ui::MainWindow *ui;
     b2Body* body;

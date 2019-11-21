@@ -31,6 +31,9 @@
     </property>
    </widget>
    <widget class="QFrame" name="simulationFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -94,8 +97,8 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>191</width>
-        <height>21</height>
+        <width>1051</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -275,88 +278,33 @@
     <widget class="QLabel" name="welcomeLabel1">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>60</y>
-       <width>871</width>
-       <height>61</height>
+       <x>30</x>
+       <y>70</y>
+       <width>1001</width>
+       <height>131</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>13</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics concepts in a simplistic, fun way! 
- As the owner of your own lemonade stand, you will deal with supply and demand, 
- a great deal of competition, and mysterious phenomenons! Watch out! </string>
+      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics 
+concepts in a simplistic, fun way! As the owner of your own lemonade stand, 
+you will deal with supply and demand, a great deal of competition, 
+and mysterious phenomenons! Watch out! </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="welcomeLabel2">
+    <widget class="QLabel" name="welcomeBackground">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>280</y>
-       <width>571</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>13</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>A calendar showing how you as a player has progressed throughout 
- your time on the block will also serve 
- as a nice way of showing off the millions of dollars you’re about to make! </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="welcomeLabel3">
-     <property name="geometry">
-      <rect>
-       <x>1070</x>
-       <y>160</y>
-       <width>571</width>
-       <height>91</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>13</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Before each day, you’ll have the chance to determine various factors 
- about your lemonade stand such as the amount of sugar, ice, and 
- lemons,  the price per cup, and how decked out your stand is.</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="welcomeLabel4">
-     <property name="geometry">
-      <rect>
-       <x>1070</x>
-       <y>510</y>
-       <width>541</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>13</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>There will be 3 levels to the game. Saving up 
- for the last part might be a good idea! It’s raining whales, hallelujah! </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="welcomePicture">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
+       <x>-4</x>
        <y>0</y>
-       <width>1051</width>
+       <width>1065</width>
        <height>851</height>
       </rect>
      </property>
@@ -364,11 +312,91 @@
       <string/>
      </property>
     </widget>
-    <zorder>welcomePicture</zorder>
+    <widget class="QCheckBox" name="welcomeCheck4">
+     <property name="geometry">
+      <rect>
+       <x>1160</x>
+       <y>540</y>
+       <width>351</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>There will be 3 levels to the game. 
+Saving up for the last part might 
+be a good idea! It’s raining whales,
+hallelujah! Your upgrdaes can
+Be found here!</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck3">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>20</y>
+       <width>421</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Before each day, you’ll have the chance 
+ to determine various factors about 
+your lemonade stand such as the amount 
+of sugar, ice, and lemons,  the price per cup, 
+and how decked out your stand is.</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck2">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>200</y>
+       <width>391</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>A calendar showing how you as a player 
+ has progressed throughout your time 
+on the block will also serve as a nice way 
+of showing off the millions of dollars 
+you’re about to make! </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="welcomeLogo">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>260</y>
+       <width>556</width>
+       <height>535</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>welcomeBackground</zorder>
     <zorder>welcomeLabel1</zorder>
-    <zorder>welcomeLabel2</zorder>
-    <zorder>welcomeLabel3</zorder>
-    <zorder>welcomeLabel4</zorder>
+    <zorder>welcomeCheck4</zorder>
+    <zorder>welcomeCheck3</zorder>
+    <zorder>welcomeCheck2</zorder>
+    <zorder>welcomeLogo</zorder>
    </widget>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
