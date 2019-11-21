@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
-    QObject::connect(ui -> actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
@@ -107,4 +107,9 @@ void MainWindow::onDayEnd()
 {
     ui->progressFrame->setVisible(true);
     ui->dayFrame->setVisible(false);
+}
+
+void MainWindow::loadStartImages()
+{
+
 }

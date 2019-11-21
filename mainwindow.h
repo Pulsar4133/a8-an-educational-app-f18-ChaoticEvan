@@ -34,5 +34,7 @@ private:
     Ui::MainWindow *ui;
     b2Body* body;
     b2World world;
+
+    void loadStartImages();
 };
 #endif // MAINWINDOW_H

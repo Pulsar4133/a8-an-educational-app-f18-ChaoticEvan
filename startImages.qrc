@@ -2,9 +2,9 @@
     <qresource prefix="/img">
         <file>Images/Background Default.png</file>
         <file>Images/Background Overcast.png</file>
-        <file>Images/Background Rain.ssp</file>
+        <file>Images/Background Rain.png</file>
         <file>Images/Background Tornado.png</file>
-        <file>Images/ClipArtPicther.png</file>
+        <file>Images/ClipArtPitcher.png</file>
         <file>Images/logo.png</file>
         <file>Images/Whale.png</file>
     </qresource>
