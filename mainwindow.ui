@@ -103,6 +103,7 @@
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>24</pointsize>
        </font>
       </property>
@@ -148,11 +149,12 @@
         <x>0</x>
         <y>50</y>
         <width>221</width>
-        <height>21</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -171,6 +173,7 @@
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -184,11 +187,12 @@
         <x>0</x>
         <y>0</y>
         <width>261</width>
-        <height>31</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -200,13 +204,14 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>140</y>
+        <y>130</y>
         <width>221</width>
-        <height>21</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -226,7 +231,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -250,11 +255,12 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>24</pointsize>
+      <family>Manjari</family>
+      <pointsize>36</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Start!</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QFrame" name="welcomeFrame">
@@ -286,6 +292,7 @@
      </property>
      <property name="font">
       <font>
+       <family>Manjari</family>
        <pointsize>20</pointsize>
       </font>
      </property>
@@ -308,6 +315,11 @@ and mysterious phenomenons! Watch out! </string>
        <height>851</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+      </font>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -323,6 +335,7 @@ and mysterious phenomenons! Watch out! </string>
      </property>
      <property name="font">
       <font>
+       <family>Manjari</family>
        <pointsize>15</pointsize>
       </font>
      </property>
@@ -345,6 +358,7 @@ Be found here!</string>
      </property>
      <property name="font">
       <font>
+       <family>Manjari</family>
        <pointsize>15</pointsize>
       </font>
      </property>
@@ -367,6 +381,7 @@ and how decked out your stand is.</string>
      </property>
      <property name="font">
       <font>
+       <family>Manjari</family>
        <pointsize>15</pointsize>
       </font>
      </property>
