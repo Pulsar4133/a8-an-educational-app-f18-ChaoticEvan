@@ -87,3 +87,15 @@ void MainWindow::onGameUpdate(GameState state)
     ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
+
+void MainWindow::onDayStart()
+{
+    ui->dayFrame->setVisible(true);
+    ui->progressFrame->setVisible(false);
+}
+
+void MainWindow::onDayEnd()
+{
+    ui->progressFrame->setVisible(true);
+    ui->dayFrame->setVisible(false);
+}

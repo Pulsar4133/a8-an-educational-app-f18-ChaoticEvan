@@ -117,7 +117,7 @@
        <x>0</x>
        <y>420</y>
        <width>1061</width>
-       <height>161</height>
+       <height>431</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -210,16 +210,41 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>6</number>
     </property>
-    <widget class="QWidget" name="tab_1">
+    <widget class="QWidget" name="Upgrade1">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Upgrade 1</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="Upgrade2">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Upgrade 2</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Upgrade3">
+     <attribute name="title">
+      <string>3</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Upgrade4">
+     <attribute name="title">
+      <string>4</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Upgrade5">
+     <attribute name="title">
+      <string>5</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Upgrade6">
+     <attribute name="title">
+      <string>6</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="Upgrade7">
+     <attribute name="title">
+      <string>7</string>
      </attribute>
     </widget>
    </widget>
@@ -247,10 +272,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>440</y>
-      <width>801</width>
-      <height>411</height>
+      <x>220</x>
+      <y>460</y>
+      <width>831</width>
+      <height>381</height>
      </rect>
     </property>
     <property name="frameShape">

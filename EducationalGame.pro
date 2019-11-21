@@ -129,4 +129,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Images/Background Default.png \
-    Images/Background Default.png
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Overcast.png \
+    Images/Background Overcast.png \
+    Images/Background Rain.png \
+    Images/Background Rain.png \
+    Images/Background Tornado.png \
+    Images/Background Tornado.png \
+    Images/ClipArtPitcher.png \
+    Images/Whale.png \
+    Images/logo.png
+
+RESOURCES += \
+    startImages.qrc
