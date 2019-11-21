@@ -22,13 +22,13 @@ signals:
 
 public slots:
     void updateWorld();
-    void onGameUpdate(GameState);
 
 private slots:
     void on_startButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+    GameState game = EconEngine::gameState();
     b2Body* body;
     b2World world;
 };
