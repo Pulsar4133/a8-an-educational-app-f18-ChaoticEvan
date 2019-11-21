@@ -4,9 +4,10 @@
 #include "econengine.h"
 #include "upgrades.h"
 
+// Initialize the instance pointer to null.
 EconEngine* EconEngine::m_engineInstance = NULL;
 
-EconEngine* EconEngine::getInstance()
+EconEngine* EconEngine::instance()
 {
     // If an engine instance has not been created yet, do so.
     if (!m_engineInstance)
@@ -30,7 +31,7 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
 
 const GameState& EconEngine::gameState()
 {
-    return game;
+    return EconEngine::instance()->game;
 }
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)

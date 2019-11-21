@@ -5,6 +5,19 @@
 #include "lemonade.h"
 #include "gamestate.h"
 
+/**
+ * @brief The EconEngine class has two functions:
+ * 			- Maintain the state of the game
+ * 			- Run the calculations for the economic simulation.
+ * 		  It is a Singleton; the program's EconEngine singleton
+ * 		  can be accessed at any time via:
+ *
+ * 		  EconEngine::instance();
+ *
+ * 		  Additionally, the state of the game can be accessed via:
+ *
+ * 		  EconEngine::gameState();
+ */
 class EconEngine : public QObject
 {
     Q_OBJECT
@@ -13,9 +26,13 @@ public:
     /**
      * @brief getInstance will return the program's EconModel instance
      */
-    static EconEngine* getInstance();
+    static EconEngine* instance();
 
-    const GameState& gameState();
+    /**
+     * @brief getState will provide a read-only reference to the GameState
+     * 		  structure of the program's EconModel singleton.
+     */
+    static const GameState& gameState();
 
 signals:
     /**
@@ -51,10 +68,10 @@ public slots:
     void onUpgradePurchased(int upgradeId);
 
 private:
+
     /**
      * @brief Creates a new EconEngine able to run economic simulations
      * 		  of a lemonade stand.
-     * @param parent
      */
     explicit EconEngine(QObject *parent = nullptr);
 

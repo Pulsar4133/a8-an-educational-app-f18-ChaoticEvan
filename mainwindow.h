@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr, EconEngine* model = new EconEngine());
+    MainWindow(QWidget *parent = nullptr, EconEngine* model = EconEngine::instance());
     ~MainWindow();
 
 signals:
