@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -89,11 +90,12 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
-    lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value());
+    lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value(),ui->priceSpinBox->value());
     //Debug info produced below for testing
     qDebug() << lemonade->getSugar();
     qDebug() << lemonade->getLemon();
     qDebug() << lemonade->getIce();
+    qDebug() << lemonade->getPricePerCup();
 
 }
 
@@ -107,3 +109,20 @@ void MainWindow::onGameUpdate(GameState state)
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
 
+/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
+/// Sets the values of the spinboxes on the UI to the lemonade data.
+/// \brief MainWindow::on_yesterdayButton_clicked
+///
+void MainWindow::on_yesterdayButton_clicked()
+{
+    ui->LemonSpinBox->setValue(lemonade->getLemon());
+    ui->sugarSpinBox->setValue(lemonade->getSugar());
+    ui->iceSpinBox->setValue(lemonade->getIce());
+    ui->priceSpinBox->setValue(lemonade->getPricePerCup());
+    // Keep lemonade on same recipe. Move on.
+    qDebug() << lemonade->getSugar();
+    qDebug() << lemonade->getLemon();
+    qDebug() << lemonade->getIce();
+    qDebug() << lemonade->getPricePerCup();
+
+}

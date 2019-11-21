@@ -29,6 +29,8 @@ private slots:
     void on_startButton_clicked();
     void createLemonade();
 
+    void on_yesterdayButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Lemonade* lemonade;

@@ -6,12 +6,12 @@
 /// \param sugar
 /// \param ice
 ///
-Lemonade::Lemonade(int lemons,int sugar,int ice)
+Lemonade::Lemonade(int lemons,int sugar,int ice, double price)
 {
     this->lemon = lemons;
     this->sugar = sugar;
     this->ice = ice;
-    pricePerCup = 0;
+    this->pricePerCup = price;
     numPitchers = 1;
 }
 ///
