@@ -1,9 +1,10 @@
 #include "Box2D/Box2D.h"
-//#include "lemonade.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTimer>
 #include <QGraphicsPixmapItem>
+#include <QMessageBox>
+#include <QTimer>
+
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
+    QObject::connect(ui -> actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Define the ground body.
@@ -80,6 +82,13 @@ void MainWindow::on_startButton_clicked()
     emit sigStartSimulation();
 }
 
+void MainWindow::redirectKhanAcademy()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a>");
+    msgBox.exec();
+}
+
 void MainWindow::onGameUpdate(GameState state)
 {
     ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
@@ -88,6 +97,7 @@ void MainWindow::onGameUpdate(GameState state)
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
 
+<<<<<<< HEAD
 void MainWindow::onDayStart()
 {
     ui->dayFrame->setVisible(true);
@@ -99,3 +109,5 @@ void MainWindow::onDayEnd()
     ui->progressFrame->setVisible(true);
     ui->dayFrame->setVisible(false);
 }
+=======
+>>>>>>> dbdc1433a73fa21185d724d97344ab82c2b69911
