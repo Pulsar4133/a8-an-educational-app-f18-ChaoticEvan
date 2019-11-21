@@ -62,6 +62,7 @@ SOURCES += \
     Box2D/Dynamics/b2World.cpp \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
+    boxWorld.cpp \
     econengine.cpp \
     lemonade.cpp \
     main.cpp \
@@ -116,10 +117,12 @@ HEADERS += \
     Box2D/Dynamics/b2World.h \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
+    boxWorld.h \
     econengine.h \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
+    recipe.h \
     upgrades.h
 
 FORMS += \

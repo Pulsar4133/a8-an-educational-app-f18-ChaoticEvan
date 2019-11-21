@@ -32,7 +32,7 @@ public:
      * @brief getState will provide a read-only reference to the GameState
      * 		  structure of the program's EconModel singleton.
      */
-    static const GameState& gameState();
+    static GameState* gameState();
 
 signals:
     /**

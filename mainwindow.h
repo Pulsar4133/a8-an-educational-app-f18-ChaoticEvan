@@ -3,6 +3,7 @@
 #include "Box2D/Box2D.h"
 #include "econengine.h"
 #include <QMainWindow>
+#include "lemonade.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,18 +19,26 @@ public:
 
 signals:
     void sigNewPos(int);
-    void sigStartSimulation();
+    void sigStartSimulation(Lemonade lemonade);
 
 public slots:
     void updateWorld();
-    void onGameUpdate(GameState);
+    void onSimulationComplete();
 
 private slots:
     void on_startButton_clicked();
+    void createLemonade();
+
+    void on_yesterdayButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+    GameState& game = *EconEngine::gameState();
+    Lemonade lemonade;
     b2Body* body;
     b2World world;
+
+    void updateData();
+
 };
 #endif // MAINWINDOW_H

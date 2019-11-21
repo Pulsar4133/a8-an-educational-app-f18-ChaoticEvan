@@ -20,7 +20,7 @@
       <x>1060</x>
       <y>-20</y>
       <width>541</width>
-      <height>451</height>
+      <height>471</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -29,6 +29,132 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>60</y>
+       <width>297</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="overallLayout">
+      <property name="spacing">
+       <number>40</number>
+      </property>
+      <item>
+       <layout class="QFormLayout" name="dataLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="sugarLabel">
+          <property name="text">
+           <string>Sugar</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="sugarSpinBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="LemonLabel">
+          <property name="text">
+           <string>Lemons</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="LemonSpinBox">
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="iceLabel">
+          <property name="text">
+           <string>Ice</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="iceSpinBox">
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="priceLabel">
+          <property name="text">
+           <string>Price Per Cup</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="priceSpinBox"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="dayCostLabel">
+          <property name="text">
+           <string>Cost</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QTextEdit" name="textEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="placeholderText">
+           <string>$0.00</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="yesterdayButton">
+          <property name="maximumSize">
+           <size>
+            <width>140</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Yesterday's Recipe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QPushButton" name="CreateLemonadeButton">
+          <property name="minimumSize">
+           <size>
+            <width>140</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Create Lemonade</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
     <property name="geometry">
@@ -324,7 +450,7 @@
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
