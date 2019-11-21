@@ -97,7 +97,6 @@ void MainWindow::onGameUpdate(GameState state)
     ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
 
-<<<<<<< HEAD
 void MainWindow::onDayStart()
 {
     ui->dayFrame->setVisible(true);
@@ -109,5 +108,3 @@ void MainWindow::onDayEnd()
     ui->progressFrame->setVisible(true);
     ui->dayFrame->setVisible(false);
 }
-=======
->>>>>>> dbdc1433a73fa21185d724d97344ab82c2b69911
