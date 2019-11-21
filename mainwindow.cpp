@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
+    // UI connections
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
@@ -107,13 +108,16 @@ void MainWindow::onGameUpdate(GameState state)
 
 void MainWindow::loadStartImages()
 {
+    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images
     QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
 
+    // Creates background color and fills with light blue
     QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
             startBackground.fill(QColor(47, 191, 235));
     QPixmap defaultImage(":/img/Images/Background Default.png");
     QPixmap startLogo(":/img/Images/logo.png");
 
+    // Sets each image to corresponding label
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
@@ -143,11 +147,3 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
         ui->welcomeCheck2->setVisible(false);
     }
 }
-
-//void MainWindow::on_welcomeCheck1_clicked(bool checked)
-//{
-//    if (checked)
-//    {
-//        ui->welcomeCheck1->setVisible(false);
-//    }
-//}

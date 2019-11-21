@@ -65,7 +65,8 @@ SOURCES += \
     econengine.cpp \
     lemonade.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scrolltext.cpp
 
 HEADERS += \
     Box2D/Box2D.h \
@@ -117,7 +118,8 @@ HEADERS += \
     Box2D/Rope/b2Rope.h \
     econengine.h \
     lemonade.h \
-    mainwindow.h
+    mainwindow.h \
+    scrolltext.h
 
 FORMS += \
     mainwindow.ui

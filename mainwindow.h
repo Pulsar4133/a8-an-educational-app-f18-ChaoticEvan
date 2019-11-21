@@ -31,7 +31,6 @@ private slots:
     void on_welcomeCheck4_clicked(bool checked);
     void on_welcomeCheck3_clicked(bool checked);
     void on_welcomeCheck2_clicked(bool checked);
-   // void on_welcomeCheck1_clicked(bool checked);
 
 
 private:
