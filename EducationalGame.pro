@@ -65,7 +65,8 @@ SOURCES += \
     econengine.cpp \
     lemonade.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    upgrades.cpp
 
 HEADERS += \
     Box2D/Box2D.h \
@@ -116,8 +117,10 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    gamestate.h \
     lemonade.h \
-    mainwindow.h
+    mainwindow.h \
+    upgrades.h
 
 FORMS += \
     mainwindow.ui

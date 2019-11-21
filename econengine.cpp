@@ -2,6 +2,7 @@
   * This class is mimicing a "model".
   */
 #include "econengine.h"
+#include "upgrades.h"
 
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
@@ -9,6 +10,9 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
+
+    // Set the future weather for all days in the game.
+    this->setWeatherPattern(game.days, game.gameLength);
 
 }
 
@@ -47,7 +51,25 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 
 void EconEngine::onGameStatePushRequest()
 {
-    emit this->sigPushGameState(game);
+    emit sigPushGameState(game);
+}
+
+void EconEngine::onUpgradePurchased(int upgradeId)
+{
+
+    // Get the upgrade from the stand Upgrades
+    Upgrade* upgrade = game.stand.upgrades[upgradeId];
+
+    // Deduct the cost of the upgrade from the player's wallet.
+    game.stand.wallet -= upgrade->cost;
+
+    // Designate that this upgrade has now been purchased.
+    upgrade->purchased = true;
+
+    // Execute the upgrade's effect.
+    upgrade->effect(game);
+
+    return;
 }
 
 void EconEngine::runSimulation()

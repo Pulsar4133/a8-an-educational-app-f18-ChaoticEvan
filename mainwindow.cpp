@@ -82,8 +82,8 @@ void MainWindow::on_startButton_clicked()
 
 void MainWindow::onGameUpdate(GameState state)
 {
-    ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
-    ui->salesLabel->setText("Sales: $" + QString::number(state.day->sales));
-    ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
-    ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
+    ui->profitLabel->setText("Profit: $" + QString::number(state.days->profit));
+    ui->salesLabel->setText("Sales: $" + QString::number(state.days->sales));
+    ui->costLabel->setText("Cost: $" + QString::number(state.days->cost));
+    ui->demandLabel->setText("Demand: " + QString::number(state.days->demanded));
 }
