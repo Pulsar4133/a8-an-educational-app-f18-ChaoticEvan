@@ -1,9 +1,17 @@
 #include "upgrades.h"
 #include "gamestate.h"
 
+/*
+ * PROCESS FOR CREATING UPGRADES:
+ *
+ * 1. Add a new enumerable to the UPGRADE_ENUM enumerable in gamestate.h
+ * 2. Create a new entry below, using the enumerable ID you just created.
+ * 		- Give the upgrade a name, description, cost
+ * 		- Provide the new upgrade its Enumeration ID
+ * 		- Create a new effect using a void(GameState&) lambda function
+ */
 Upgrades::Upgrades()
 {
-
         this->m_upgradeList[UPGRADE_ENUM::NEON_SIGN] = new Upgrade(
                     "Neon Sign", // Name
                     "Throw a neon sign on that dingy stand to attract some new customers!", // Description
@@ -33,5 +41,4 @@ Upgrades::Upgrades()
                         game.world.multiplierPriceSugar += 0.50;
                         game.world.multiplierPriceLemons += 0.50;
                     });
-
 }
