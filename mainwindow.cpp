@@ -89,8 +89,9 @@ void MainWindow::updateWorld(){
 void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
-    ui->dayFrame->setVisible(true);
-    ui->progressFrame->setVisible(false);
+    ui->dayFrame->setVisible(false);
+    ui->progressFrame->setVisible(true);
+    ui->progressFrame->raise();
 
     this->createLemonade();
 
