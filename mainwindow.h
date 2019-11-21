@@ -33,7 +33,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    GameState game = EconEngine::gameState();
+    GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     b2Body* body;
     b2World world;

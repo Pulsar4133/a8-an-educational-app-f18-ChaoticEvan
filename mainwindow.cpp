@@ -84,6 +84,8 @@ void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
 
+    this->createLemonade();
+
     emit sigStartSimulation(this->lemonade);
 }
 /// Slot used to build a lemonade object based on the values within the UI,
@@ -125,10 +127,10 @@ void MainWindow::on_yesterdayButton_clicked()
 
 void MainWindow::updateData()
 {
-    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday.profit));
-    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday.sales));
-    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday.cost));
-    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday.demanded));
+    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
+    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
+    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
+    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
 }
 
 void MainWindow::onSimulationComplete()

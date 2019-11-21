@@ -228,11 +228,6 @@ struct GameState
     Stand stand;
 
     /**
-     * @brief The current amount of money in the player's wallet.
-     */
-    float& wallet = this->stand.wallet;
-
-    /**
      * @brief statistics for the current state of the world.
      */
     World world;
@@ -245,14 +240,20 @@ struct GameState
     /**
      * @brief the currentDate's statistics.
      */
-    Day& today = this->days[this->currentDate];
+    Day& today()
+    {
+        return days[currentDate];
+    }
 
-    Day& yesterday = (currentDate > 0) ? this->days[currentDate - 1] : this->days[currentDate];
+    Day& yesterday()
+    {
+        return (currentDate > 0) ? days[currentDate - 1] : days[currentDate];
+    }
 
     /**
      * @brief the current day's recipe for lemonade.
      */
-    LemonadeRecipe& currentLemonade = this->today.lemonade;
+    LemonadeRecipe& currentLemonade = this->today().lemonade;
 
     /**
      * @brief the ideal recipe for lemonade
@@ -263,19 +264,6 @@ struct GameState
      * @brief the weights used in the demand calculations during the simulation
      */
     Weights weights;
-
-    void incrementDay()
-    {
-        this->currentDate++;
-        this->today = days[currentDate];
-        this->yesterday = days[currentDate - 1];
-    }
-
-    GameState* operator++(int i)
-    {
-        this->incrementDay();
-        return this;
-    }
 
 };
 
