@@ -1,10 +1,10 @@
 #include "Box2D/Box2D.h"
-//#include "lemonade.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QGraphicsPixmapItem>
+#include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
-#include <QGraphicsPixmapItem>
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
@@ -15,10 +15,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
+    // UI connections
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
+    QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -64,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Add the shape to the body.
     body->CreateFixture(&fixtureDef);
+
+    loadStartImages();
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +89,8 @@ void MainWindow::updateWorld(){
 void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
+    ui->dayFrame->setVisible(true);
+    ui->progressFrame->setVisible(false);
 
     this->createLemonade();
 
@@ -133,7 +141,57 @@ void MainWindow::updateData()
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
 }
 
+void MainWindow::redirectKhanAcademy()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a>");
+    msgBox.exec();
+}
+
+void MainWindow::onGameUpdate(GameState state)
 void MainWindow::onSimulationComplete()
 {
     this->updateData();
+}
+
+void MainWindow::loadStartImages()
+{
+    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images
+    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+
+    // Creates background color and fills with light blue
+    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
+            startBackground.fill(QColor(47, 191, 235));
+    QPixmap defaultImage(":/img/Images/Background Default.png");
+    QPixmap startLogo(":/img/Images/logo.png");
+
+    // Sets each image to corresponding label
+    ui->welcomeBackground->setPixmap(startBackground);
+    ui->welcomeLogo->setPixmap(startLogo);
+    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+}
+
+void MainWindow::on_welcomeCheck4_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck4->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck3_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck3->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck2_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck2->setVisible(false);
+    }
 }

@@ -157,6 +157,9 @@
     </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -171,6 +174,19 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QLabel" name="simulationPicture">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-4</y>
+       <width>1061</width>
+       <height>851</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
@@ -207,12 +223,13 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>191</width>
-        <height>21</height>
+        <width>1051</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>24</pointsize>
        </font>
       </property>
@@ -258,11 +275,12 @@
         <x>0</x>
         <y>50</y>
         <width>221</width>
-        <height>21</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -281,6 +299,7 @@
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -294,11 +313,12 @@
         <x>0</x>
         <y>0</y>
         <width>261</width>
-        <height>31</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -310,13 +330,14 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>140</y>
+        <y>130</y>
         <width>221</width>
-        <height>21</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Manjari</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -360,11 +381,12 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>24</pointsize>
+      <family>Manjari</family>
+      <pointsize>36</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>Start!</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QFrame" name="welcomeFrame">
@@ -373,10 +395,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>440</y>
-      <width>801</width>
-      <height>411</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1601</width>
+      <height>851</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -389,60 +411,140 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>30</y>
-       <width>761</width>
-       <height>61</height>
+       <y>70</y>
+       <width>1001</width>
+       <height>131</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics concepts in a simplistic, fun way! 
- As the owner of your own lemonade stand, you will deal with supply and demand, 
- a great deal of competition, … , and there might be a whale! Watch out! </string>
+      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics 
+concepts in a simplistic, fun way! As the owner of your own lemonade stand, 
+you will deal with supply and demand, a great deal of competition, 
+and mysterious phenomenons! Watch out! </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="welcomeLabel2">
+    <widget class="QLabel" name="welcomeBackground">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>120</y>
-       <width>711</width>
-       <height>61</height>
+       <x>-4</x>
+       <y>0</y>
+       <width>1065</width>
+       <height>851</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+      </font>
+     </property>
      <property name="text">
-      <string>A calendar showing how you as a player has progressed throughout your time on the block will also serve 
- as a nice way of showing off the millions of dollars you’re about to make! </string>
+      <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="welcomeLabel3">
+    <widget class="QCheckBox" name="welcomeCheck4">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>210</y>
-       <width>701</width>
-       <height>41</height>
+       <x>1160</x>
+       <y>540</y>
+       <width>351</width>
+       <height>121</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string>Before each day, you’ll have the chance to determine various factors about your lemonade stand such 
- as sugar levels, price per cup, …</string>
+      <string>There will be 3 levels to the game. 
+Saving up for the last part might 
+be a good idea! It’s raining whales,
+hallelujah! Your upgrdaes can
+Be found here!</string>
      </property>
     </widget>
-    <widget class="QLabel" name="welcomeLabel4">
+    <widget class="QCheckBox" name="welcomeCheck3">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>280</y>
-       <width>511</width>
-       <height>81</height>
+       <x>1120</x>
+       <y>20</y>
+       <width>421</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Before each day, you’ll have the chance 
+ to determine various factors about 
+your lemonade stand such as the amount 
+of sugar, ice, and lemons,  the price per cup, 
+and how decked out your stand is.</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck2">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>200</y>
+       <width>391</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>A calendar showing how you as a player 
+ has progressed throughout your time 
+on the block will also serve as a nice way 
+of showing off the millions of dollars 
+you’re about to make! </string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="welcomeLogo">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>260</y>
+       <width>556</width>
+       <height>535</height>
       </rect>
      </property>
      <property name="text">
-      <string>There will be 3 levels to the game. Saving up 
- for the last part might be a good idea! It’s raining whales, hallelujah! </string>
+      <string/>
      </property>
     </widget>
+    <zorder>welcomeBackground</zorder>
+    <zorder>welcomeLabel1</zorder>
+    <zorder>welcomeCheck4</zorder>
+    <zorder>welcomeCheck3</zorder>
+    <zorder>welcomeCheck2</zorder>
+    <zorder>welcomeLogo</zorder>
    </widget>
+   <zorder>simulationFrame</zorder>
+   <zorder>ingredientsFrame</zorder>
+   <zorder>progressFrame</zorder>
+   <zorder>upgradesWidget</zorder>
+   <zorder>welcomeFrame</zorder>
+   <zorder>startButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -453,8 +555,26 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuLearn_More">
+    <property name="title">
+     <string>Learn More</string>
+    </property>
+    <addaction name="actionMicroeconomics_Rule"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuLearn_More"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionMicroeconomics_Rule">
+   <property name="text">
+    <string>Microeconomics Rule</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

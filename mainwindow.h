@@ -23,6 +23,8 @@ signals:
 
 public slots:
     void updateWorld();
+    void onGameUpdate(GameState);
+    void redirectKhanAcademy();
     void onSimulationComplete();
 
 private slots:
@@ -31,6 +33,11 @@ private slots:
 
     void on_yesterdayButton_clicked();
 
+    void on_welcomeCheck4_clicked(bool checked);
+    void on_welcomeCheck3_clicked(bool checked);
+    void on_welcomeCheck2_clicked(bool checked);
+
+
 private:
     Ui::MainWindow *ui;
     GameState& game = *EconEngine::gameState();
@@ -38,6 +45,7 @@ private:
     b2Body* body;
     b2World world;
 
+    void loadStartImages();
     void updateData();
 
 };

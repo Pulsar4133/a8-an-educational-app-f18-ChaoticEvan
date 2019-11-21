@@ -67,6 +67,7 @@ SOURCES += \
     lemonade.cpp \
     main.cpp \
     mainwindow.cpp \
+    scrolltext.cpp
     upgrades.cpp
 
 HEADERS += \
@@ -122,6 +123,7 @@ HEADERS += \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
+    scrolltext.h
     recipe.h \
     upgrades.h
 
@@ -135,4 +137,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Images/Background Default.png \
-    Images/Background Default.png
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Overcast.png \
+    Images/Background Overcast.png \
+    Images/Background Rain.png \
+    Images/Background Rain.png \
+    Images/Background Tornado.png \
+    Images/Background Tornado.png \
+    Images/ClipArtPitcher.png \
+    Images/Whale.png \
+    Images/logo.png
+
+RESOURCES += \
+    startImages.qrc
