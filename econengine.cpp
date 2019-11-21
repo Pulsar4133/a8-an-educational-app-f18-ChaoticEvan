@@ -4,16 +4,33 @@
 #include "econengine.h"
 #include "upgrades.h"
 
+EconEngine* EconEngine::m_engineInstance = NULL;
+
+EconEngine* EconEngine::getInstance()
+{
+    // If an engine instance has not been created yet, do so.
+    if (!m_engineInstance)
+    {
+        m_engineInstance = new EconEngine();
+    }
+
+    // Return the pointer for the singleton instance of the engine.
+    return m_engineInstance;
+}
+
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
-
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
     // 		   through the calendar and foreshadow news events?
 
     // Set the future weather for all days in the game.
     this->setWeatherPattern(game.days, game.gameLength);
+}
 
+const GameState& EconEngine::gameState()
+{
+    return game;
 }
 
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
@@ -47,11 +64,6 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
     this->onNewDayRecipe(stats);
 
     return;
-}
-
-void EconEngine::onGameStatePushRequest()
-{
-    emit sigPushGameState(game);
 }
 
 void EconEngine::onUpgradePurchased(int upgradeId)
