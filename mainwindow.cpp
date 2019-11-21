@@ -3,7 +3,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTimer>
+#include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -17,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
+
+    // Connects the Create Lemonade button to the main window.
+    // Allows us to build a lemonade object from the values within the UI.
+    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -79,6 +85,21 @@ void MainWindow::on_startButton_clicked()
 
     emit sigStartSimulation();
 }
+/// Slot used to build a lemonade object based on the values within the UI,
+/// and then pass by reference to the data member lemonade.
+/// \brief MainWindow::createLemonade
+///
+void MainWindow::createLemonade(){
+    lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value(),ui->priceSpinBox->value());
+    //Debug info produced below for testing
+    qDebug() << lemonade->getSugar();
+    qDebug() << lemonade->getLemon();
+    qDebug() << lemonade->getIce();
+    qDebug() << lemonade->getPricePerCup();
+
+}
+
+
 
 void MainWindow::onGameUpdate(GameState state)
 {
@@ -86,4 +107,22 @@ void MainWindow::onGameUpdate(GameState state)
     ui->salesLabel->setText("Sales: $" + QString::number(state.days->sales));
     ui->costLabel->setText("Cost: $" + QString::number(state.days->cost));
     ui->demandLabel->setText("Demand: " + QString::number(state.days->demanded));
+}
+
+/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
+/// Sets the values of the spinboxes on the UI to the lemonade data.
+/// \brief MainWindow::on_yesterdayButton_clicked
+///
+void MainWindow::on_yesterdayButton_clicked()
+{
+    ui->LemonSpinBox->setValue(lemonade->getLemon());
+    ui->sugarSpinBox->setValue(lemonade->getSugar());
+    ui->iceSpinBox->setValue(lemonade->getIce());
+    ui->priceSpinBox->setValue(lemonade->getPricePerCup());
+    // Keep lemonade on same recipe. Move on.
+    qDebug() << lemonade->getSugar();
+    qDebug() << lemonade->getLemon();
+    qDebug() << lemonade->getIce();
+    qDebug() << lemonade->getPricePerCup();
+
 }
