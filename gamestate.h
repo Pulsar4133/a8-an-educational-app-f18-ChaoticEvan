@@ -6,58 +6,8 @@
 
 #include "lemonade.h"
 #include <functional>
+#include "recipe.h"
 
-/**
- * @brief The LemonadeStats struct contains statistics for one day's
- * 		  lemonade composition, such as ingredient amounts and price
- * 		  per cup.
- */
-struct LemonadeRecipe
-{
-    /**
-     * @brief the amount of sugar in one pitcher of lemonade
-     */
-    int sugar	= 0;
-
-    /**
-     * @brief the amount of ice in one pitcher of lemonade
-     */
-    int ice		= 0;
-
-    /**
-     * @brief the amount of lemons in one pitcher of lemonade
-     */
-    int lemons	= 0;
-
-    /**
-     * @brief the price of one cup of lemonade
-     */
-    float pricePerCup	= 1.00;
-
-    /**
-     * @brief the number of pitchers of lemonade the player chose to create
-     */
-    int pitchers	= 0;
-
-    /**
-     * @brief LemonadeRecipe() constructs a default LemonadeRecipe.
-     */
-    LemonadeRecipe(){}
-
-    /**
-     * @brief LemonadeStats(Lemonade) converts a Lemonade object into a
-     *        LemonadeStats struct.
-     * @param newLemonade
-     */
-    LemonadeRecipe(Lemonade newLemonade){
-        this->ice			= newLemonade.getIce();
-        this->sugar			= newLemonade.getSugar();
-        this->lemons		= newLemonade.getLemon();
-        this->pricePerCup 	= newLemonade.getPricePerCup();
-        this->pitchers		= newLemonade.getNumPitchers();
-    }
-
-};
 
 struct Upgrade;
 /**
@@ -297,6 +247,8 @@ struct GameState
      */
     Day& today = this->days[this->currentDate];
 
+    Day& yesterday = (currentDate > 0) ? this->days[currentDate - 1] : this->days[currentDate];
+
     /**
      * @brief the current day's recipe for lemonade.
      */
@@ -311,6 +263,19 @@ struct GameState
      * @brief the weights used in the demand calculations during the simulation
      */
     Weights weights;
+
+    void incrementDay()
+    {
+        this->currentDate++;
+        this->today = days[currentDate];
+        this->yesterday = days[currentDate - 1];
+    }
+
+    GameState* operator++(int i)
+    {
+        this->incrementDay();
+        return this;
+    }
 
 };
 

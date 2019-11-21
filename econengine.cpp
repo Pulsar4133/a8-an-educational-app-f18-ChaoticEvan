@@ -46,7 +46,7 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
     game.today.complete = true;
 
     // Increment the day.
-    game.currentDate++;
+    game++;
 
     // Signals that a simuation has been completed, providing
     // the stats for the current day.
@@ -87,7 +87,6 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 
 void EconEngine::runSimulation()
 {
-    game.currentDate++;
 
     // TODO: Recalculate ideal lemonade stats,
     //		 e.g. different ice cubes based on

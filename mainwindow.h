@@ -19,10 +19,11 @@ public:
 
 signals:
     void sigNewPos(int);
-    void sigStartSimulation();
+    void sigStartSimulation(Lemonade lemonade);
 
 public slots:
     void updateWorld();
+    void onSimulationComplete();
 
 private slots:
     void on_startButton_clicked();
@@ -33,8 +34,11 @@ private slots:
 private:
     Ui::MainWindow *ui;
     GameState game = EconEngine::gameState();
-    Lemonade* lemonade;
+    Lemonade lemonade;
     b2Body* body;
     b2World world;
+
+    void updateData();
+
 };
 #endif // MAINWINDOW_H

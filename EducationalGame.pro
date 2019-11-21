@@ -122,6 +122,7 @@ HEADERS += \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
+    recipe.h \
     upgrades.h
 
 FORMS += \

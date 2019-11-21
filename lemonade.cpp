@@ -1,4 +1,5 @@
 #include "lemonade.h"
+#include "recipe.h"
 /// Basic constructor to build a lemonade object with the input values of lemons, sugar, and ice.
 /// Sets price per cup and number of pitchers to 0 and 1 respectively by default.
 /// \brief Lemonade::Lemonade
@@ -14,6 +15,28 @@ Lemonade::Lemonade(int lemons,int sugar,int ice, double price)
     this->pricePerCup = price;
     numPitchers = 1;
 }
+
+Lemonade::Lemonade()
+{
+    reset();
+}
+
+void Lemonade::setRecipe(int lemons, int sugar, int ice, double price)
+{
+    this->lemon = lemons;
+    this->sugar = sugar;
+    this->ice = ice;
+    this->pricePerCup = price;
+}
+
+void Lemonade::setRecipe(const LemonadeRecipe recipe)
+{
+    this->lemon = recipe.lemons;
+    this->sugar = recipe.sugar;
+    this->ice = recipe.ice;
+    this->pricePerCup = recipe.pricePerCup;
+}
+
 ///
 /// \brief Lemonade::setPricePerCup
 /// \param pricePerCup
@@ -83,3 +106,8 @@ void Lemonade::addOnePitcher()
     ++numPitchers;
 }
 
+void Lemonade::reset()
+{
+    this->setRecipe(0,0,0,0);
+    this->numPitchers = 1;
+}
