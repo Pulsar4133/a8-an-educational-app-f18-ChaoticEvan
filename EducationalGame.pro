@@ -67,7 +67,7 @@ SOURCES += \
     lemonade.cpp \
     main.cpp \
     mainwindow.cpp \
-    scrolltext.cpp
+    scrolltext.cpp \
     upgrades.cpp
 
 HEADERS += \
@@ -123,7 +123,7 @@ HEADERS += \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
-    scrolltext.h
+    scrolltext.h \
     recipe.h \
     upgrades.h
 

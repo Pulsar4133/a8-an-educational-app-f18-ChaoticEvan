@@ -148,7 +148,6 @@ void MainWindow::redirectKhanAcademy()
     msgBox.exec();
 }
 
-void MainWindow::onGameUpdate(GameState state)
 void MainWindow::onSimulationComplete()
 {
     this->updateData();
