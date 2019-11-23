@@ -4,6 +4,8 @@
 #include "econengine.h"
 #include <QMainWindow>
 #include "lemonade.h"
+#include <QHBoxLayout>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,5 +38,7 @@ private:
     Lemonade* lemonade;
     b2Body* body;
     b2World world;
+    QHBoxLayout* layout;
+    QLabel* lemonImage;
 };
 #endif // MAINWINDOW_H

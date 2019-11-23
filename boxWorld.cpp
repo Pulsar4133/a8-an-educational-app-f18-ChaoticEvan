@@ -16,11 +16,37 @@ boxWorld::boxWorld()
 
     groundBody->CreateFixture(&groundBox, 0.0f);
 
+    // Define lemon body definition
     b2BodyDef lemonBodyDef;
     lemonBodyDef.type = b2_dynamicBody;
     lemonBodyDef.position.Set(20.0f, 5.0f);
     lemonBodyDef.active = true;
     b2Body* lemon = lemonadeWorld.CreateBody(&lemonBodyDef);
+
+    // Define polygon shape of lemon
+    b2PolygonShape lemonDBox;
+    lemonDBox.SetAsBox(1.0f, 1.0f);
+
+    // Define fixture for lemon
+    b2FixtureDef lemonFixDef;
+    lemonFixDef.shape = &lemonDBox;
+
+    // Set the box density to be non-zero, so it will be dynamic.
+    lemonFixDef.density = 1.0f;
+
+    // Override the default friction.
+    lemonFixDef.friction = 0.3f;
+    lemonFixDef.restitution = 0.9f;
+
+    // Add the shape to the body.
+    lemon->CreateFixture(&lemonFixDef);
+
+
+
+    //Not sure if any below this is necessary
+
+
+
 
     b2BodyDef sugarBodyDef;
     sugarBodyDef.type = b2_dynamicBody;

@@ -33,13 +33,13 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // The body is also added to the world.
     b2Body* groundBody = world.CreateBody(&groundBodyDef);
     // Define the ground box shape.
-            b2PolygonShape groundBox;
+    b2PolygonShape groundBox;
 
-            // The extents are the half-widths of the box.
-            groundBox.SetAsBox(50.0f, 10.0f);
+    // The extents are the half-widths of the box.
+    groundBox.SetAsBox(50.0f, 10.0f);
 
-            // Add the ground fixture to the ground body.
-            groundBody->CreateFixture(&groundBox, 0.0f);
+    // Add the ground fixture to the ground body.
+    groundBody->CreateFixture(&groundBox, 0.0f);
 
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -63,6 +63,19 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Add the shape to the body.
     body->CreateFixture(&fixtureDef);
+
+    lemonImage = new QLabel();
+    lemonImage->setFixedSize(100, 100);
+    QPixmap lemonPix("C:/Users/spenc/CS3505/lemon image.jpg");
+    int w = lemonImage->width();
+    int h = lemonImage->height();
+    layout = new QHBoxLayout();
+    layout->addWidget(lemonImage);
+    ui->ingredientsFrame->setLayout(layout);
+    lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+
+    body->SetUserData(lemonImage);
+
 }
 
 MainWindow::~MainWindow()
@@ -126,3 +139,5 @@ void MainWindow::on_yesterdayButton_clicked()
     qDebug() << lemonade->getPricePerCup();
 
 }
+
+
