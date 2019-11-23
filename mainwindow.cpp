@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    world(b2Vec2 (0.0f, -10.0f))
+    world(b2Vec2 (0.0f, 10.0f))
 
 {
     ui->setupUi(this);
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    QTimer::singleShot(10,this,&MainWindow::updateWorld);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0f, -10.0f);
+    groundBodyDef.position.Set(0.0f, 0.0f);
+    groundBodyDef.type = b2_staticBody;
 
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
@@ -36,14 +37,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     b2PolygonShape groundBox;
 
     // The extents are the half-widths of the box.
-    groundBox.SetAsBox(50.0f, 10.0f);
+    groundBox.SetAsBox(50.0f, 5.0f);
 
     // Add the ground fixture to the ground body.
-    groundBody->CreateFixture(&groundBox, 0.0f);
+    groundBody->CreateFixture(&groundBox, 1.0f);
 
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(0.0f, 4.0f);
+    bodyDef.position.Set(40.0f, -10.0f);
     body = world.CreateBody(&bodyDef);
 
     // Define another box shape for our dynamic body.
@@ -58,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     fixtureDef.density = 1.0f;
 
     // Override the default friction.
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.1f;
     fixtureDef.restitution = 0.9f;
 
     // Add the shape to the body.
@@ -76,6 +77,21 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     body->SetUserData(lemonImage);
 
+//    b2Vec2 vertices[4];
+//    vertices[0].Set(0.0f, 20.0f);
+//    vertices[1].Set(0.0f, 0.0f);
+//    vertices[2].Set(20.0f, 0.0f);
+//    vertices[4].Set(20.0f, 20.0f);
+//    b2EdgeShape edge1;
+//    edge1.Set(vertices[0], vertices[1]);
+//    b2EdgeShape edge2;
+//    edge2.Set(vertices[1], vertices[2]);
+//    b2EdgeShape edge3;
+//    edge3.Set(vertices[2], vertices[3]);
+
+//    b2FixtureDef edgesFixDef;
+
+
 }
 
 MainWindow::~MainWindow()
@@ -85,11 +101,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateWorld(){
     world.Step(1.0f/60.f, 6, 2);
-
     // Now print the position and angle of the body.
     b2Vec2 position = body->GetPosition();
+    lemonImage->setGeometry(position.x, position.y, 100, 100);
     emit sigNewPos(position.y*100);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    QTimer::singleShot(10,this,&MainWindow::updateWorld);
 }
 
 void MainWindow::on_startButton_clicked()
