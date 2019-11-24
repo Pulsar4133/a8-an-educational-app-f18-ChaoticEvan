@@ -190,10 +190,10 @@
     <widget class="QLabel" name="crowdLabel">
      <property name="geometry">
       <rect>
-       <x>-25</x>
-       <y>450</y>
-       <width>1147</width>
-       <height>369</height>
+       <x>0</x>
+       <y>-4</y>
+       <width>1061</width>
+       <height>851</height>
       </rect>
      </property>
      <property name="text">
