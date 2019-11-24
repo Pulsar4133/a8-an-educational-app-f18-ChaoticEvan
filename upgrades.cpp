@@ -1,23 +1,23 @@
-#include "upgrades.h"
 #include "gamestate.h"
+#include "upgrades.h"
 
 /*
  * PROCESS FOR CREATING UPGRADES:
  *
  * 1. Add a new enumerable to the UPGRADE_ENUM enumerable in gamestate.h
  * 2. Create a new entry below, using the enumerable ID you just created.
- * 		- Give the upgrade a name, description, cost
- * 		- Provide the new upgrade its Enumeration ID
- * 		- Create a new effect using a void(GameState&) lambda function
+ * 		- Give the upgrade a name, description, cost.
+ * 		- Provide the new upgrade its Enumeration ID.
+ * 		- Create a new effect using a void(GameState&) lambda function.
  */
 Upgrades::Upgrades()
 {
         this->m_upgradeList[UPGRADE_ENUM::NEON_SIGN] = new Upgrade(
-                    "Neon Sign", // Name
-                    "Throw a neon sign on that dingy stand to attract some new customers!", // Description
+                    "Neon Sign", // Name.
+                    "Throw a neon sign on that dingy stand to attract some new customers!", // Description.
                     50.00, // Cost
-                    UPGRADE_ENUM::NEON_SIGN, // Enum ID
-                    [] (GameState& game) // Effect
+                    UPGRADE_ENUM::NEON_SIGN, // Enum ID.
+                    [] (GameState& game) // Effect.
                     {
                         game.stand.marketing += 10;
                     });
@@ -42,15 +42,15 @@ Upgrades::Upgrades()
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::ORGANIC_LEMONS] = new Upgrade(
-                "Organic Lemons",
-                "You call up an old friend from college who can get you some superb, high-quality lemons. She won't tell you where she gets them, and they cost an arm and a leg, but they're the bees knees!",
-                150.00,
-                UPGRADE_ENUM::ORGANIC_LEMONS,
-                [] (GameState& game)
-                {
-                    game.stand.reputation += 20;
-                    game.world.multiplierPriceLemons += 0.50;
-                });
+                    "Organic Lemons",
+                    "You call up an old friend from college who can get you some superb, high-quality lemons. She won't tell you where she gets them, and they cost an arm and a leg, but they're the bees knees!",
+                    150.00,
+                    UPGRADE_ENUM::ORGANIC_LEMONS,
+                    [] (GameState& game)
+                    {
+                        game.stand.reputation += 20;
+                        game.world.multiplierPriceLemons += 0.50;
+                    });
 
         this->m_upgradeList[UPGRADE_ENUM::BOOM_BOX] = new Upgrade(
                     "Boom Box",
@@ -61,6 +61,7 @@ Upgrades::Upgrades()
                     {
                         game.stand.reputation += 50;
                     });
+
         this->m_upgradeList[UPGRADE_ENUM::GRAPE] = new Upgrade(
                     "Grape",
                     "Do you have a customer who really wants grapes?!",
