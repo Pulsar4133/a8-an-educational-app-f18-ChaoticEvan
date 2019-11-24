@@ -7,5 +7,12 @@
         <file>Images/ClipArtPitcher.png</file>
         <file>Images/logo.png</file>
         <file>Images/Whale.png</file>
+        <file>Images/Crowd_Levels/Crowd Heavy.png</file>
+        <file>Images/Crowd_Levels/Crowd Medium.png</file>
+        <file>Images/Crowd_Levels/Crowd Light.png</file>
+        <file>Images/Weather_Images/Rainy.png</file>
+        <file>Images/Weather_Images/Cloudy.png</file>
+        <file>Images/Weather_Images/Sunny.png</file>
+        <file>Images/Weather_Images/Tornado.png</file>
     </qresource>
 </RCC>
