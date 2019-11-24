@@ -181,6 +181,18 @@ struct World
      * @brief priceIceMultiplier is the multiplier for ice prices.
      */
     float multiplierPriceIce = 1.00;
+
+    enum weather{
+        RAINY,
+        SNOWY,
+        CLOUDY,
+        SUNNY
+    };
+    enum disasters{
+        TORNADO,
+        DUCK,
+        WHALE
+    };
 };
 
 /**
