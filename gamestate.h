@@ -21,7 +21,7 @@ enum UPGRADE_ENUM
     SUGAR_DEALER,
     ORGANIC_LEMONS,
     BOOM_BOX,
-    GRAPES,
+    GRAPE,
     INSURANCE,
     BIG_PITCHER,
     // Maximum enum value. Keep at end of enum.
