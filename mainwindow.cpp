@@ -93,7 +93,6 @@ void MainWindow::on_startButton_clicked()
     ui->progressFrame->setVisible(false);
 
     this->createLemonade();
-    animationForDay();
     emit sigStartSimulation(this->lemonade);
 }
 /// Slot used to build a lemonade object based on the values within the UI,
@@ -157,12 +156,25 @@ void MainWindow::onSimulationComplete()
 void MainWindow::animationForDay()
 {
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
-
-    //QPixmap crowd(ui->crowdLabel->width(), ui->crowdLabel->height());
-
-    // TODO: Pick light/med/heavy crowd levels based demand from game object
-    QPixmap defaultImage(":/img/Images/Crowd_Levels/Crowd Heavy.png");
-
+    QPixmap defaultImage;
+    // TODO: Update the values for checking crowd tiers
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
+    if(game.yesterday().demanded < 50)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
+        defaultImage = temp;
+    }
+    else if(game.yesterday().demanded < 101)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        defaultImage = temp;
+    }
+    else
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        defaultImage = temp;
+    }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
 }
 
