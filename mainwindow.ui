@@ -218,23 +218,14 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="newsLabel">
+     <widget class="QWidget" name="newsWidget" native="true">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1051</width>
-        <height>31</height>
+        <x>-1</x>
+        <y>-1</y>
+        <width>1061</width>
+        <height>51</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Manjari</family>
-        <pointsize>24</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>News:</string>
       </property>
      </widget>
     </widget>
@@ -346,6 +337,9 @@
       </property>
      </widget>
     </widget>
+    <zorder>dayFrame</zorder>
+    <zorder>graphsFrame</zorder>
+    <zorder>newsFrame</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
@@ -539,11 +533,11 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
+   <zorder>welcomeFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>progressFrame</zorder>
    <zorder>upgradesWidget</zorder>
-   <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
