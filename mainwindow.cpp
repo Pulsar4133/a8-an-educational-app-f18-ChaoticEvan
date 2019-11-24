@@ -156,12 +156,12 @@ void MainWindow::onSimulationComplete()
 
 void MainWindow::animationForDay()
 {
-    QRect dimensions(350, 100, ui->crowdLabel->width(), ui->crowdLabel->height());
+    QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
 
     //QPixmap crowd(ui->crowdLabel->width(), ui->crowdLabel->height());
 
     // TODO: Pick light/med/heavy crowd levels based demand from game object
-    QPixmap defaultImage(":/img/Images/Crowd Levels/People Heavy.png");
+    QPixmap defaultImage(":/img/Images/Crowd_Levels/Crowd Heavy.png");
 
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
 }
