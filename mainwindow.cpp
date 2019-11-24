@@ -149,6 +149,7 @@ void MainWindow::redirectKhanAcademy()
 {
     QMessageBox msgBox;
     msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a>");
+    msgBox.setText("<a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
     msgBox.exec();
 }
 
