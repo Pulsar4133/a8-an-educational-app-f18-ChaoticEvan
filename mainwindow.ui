@@ -6,37 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1600</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QSlider" name="verticalSlider">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>390</y>
-      <width>16</width>
-      <height>160</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>400</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QFrame" name="ingredientsFrame">
     <property name="geometry">
      <rect>
-      <x>1380</x>
-      <y>0</y>
+      <x>1060</x>
+      <y>-20</y>
       <width>541</width>
-      <height>351</height>
+      <height>471</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -45,14 +29,143 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>60</y>
+       <width>297</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="overallLayout">
+      <property name="spacing">
+       <number>40</number>
+      </property>
+      <item>
+       <layout class="QFormLayout" name="dataLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="sugarLabel">
+          <property name="text">
+           <string>Sugar</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QSpinBox" name="sugarSpinBox">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="LemonLabel">
+          <property name="text">
+           <string>Lemons</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="LemonSpinBox">
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="iceLabel">
+          <property name="text">
+           <string>Ice</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="iceSpinBox">
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="priceLabel">
+          <property name="text">
+           <string>Price Per Cup</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QDoubleSpinBox" name="priceSpinBox"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="dayCostLabel">
+          <property name="text">
+           <string>Cost</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QTextEdit" name="textEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="placeholderText">
+           <string>$0.00</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="yesterdayButton">
+          <property name="maximumSize">
+           <size>
+            <width>140</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Yesterday's Recipe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QPushButton" name="CreateLemonadeButton">
+          <property name="minimumSize">
+           <size>
+            <width>140</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Create Lemonade</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1381</width>
-      <height>1031</height>
+      <width>1061</width>
+      <height>851</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -61,14 +174,27 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QLabel" name="simulationPicture">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-4</y>
+       <width>1061</width>
+       <height>851</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1381</width>
-      <height>1041</height>
+      <width>1061</width>
+      <height>851</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -82,7 +208,7 @@
       <rect>
        <x>-1</x>
        <y>0</y>
-       <width>1381</width>
+       <width>1061</width>
        <height>41</height>
       </rect>
      </property>
@@ -92,13 +218,32 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="newsLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1051</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>News:</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="dayFrame">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>40</y>
-       <width>1381</width>
+       <width>1061</width>
        <height>381</height>
       </rect>
      </property>
@@ -114,8 +259,8 @@
       <rect>
        <x>0</x>
        <y>420</y>
-       <width>1381</width>
-       <height>611</height>
+       <width>1061</width>
+       <height>161</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -124,19 +269,95 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="profitLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>221</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Profit:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="salesLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>90</y>
+        <width>261</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Sales:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="demandLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>261</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Demand:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="costLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>130</y>
+        <width>221</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Cost:</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
      <rect>
-      <x>1380</x>
-      <y>350</y>
+      <x>1060</x>
+      <y>430</y>
       <width>541</width>
-      <height>611</height>
+      <height>351</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_1">
      <attribute name="title">
@@ -152,26 +373,32 @@
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>1380</x>
-      <y>960</y>
+      <x>1060</x>
+      <y>780</y>
       <width>541</width>
       <height>71</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Manjari</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>Start day!</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QFrame" name="welcomeFrame">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1</y>
-      <width>1921</width>
-      <height>1031</height>
+      <y>0</y>
+      <width>1601</width>
+      <height>851</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -180,26 +407,143 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QLabel" name="welcomeLabel1">
      <property name="geometry">
       <rect>
-       <x>570</x>
-       <y>530</y>
+       <x>30</x>
+       <y>70</y>
+       <width>1001</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics 
+concepts in a simplistic, fun way! As the owner of your own lemonade stand, 
+you will deal with supply and demand, a great deal of competition, 
+and mysterious phenomenons! Watch out! </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="welcomeBackground">
+     <property name="geometry">
+      <rect>
+       <x>-4</x>
+       <y>0</y>
+       <width>1065</width>
+       <height>851</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck4">
+     <property name="geometry">
+      <rect>
+       <x>1160</x>
+       <y>540</y>
+       <width>351</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>There will be 3 levels to the game. 
+Saving up for the last part might 
+be a good idea! It’s raining whales,
+hallelujah! Your upgrdaes can
+Be found here!</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck3">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>20</y>
        <width>421</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Before each day, you’ll have the chance 
+ to determine various factors about 
+your lemonade stand such as the amount 
+of sugar, ice, and lemons,  the price per cup, 
+and how decked out your stand is.</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="welcomeCheck2">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>200</y>
+       <width>391</width>
        <height>151</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Manjari</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string>Begin Lemonomics!</string>
+      <string>A calendar showing how you as a player 
+ has progressed throughout your time 
+on the block will also serve as a nice way 
+of showing off the millions of dollars 
+you’re about to make! </string>
      </property>
     </widget>
+    <widget class="QLabel" name="welcomeLogo">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>260</y>
+       <width>556</width>
+       <height>535</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>welcomeBackground</zorder>
+    <zorder>welcomeLabel1</zorder>
+    <zorder>welcomeCheck4</zorder>
+    <zorder>welcomeCheck3</zorder>
+    <zorder>welcomeCheck2</zorder>
+    <zorder>welcomeLogo</zorder>
    </widget>
-   <zorder>welcomeFrame</zorder>
-   <zorder>verticalSlider</zorder>
-   <zorder>ingredientsFrame</zorder>
    <zorder>simulationFrame</zorder>
+   <zorder>ingredientsFrame</zorder>
    <zorder>progressFrame</zorder>
    <zorder>upgradesWidget</zorder>
+   <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -207,12 +551,30 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1920</width>
-     <height>22</height>
+     <width>1600</width>
+     <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuLearn_More">
+    <property name="title">
+     <string>Learn More</string>
+    </property>
+    <addaction name="actionMicroeconomics_Rule"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuLearn_More"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionMicroeconomics_Rule">
+   <property name="text">
+    <string>Microeconomics Rule</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -1,8 +1,11 @@
 #include "Box2D/Box2D.h"
-//#include "lemonade.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QGraphicsPixmapItem>
+#include <QMessageBox>
 #include <QTimer>
+#include <QDebug>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -12,10 +15,19 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
-    QObject::connect(this,&MainWindow::sigNewPos,ui->verticalSlider,&QSlider::setValue);
-    //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
-    //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
+    // UI connections
+    QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
+    QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+
+
+    // Connects the Create Lemonade button to the main window.
+    // Allows us to build a lemonade object from the values within the UI.
+    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
+
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
@@ -56,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Add the shape to the body.
     body->CreateFixture(&fixtureDef);
+
+    loadStartImages();
 }
 
 MainWindow::~MainWindow()
@@ -72,8 +86,111 @@ void MainWindow::updateWorld(){
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
 }
 
-
 void MainWindow::on_startButton_clicked()
 {
-    emit sigStartSimulation();
+    ui->welcomeFrame->setVisible(false);
+    ui->dayFrame->setVisible(true);
+    ui->progressFrame->setVisible(false);
+
+    this->createLemonade();
+
+    emit sigStartSimulation(this->lemonade);
+}
+/// Slot used to build a lemonade object based on the values within the UI,
+/// and then pass by reference to the data member lemonade.
+/// \brief MainWindow::createLemonade
+///
+void MainWindow::createLemonade(){
+    lemonade.setRecipe(ui->LemonSpinBox->value(),
+                       ui->sugarSpinBox->value(),
+                       ui->iceSpinBox->value(),
+                       ui->priceSpinBox->value());
+    //Debug info produced below for testing
+    qDebug() << lemonade.getSugar();
+    qDebug() << lemonade.getLemon();
+    qDebug() << lemonade.getIce();
+    qDebug() << lemonade.getPricePerCup();
+
+}
+
+/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
+/// Sets the values of the spinboxes on the UI to the lemonade data.
+/// \brief MainWindow::on_yesterdayButton_clicked
+///
+void MainWindow::on_yesterdayButton_clicked()
+{
+
+    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
+    ui->LemonSpinBox->setValue(lemonade.getLemon());
+    ui->sugarSpinBox->setValue(lemonade.getSugar());
+    ui->iceSpinBox->setValue(lemonade.getIce());
+    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+    // Keep lemonade on same recipe. Move on.
+    qDebug() << lemonade.getSugar();
+    qDebug() << lemonade.getLemon();
+    qDebug() << lemonade.getIce();
+    qDebug() << lemonade.getPricePerCup();
+
+}
+
+void MainWindow::updateData()
+{
+    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
+    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
+    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
+    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
+}
+
+void MainWindow::redirectKhanAcademy()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a>");
+    msgBox.exec();
+}
+
+void MainWindow::onSimulationComplete()
+{
+    this->updateData();
+}
+
+void MainWindow::loadStartImages()
+{
+    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images
+    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+
+    // Creates background color and fills with light blue
+    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
+            startBackground.fill(QColor(47, 191, 235));
+    QPixmap defaultImage(":/img/Images/Background Default.png");
+    QPixmap startLogo(":/img/Images/logo.png");
+
+    // Sets each image to corresponding label
+    ui->welcomeBackground->setPixmap(startBackground);
+    ui->welcomeLogo->setPixmap(startLogo);
+    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+}
+
+void MainWindow::on_welcomeCheck4_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck4->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck3_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck3->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck2_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck2->setVisible(false);
+    }
 }
