@@ -31,14 +31,63 @@ Upgrades::Upgrades()
                     {});
 
         this->m_upgradeList[UPGRADE_ENUM::SUGAR_DEALER] = new Upgrade(
-                    "Lemonade Dealer",
-                    "You call up an old friend from college who can get you some superb, high-quality sugar and lemons. He won't tell you where he gets them, and they cost an arm and a leg, but they're the bees knees!",
+                    "Sugar Dealer",
+                    "You call up an old friend from college who can get you some superb, high-quality sugar. He won't tell you where he gets them, and they cost an arm and a leg, but they're the bees knees!",
                     150.00,
                     UPGRADE_ENUM::SUGAR_DEALER,
                     [] (GameState& game)
                     {
                         game.stand.reputation += 20;
                         game.world.multiplierPriceSugar += 0.50;
+                    });
+
+        this->m_upgradeList[UPGRADE_ENUM::ORGANIC_LEMONS] = new Upgrade(
+                "Organic Lemons",
+                "You call up an old friend from college who can get you some superb, high-quality lemons. She won't tell you where she gets them, and they cost an arm and a leg, but they're the bees knees!",
+                150.00,
+                UPGRADE_ENUM::ORGANIC_LEMONS,
+                [] (GameState& game)
+                {
+                    game.stand.reputation += 20;
+                    game.world.multiplierPriceLemons += 0.50;
+                });
+
+        this->m_upgradeList[UPGRADE_ENUM::BOOM_BOX] = new Upgrade(
+                    "Boom Box",
+                    "Invest in the sound of music. Gather the kiddos to drink to the sound of some sick tunes.",
+                    75.00,
+                    UPGRADE_ENUM::BOOM_BOX,
+                    [] (GameState& game)
+                    {
+                        game.stand.reputation += 50;
+                    });
+        this->m_upgradeList[UPGRADE_ENUM::GRAPE] = new Upgrade(
+                    "Grape",
+                    "Do you have a customer who really wants grapes?!",
+                    2000.00,
+                    UPGRADE_ENUM::GRAPE,
+                    [] (GameState& game)
+                    {});
+
+        this->m_upgradeList[UPGRADE_ENUM::INSURANCE] = new Upgrade(
+                    "Insurance",
+                    "Want to ensure you don't have to rebuy your decked out lemonade stand? Invest in Insurance!",
+                    250.00,
+                    UPGRADE_ENUM::INSURANCE,
+                    [] (GameState& game)
+                    {
+                        game.stand.reputation += 20;
+                        game.world.multiplierPriceSugar += 0.50;
                         game.world.multiplierPriceLemons += 0.50;
+                    });
+
+        this->m_upgradeList[UPGRADE_ENUM::BIG_PITCHER] = new Upgrade(
+                    "Bigger Pitcher",
+                    "Create more lemonade with fewer resources! Each pitcher will now create 12 cups!",
+                    250.00,
+                    UPGRADE_ENUM::BIG_PITCHER,
+                    [] (GameState& game)
+                    {
+                        game.stand.cupsPerPitcher = 12;
                     });
 }
