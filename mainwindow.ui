@@ -533,11 +533,11 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
-   <zorder>welcomeFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>progressFrame</zorder>
    <zorder>upgradesWidget</zorder>
+   <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
