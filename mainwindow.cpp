@@ -93,7 +93,7 @@ void MainWindow::on_startButton_clicked()
     ui->progressFrame->setVisible(false);
 
     this->createLemonade();
-
+    animationForDay();
     emit sigStartSimulation(this->lemonade);
 }
 /// Slot used to build a lemonade object based on the values within the UI,
@@ -151,6 +151,19 @@ void MainWindow::redirectKhanAcademy()
 void MainWindow::onSimulationComplete()
 {
     this->updateData();
+    this->animationForDay();
+}
+
+void MainWindow::animationForDay()
+{
+    QRect dimensions(350, 100, ui->crowdLabel->width(), ui->crowdLabel->height());
+
+    //QPixmap crowd(ui->crowdLabel->width(), ui->crowdLabel->height());
+
+    // TODO: Pick light/med/heavy crowd levels based demand from game object
+    QPixmap defaultImage(":/img/Images/Crowd Levels/People Heavy.png");
+
+    ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
 }
 
 void MainWindow::loadStartImages()
