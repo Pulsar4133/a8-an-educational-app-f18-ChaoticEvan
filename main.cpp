@@ -1,7 +1,9 @@
-#include "Box2D/Box2D.h"
 #include "mainwindow.h"
-#include <QApplication>
+#include "Box2D/Box2D.h"
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include <stdio.h>
+#include <QApplication>
 
 
 int main(int argc, char *argv[])
@@ -11,5 +13,3 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
-
-

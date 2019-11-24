@@ -44,6 +44,6 @@ private:
 
     void loadStartImages();
     void updateData();
-
+    void animationForDay();
 };
 #endif // MAINWINDOW_H

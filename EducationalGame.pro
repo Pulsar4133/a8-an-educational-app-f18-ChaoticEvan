@@ -135,6 +135,13 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+win32: LIBS += -L$$PWD/SFML/lib/ -lsfml-main -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+
+INCLUDEPATH += $$PWD/SFML/include
+DEPENDPATH += $$PWD/SFML/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/sfml-main.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/libsfml-main.a
 DISTFILES += \
     Images/Background Default.png \
     Images/Background Default.png \
