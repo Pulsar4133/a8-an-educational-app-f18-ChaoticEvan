@@ -20,10 +20,13 @@ enum UPGRADE_ENUM
     WHALE_UMBRELLA,
     SUGAR_DEALER,
     ORGANIC_LEMONS,
-
+    BOOM_BOX,
+    GRAPES,
+    INSURANCE,
+    BIG_PITCHER,
     // Maximum enum value. Keep at end of enum.
     // TECHNICALLY UNSAFE.
-    NUM_UPGRADES,
+    NUM_UPGRADES
 };
 
 class Upgrades
@@ -127,6 +130,16 @@ struct Day
      */
     LemonadeRecipe lemonade;
 
+    /**
+     * @brief weatherState Stores the weather for the day, the default is Sunny.
+     */
+    int weatherState = 3;
+
+    /**
+     * @brief disaster Stores the disaster, by default the disaster is 0.
+     */
+    int disaster = 0;
+
 };
 
 /**
@@ -182,17 +195,26 @@ struct World
      */
     float multiplierPriceIce = 1.00;
 
+    /**
+     * @brief The weather enum Stores all the possible types of weather.
+     */
     enum weather{
         RAINY,
         SNOWY,
         CLOUDY,
         SUNNY
     };
+
+    /**
+     * @brief The disasters enum Stores all the possible types of diaster.
+     */
     enum disasters{
+        NO_DISASTER,
         TORNADO,
         DUCK,
         WHALE
     };
+
 };
 
 /**

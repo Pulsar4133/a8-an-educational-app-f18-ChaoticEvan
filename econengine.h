@@ -99,14 +99,19 @@ private:
     int calculateDemand();
 
     /**
-     * @brief setWeatherPattern will set the weather pattern of every unsimulated
+     * @brief generateDays will set the weather pattern of every unsimulated
      *		  day in the game.
      * @param days, the array of all days in the game.
      * @param numDays, the number of days in the game.
      */
-    void  setWeatherPattern(Day* days, int numDays);
+    void  generateDays(Day* days, int numDays);
 
-		/**
+    /**
+     * @brief setDisasterLevel3 A method that will generate the disaster that occurs on the 3rd level.
+     */
+    void setDisasterLevel3();
+
+    /**
      * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
      * @param cost
      * @param income
