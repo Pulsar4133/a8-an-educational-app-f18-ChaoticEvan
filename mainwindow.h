@@ -6,6 +6,7 @@
 #include "lemonade.h"
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,5 +41,6 @@ private:
     b2World world;
     QHBoxLayout* layout;
     QLabel* lemonImage;
+    QWidget *lemWin;
 };
 #endif // MAINWINDOW_H

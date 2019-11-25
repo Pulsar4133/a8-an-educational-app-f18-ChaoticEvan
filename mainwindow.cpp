@@ -7,10 +7,12 @@
 #include <QGraphicsPixmapItem>
 #include <iostream>
 
+#define DEGTORAD 0.0174532925199432957f
+
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    world(b2Vec2 (0.0f, 10.0f))
+    world(b2Vec2 (0.0f, 50.0f))
 
 {
     ui->setupUi(this);
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0f, 0.0f);
+    groundBodyDef.position.Set(10.0f, 100.0f);
     groundBodyDef.type = b2_staticBody;
 
     // Call the body factory which allocates memory for the ground body
@@ -37,14 +39,44 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     b2PolygonShape groundBox;
 
     // The extents are the half-widths of the box.
-    groundBox.SetAsBox(50.0f, 5.0f);
+    groundBox.SetAsBox(375.0f, 5.0f);
 
     // Add the ground fixture to the ground body.
     groundBody->CreateFixture(&groundBox, 1.0f);
 
+    layout = new QHBoxLayout();
+
+    b2BodyDef statTestBodyDef;
+    statTestBodyDef.type = b2_dynamicBody;
+    statTestBodyDef.position.Set(0.0f, 0.0f);
+
+    b2Body *statTestBody;
+    statTestBody = world.CreateBody(&statTestBodyDef);
+
+    b2PolygonShape testBox;
+    testBox.SetAsBox(1.0f, 1.0f);
+
+    b2FixtureDef testFixDef;
+    testFixDef.shape = &testBox;
+    testFixDef.density = 1.0f;
+    testFixDef.friction = 0.1f;
+    testFixDef.restitution = 0.9f;
+
+    statTestBody->CreateFixture(&testFixDef);
+
+    QLabel *groundLabel = new QLabel();
+    groundLabel->setFixedSize(300, 300);
+    QPixmap groundPix("C:/Users/spenc/CS3505/ClipArtPitcher.png");
+    int gw = groundLabel->width();
+    int gh = groundLabel->height();
+    layout->addWidget(groundLabel);
+    groundLabel->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    statTestBody->SetUserData(groundLabel);
+
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(40.0f, -10.0f);
+    bodyDef.position.Set(120.0f, 0.0f);
     body = world.CreateBody(&bodyDef);
 
     // Define another box shape for our dynamic body.
@@ -70,27 +102,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QPixmap lemonPix("C:/Users/spenc/CS3505/lemon image.jpg");
     int w = lemonImage->width();
     int h = lemonImage->height();
-    layout = new QHBoxLayout();
+
     layout->addWidget(lemonImage);
-    ui->ingredientsFrame->setLayout(layout);
+    lemWin = new QWidget();
+    lemWin->setLayout(layout);
     lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
     body->SetUserData(lemonImage);
-
-//    b2Vec2 vertices[4];
-//    vertices[0].Set(0.0f, 20.0f);
-//    vertices[1].Set(0.0f, 0.0f);
-//    vertices[2].Set(20.0f, 0.0f);
-//    vertices[4].Set(20.0f, 20.0f);
-//    b2EdgeShape edge1;
-//    edge1.Set(vertices[0], vertices[1]);
-//    b2EdgeShape edge2;
-//    edge2.Set(vertices[1], vertices[2]);
-//    b2EdgeShape edge3;
-//    edge3.Set(vertices[2], vertices[3]);
-
-//    b2FixtureDef edgesFixDef;
-
+    body->SetAngularVelocity( -90 * DEGTORAD );
 
 }
 
@@ -119,12 +138,28 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
+
     lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value(),ui->priceSpinBox->value());
-    //Debug info produced below for testing
-    qDebug() << lemonade->getSugar();
-    qDebug() << lemonade->getLemon();
-    qDebug() << lemonade->getIce();
-    qDebug() << lemonade->getPricePerCup();
+    lemWin->show();
+    lemWin->setMinimumWidth(750);
+    lemWin->setMinimumHeight(750);
+
+//    for(int i = 0; i < lemonade->getSugar(); i++)
+//    {
+
+//    }
+//    for(int i = 0; i < lemonade->getLemon(); i++)
+//    {
+
+//    }
+//    for(int i = 0; i < lemonade->getIce(); i++)
+//    {
+
+//    }
+//    for(int i = 0; i < lemonade->getPricePerCup(); i++)
+//    {
+
+//    }
 
 }
 
