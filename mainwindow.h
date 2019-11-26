@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 #include "Box2D/Box2D.h"
 #include "econengine.h"
-#include <QMainWindow>
 #include "lemonade.h"
+#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,9 +29,7 @@ public slots:
 private slots:
     void on_startButton_clicked();
     void createLemonade();
-
     void on_yesterdayButton_clicked();
-
     void on_welcomeCheck4_clicked(bool checked);
     void on_welcomeCheck3_clicked(bool checked);
     void on_welcomeCheck2_clicked(bool checked);
@@ -48,6 +46,6 @@ private:
     void loadStartImages();
     void updateData();
     void changeNewsText(QString scrollText);
-
+    void animationForDay();
 };
 #endif // MAINWINDOW_H
