@@ -7,6 +7,7 @@
 #include "lemonade.h"
 #include <functional>
 #include "recipe.h"
+#include <QDebug>
 
 
 struct Upgrade;
@@ -82,6 +83,7 @@ struct Stand
  */
 struct Day
 {
+
     /**
      * @brief Describes whether or not this day has been simulated
      */
@@ -90,22 +92,22 @@ struct Day
     /**
      * @brief Temperature of the day
      */
-    int   temperature = 70;
+    int temperature = 70;
 
     /**
      * @brief Number of sales for this day. 0 prior to simulation.
      */
-    int   sales	= 0;
+    int sales	= 0;
 
     /**
      * @brief Number of units demanded for this day. 0 prior to simulation.
      */
-    int   demanded = 0;
+    int demanded = 0;
 
     /**
      * @brief Describes if the player sold out of lemonade that day
      */
-    bool  soldOut = false;
+    bool soldOut = false;
 
     /**
      * @brief Total cost of lemonade materials that day. 0 prior to simulation
@@ -126,6 +128,14 @@ struct Day
      * @brief Recipe for lemonade that day.
      */
     LemonadeRecipe lemonade;
+
+    void log()
+    {
+        qDebug() << "Day Log:";
+        qDebug() << "Cups demanded: " << demanded;
+        qDebug() << "Cups sold:     " << sales;
+        qDebug() << "Price per cup: " << lemonade.pricePerCup;
+    };
 
 };
 
@@ -198,6 +208,7 @@ struct Weights
      * @brief Demand increase per marketing unit
      */
     float marketing = 1.00;
+
 };
 
 /**

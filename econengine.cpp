@@ -43,6 +43,9 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
     // Runs the simulation using the new LemonadeStats provided
     this->runSimulation();
 
+    // Log the day's stats to the console.
+    game.today().log();
+
     // Mark the day as completed.
     game.today().complete = true;
 
