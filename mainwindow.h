@@ -36,6 +36,7 @@ private slots:
     void on_welcomeCheck3_clicked(bool checked);
     void on_welcomeCheck2_clicked(bool checked);
 
+    void on_day_change(QString scrollText);
 
 private:
     Ui::MainWindow *ui;
@@ -46,6 +47,7 @@ private:
 
     void loadStartImages();
     void updateData();
+    void changeNewsText(QString scrollText);
 
 };
 #endif // MAINWINDOW_H
