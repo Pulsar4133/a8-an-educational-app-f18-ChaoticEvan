@@ -1,314 +1,51 @@
 #ifndef ECONENGINE_H
 #define ECONENGINE_H
 
-#include <QObject>
+#include "gamestate.h"
 #include "lemonade.h"
-
-#define DEFAULT_GAME_LENGTH 15
-#define STARTING_PLAYER_MONEY 100.00
+#include <QObject>
 
 /**
- * @brief The LemonadeStats struct contains statistics for one day's
- * 		  lemonade composition, such as ingredient amounts and price
- * 		  per cup.
+ * @brief The EconEngine class has two functions:
+ * 			- Maintain the state of the game.
+ * 			- Run the calculations for the economic simulation.
+ * 		  It is a Singleton; the program's EconEngine singleton
+ * 		  can be accessed at any time via:
+ *
+ * 		  EconEngine::instance();
+ *
+ * 		  Additionally, the state of the game can be accessed via:
+ *
+ * 		  EconEngine::gameState();
  */
-struct LemonadeRecipe
-{
-    /**
-     * @brief the amount of sugar in one pitcher of lemonade
-     */
-    int sugar	= 0;
-
-    /**
-     * @brief the amount of ice in one pitcher of lemonade
-     */
-    int ice		= 0;
-
-    /**
-     * @brief the amount of lemons in one pitcher of lemonade
-     */
-    int lemons	= 0;
-
-    /**
-     * @brief the price of one cup of lemonade
-     */
-    float pricePerCup	= 1.00;
-
-    /**
-     * @brief the number of pitchers of lemonade the player chose to create
-     */
-    int pitchers	= 0;
-
-    /**
-     * @brief LemonadeRecipe() constructs a default LemonadeRecipe.
-     */
-    LemonadeRecipe(){}
-
-    /**
-     * @brief LemonadeStats(Lemonade) converts a Lemonade object into a
-     *        LemonadeStats struct.
-     * @param newLemonade
-     */
-    LemonadeRecipe(Lemonade newLemonade){
-        this->ice			= newLemonade.getIce();
-        this->sugar			= newLemonade.getSugar();
-        this->lemons		= newLemonade.getLemon();
-        this->pricePerCup 	= newLemonade.getPricePerCup();
-        this->pitchers		= newLemonade.getNumPitchers();
-    }
-
-};
-
-/**
- * @brief The UPGRADE_ENUM enum provides an enumeration of all
- * 		  purchasable upgrades.
- */
-enum UPGRADE_ENUM
-{
-    NEON_SIGN,
-    WHALE_CANNON,
-    LEMON_DEALER,
-
-    // Maximum enum value. Keep at end of enum.
-    // TECHNICALLY UNSAFE.
-    NUM_UPGRADES,
-};
-
-/**
- * @brief The Upgrades struct contains a ledger of all purchased
- * 		  /purchasable upgrades in the game, and their costs.
- */
-struct Upgrades
-{
-    /**
-     * @brief A list of ownership status for all upgrades
-     */
-    bool  purchased [UPGRADE_ENUM::NUM_UPGRADES];
-
-    /**
-     * @brief A list of costs for all upgrades
-     */
-    float cost      [UPGRADE_ENUM::NUM_UPGRADES];
-};
-
-/**
- * @brief The StandStats struct contains statistics for the current
- * 		  state of the player's stand, such as the stand's reputation,
- */
-struct Stand
-{
-    /**
-     * @brief reputation points to represent the current reputation of
-     * 		  the player's stand
-     */
-    int reputation	= 0;
-
-    /**
-     * @brief marketing points to represent how much draw the player has
-     * 		  to new customers
-     */
-    int marketing	= 0;
-
-    /**
-     * @brief the number of cups the player can make out of one pitcher
-     * 		  of lemonade.
-     */
-    int cupsPerPitcher = 8;
-
-    /**
-     * @brief The current amount of money in the player's wallet.
-     */
-    float wallet = STARTING_PLAYER_MONEY;
-
-    /**
-     * @brief the upgrades the player has bought for their stand.
-     */
-    Upgrades upgrades;
-};
-
-/**
- * @brief The DayStats struct contains the statistics for one day of
- * 		  a lemonade stand.
- */
-struct Day
-{
-    /**
-     * @brief Describes whether or not this day has been simulated
-     */
-    bool  complete = false;
-
-    /**
-     * @brief Temperature of the day
-     */
-    int   temperature = 70;
-
-    /**
-     * @brief Number of sales for this day. 0 prior to simulation.
-     */
-    int   sales	= 0;
-
-    /**
-     * @brief Number of units demanded for this day. 0 prior to simulation.
-     */
-    int   demanded = 0;
-
-    /**
-     * @brief Describes if the player sold out of lemonade that day
-     */
-    bool  soldOut = false;
-
-    /**
-     * @brief Total cost of lemonade materials that day. 0 prior to simulation
-     */
-    float cost	= 0;
-
-    /**
-     * @brief Total income from sales for that day. 0 prior to simulation.
-     */
-    float income = 0;
-
-    /**
-     * @brief Total profit for that day. 0 prior to simulation.
-     */
-    float profit = 0;
-
-    /**
-     * @brief Recipe for lemonade that day.
-     */
-    LemonadeRecipe lemonade;
-
-};
-
-/**
- * @brief The WorldStats struct contains statistics for the current
- * 		  state of the game world, such as weather.
- */
-struct World
-{
-    int weatherSeverity	= 0;
-
-    /**
-     * @brief Current price per unit of lemons
-     */
-    float priceLemons	= 0.50;
-
-    /**
-     * @brief Current price per unit of sugar
-     */
-    float priceSugar	= 0.40;
-
-    /**
-     * @brief Current price per unit of ice
-     */
-    float priceIce		= 0.10;
-};
-
-/**
- * @brief The Weights struct includes all of the weights that may be
- * 		  used in the demand model.
- */
-struct Weights
-{
-    /**
-     * @brief Demand increase per reputation point
-     */
-    float reputation = 1.00;
-
-    /**
-     * @brief Demand increase per marketing unit
-     */
-    float marketing = 1.00;
-};
-
-/**
- * @brief The GameStats struct is the top-level struct for all game info
- * 		  and statistics.
- */
-struct GameState
-{
-    /**
-     * @brief current in-game date, starting at 0.
-     */
-    int currentDate   = 0;
-
-    /**
-     * @brief current in-game level, starting at 0 and increasing with
-     *        every 5 days.
-     */
-    int currentLevel = this->currentDate / 5;
-
-    /**
-     * @brief gameLength represents the length of the game, in days
-     */
-    int gameLength = DEFAULT_GAME_LENGTH;
-
-    /**
-     * @brief statistics for the player's stand
-     */
-    Stand stand;
-
-    /**
-     * @brief statistics for the current state of the world.
-     */
-    World world;
-
-    /**
-     * @brief an array of all the stats for every in-game day
-     */
-    Day day[DEFAULT_GAME_LENGTH];
-
-    /**
-     * @brief the currentDate's statistics.
-     */
-    Day today = this->day[this->currentDate];
-
-    /**
-     * @brief the current day's recipe for lemonade.
-     */
-    LemonadeRecipe currentLemonade = this->today.lemonade;
-
-    /**
-     * @brief the ideal recipe for lemonade
-     */
-    LemonadeRecipe perfectLemonade;
-
-    /**
-     * @brief the weights used in the demand calculations during the simulation
-     */
-    Weights weights;
-};
-
-
 class EconEngine : public QObject
 {
     Q_OBJECT
 public:
+
     /**
-     * @brief Creates a new EconEngine able to run economic simulations
-     * 		  of a lemonade stand.
-     * @param parent
+     * @brief getInstance Will return the program's EconModel instance.
      */
-    explicit EconEngine(QObject *parent = nullptr);
+    static EconEngine* instance();
+
+    /**
+     * @brief getState Will provide a read-only reference to the GameState
+     * 		  structure of the program's EconModel singleton.
+     */
+    static GameState* gameState();
 
 signals:
     /**
-     * @brief sigSimulationComplete signals that a simulation has been
-     * 		  completed
-     * @param gameState, updated to contain data regarding the recently
-     * 		  completed day
+     * @brief sigSimulationComplete Signals that a simulation has been
+     * 		  completed.
+     * @param gameState, Updated to contain data regarding the recently
+     * 		  completed day.
      */
-    void sigSimulationComplete(GameState game);
-
-    /**
-     * @brief sigPushWorldStats signals out the current game state upon
-     * 		  request.
-     * @param game
-     */
-    void sigPushGameState(GameState game);
+    void sigSimulationComplete(const GameState& game);
 
 public slots:
     /**
-     * @brief onNewDay is signalled whenever a new day is requested. In
+     * @brief onNewDay Is signalled whenever a new day is requested. In
      * 		  order to be initiated, a new set of of lemonade stats is
      * 		  required.
      * @param newLemonStats
@@ -316,49 +53,65 @@ public slots:
     void onNewDayRecipe(LemonadeRecipe newLemonadeRecipe);
 
     /**
-     * @brief onNewDay is signalled whenever a new day is requested. In
+     * @brief onNewDay Is signalled whenever a new day is requested. In
      * 		  order to be initiated, a new set of of lemonade stats is
      * 		  required.
-     * @param newLemonade is a Lemonade object with the stats necessary
+     * @param newLemonade Is a Lemonade object with the stats necessary
      * 		  to run a simulation.
      */
     void onNewDayLemonade(Lemonade newLemonade);
 
     /**
-     * @brief onWorldStatPushRequest sends out the current state of the
-     * 		  world via sigPushWorldStats when signalled.
+     * @brief onUpgradePurchased Will purchase the upgrade at the given upgradeId
+     * @param upgradeId, the ID of the stand upgrade.
      */
-    void onGameStatePushRequest();
+    void onUpgradePurchased(int upgradeId);
 
 private:
 
     /**
-     * @brief game contains all of the current game state data, such as
+     * @brief Creates a new EconEngine able to run economic simulations
+     * 		  of a lemonade stand.
+     */
+    explicit EconEngine(QObject *parent = nullptr);
+
+    // TODO: Assignment Operator
+    // TODO: Copy Constructor
+
+    static EconEngine* m_engineInstance;
+
+    /**
+     * @brief Game contains all of the current game state data, such as
      * 		  stand, upgrade, and world data.
      */
     GameState game;
 
     /**
-     * @brief runSimulation runs a one-day simulation according to the
+     * @brief runSimulation Runs a one-day simulation according to the
      * 		  internal states of the EconEngine.
      */
     void runSimulation();
 
     /**
-     * @brief calculateDemand calculates one day's lemonade demand according
+     * @brief calculateDemand Calculates one day's lemonade demand according
      * 		  to the internal state of the EconModel's member structs.
      */
     int calculateDemand();
 
     /**
-     * @brief setWeatherPattern will set the weather pattern of every unsimulated
+     * @brief generateDays Will set the weather pattern of every unsimulated
      *		  day in the game.
-     * @param days, the array of all days in the game.
-     * @param numDays, the number of days in the game.
+     * @param days, The array of all days in the game.
+     * @param numDays, The number of days in the game.
      */
-    void  setWeatherPattern(Day* days, int numDays);
+    void  generateDays(Day* days, int numDays);
 
-		/**
+    /**
+     * @brief setDisasterLevel3 A method that will generate the disaster that occurs on the 3rd level.
+     */
+    void setDisasterLevel3();
+
+    /**
      * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
      * @param cost
      * @param income

@@ -1,5 +1,5 @@
-#include "boxWorld.h"
 #include "Box2D/Box2D.h"
+#include "boxWorld.h"
 
 boxWorld::boxWorld()
     : world(b2Vec2 (0.0f, 50.0f))
