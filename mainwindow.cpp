@@ -1,6 +1,7 @@
 #include "Box2D/Box2D.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -69,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Add the shape to the body.
     body->CreateFixture(&fixtureDef);
 
+    // Preloads all .png files
     loadStartImages();
 }
 
@@ -89,10 +91,14 @@ void MainWindow::updateWorld(){
 void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
-    ui->dayFrame->setVisible(true);
-    ui->progressFrame->setVisible(false);
+    ui->dayFrame->setVisible(false);
+    ui->progressFrame->setVisible(true);
+    ui->progressFrame->raise();
 
     this->createLemonade();
+
+    changeNewsText("Welcome to Lemononmics! Beware of whales!");
+  
     emit sigStartSimulation(this->lemonade);
 }
 
@@ -222,4 +228,19 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
     {
         ui->welcomeCheck2->setVisible(false);
     }
+}
+
+void MainWindow::on_day_change(QString scrollText)
+{
+    this->changeNewsText(scrollText);
+}
+
+void MainWindow::changeNewsText(QString scrollText)
+{
+    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
+    ScrollText* news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    layout->addWidget(news);
+    news->setText(scrollText);
 }
