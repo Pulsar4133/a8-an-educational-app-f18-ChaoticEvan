@@ -1,34 +1,34 @@
 #ifndef UPGRADE_H
 #define UPGRADE_H
 
-#include <QString>
-#include <functional>
 #include "gamestate.h"
+#include <functional>
+#include <QString>
 
 struct Upgrade
 {
     /**
-     * @brief name of the upgrade
+     * @brief Name of the upgrade.
      */
     QString name;
 
     /**
-     * @brief fun description about the upgrade
+     * @brief Fun description about the upgrade.
      */
     QString description = "";
 
     /**
-     * @brief cost of the upgrade, in dollars
+     * @brief Cost of the upgrade, in dollars.
      */
     float   cost;
 
     /**
-     * @brief enumerable id of the upgrade, as listed in UPGRADE_ENUM
+     * @brief Enumerable id of the upgrade, as listed in UPGRADE_ENUM.
      */
     int id;
 
     /**
-     * @brief purchased status of the uprade
+     * @brief Purchased status of the uprade.
      */
     bool purchased = false;
 
@@ -61,10 +61,10 @@ struct Upgrade
     /**
      * @brief Upgrade will contain all the information required for an upgrade
      * 		  the user can make to their stand.
-     * @param _name, the name of the upgrade
-     * @param _cost, the cost of the upgrade
-     * @param _id,   the enum ID of the upgrade in UPGRADE_ENUM
-     * @param _effect, the effect of the upgrade. READ UPGRADE::EFFECT NOTE
+     * @param _name, The name of the upgrade.
+     * @param _cost, The cost of the upgrade.
+     * @param _id,   The enum ID of the upgrade in UPGRADE_ENUM.
+     * @param _effect, The effect of the upgrade. READ UPGRADE::EFFECT NOTE
      */
     Upgrade(QString _name, float _cost, int _id, std::function<void(GameState&)> _effect):
         name(_name),
@@ -76,11 +76,11 @@ struct Upgrade
     /**
      * @brief Upgrade will contain all the information required for an upgrade
      * 		  the user can make to their stand.
-     * @param _name, the name of the upgrade
-     * @param _description, the description of the upgrade
-     * @param _cost, the cost of the upgrade
-     * @param _id,   the enum ID of the upgrade in UPGRADE_ENUM
-     * @param _effect, the effect of the upgrade. READ UPGRADE::EFFECT NOTE
+     * @param _name, The name of the upgrade.
+     * @param _description, the description of the upgrade.
+     * @param _cost, The cost of the upgrade.
+     * @param _id, The enum ID of the upgrade in UPGRADE_ENUM.
+     * @param _effect, The effect of the upgrade. READ UPGRADE::EFFECT NOTE
      */
     Upgrade(QString _name, QString _description, float _cost, int _id, std::function<void(GameState&)> _effect):
         name(_name),

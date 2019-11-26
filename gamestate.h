@@ -5,10 +5,9 @@
 #define STARTING_PLAYER_MONEY 100.00
 
 #include "lemonade.h"
-#include <functional>
 #include "recipe.h"
 #include <QDebug>
-
+#include <functional>
 
 struct Upgrade;
 /**
@@ -21,10 +20,14 @@ enum UPGRADE_ENUM
     WHALE_UMBRELLA,
     SUGAR_DEALER,
     ORGANIC_LEMONS,
+    BOOM_BOX,
+    GRAPE,
+    INSURANCE,
+    BIG_PITCHER,
 
     // Maximum enum value. Keep at end of enum.
     // TECHNICALLY UNSAFE.
-    NUM_UPGRADES,
+    NUM_UPGRADES
 };
 
 class Upgrades
@@ -44,24 +47,24 @@ public:
 
 /**
  * @brief The StandStats struct contains statistics for the current
- * 		  state of the player's stand, such as the stand's reputation,
+ * 		  state of the player's stand, such as the stand's reputation.
  */
 struct Stand
 {
     /**
-     * @brief reputation points to represent the current reputation of
-     * 		  the player's stand
+     * @brief Reputation points to represent the current reputation of
+     * 		  the player's stand.
      */
     int reputation	= 0;
 
     /**
-     * @brief marketing points to represent how much draw the player has
-     * 		  to new customers
+     * @brief Marketing points to represent how much draw the player has
+     * 		  to new customers.
      */
     int marketing	= 0;
 
     /**
-     * @brief the number of cups the player can make out of one pitcher
+     * @brief The number of cups the player can make out of one pitcher
      * 		  of lemonade.
      */
     int cupsPerPitcher = 8;
@@ -85,12 +88,12 @@ struct Day
 {
 
     /**
-     * @brief Describes whether or not this day has been simulated
+     * @brief Describes whether or not this day has been simulated.
      */
     bool  complete = false;
 
     /**
-     * @brief Temperature of the day
+     * @brief Temperature of the day.
      */
     int temperature = 70;
 
@@ -105,12 +108,12 @@ struct Day
     int demanded = 0;
 
     /**
-     * @brief Describes if the player sold out of lemonade that day
+     * @brief Describes if the player sold out of lemonade that day.
      */
     bool soldOut = false;
 
     /**
-     * @brief Total cost of lemonade materials that day. 0 prior to simulation
+     * @brief Total cost of lemonade materials that day. 0 prior to simulation.
      */
     float cost	= 0;
 
@@ -129,6 +132,19 @@ struct Day
      */
     LemonadeRecipe lemonade;
 
+    /**
+     * @brief WeatherState Stores the weather for the day, the default is Sunny.
+     */
+    int weatherState = 3;
+
+    /**
+     * @brief Disaster Stores the disaster, by default the disaster is 0.
+     */
+    int disaster = 0;
+
+		/**
+		 * @brief Logs the statistics for a given day
+		 */
     void log()
     {
         qDebug() << "Day Log:";
@@ -148,49 +164,69 @@ struct World
     int weatherSeverity	= 0;
 
     /**
-     * @brief Current price per unit of lemons
+     * @brief Current price per unit of lemons.
      */
     float priceLemons	= basePriceLemons * multiplierPriceLemons;
 
     /**
-     * @brief Current price per unit of sugar
+     * @brief Current price per unit of sugar.
      */
     float priceSugar	= basePriceSugar * multiplierPriceSugar;
 
     /**
-     * @brief Current price per unit of ice
+     * @brief Current price per unit of ice.
      */
     float priceIce		= basePriceIce * multiplierPriceIce;
 
     /**
-     * @brief baseLemonPrice is the base price of a lemon unit.
+     * @brief BaseLemonPrice is the base price of a lemon unit.
      */
     float basePriceLemons = 0.50;
 
     /**
-     * @brief baseSugarPrice is the base price of a sugar unit.
+     * @brief BaseSugarPrice is the base price of a sugar unit.
      */
     float basePriceSugar = 0.40;
 
     /**
-     * @brief baseIcePrice is the base price of an ice unit
+     * @brief BaseIcePrice is the base price of an ice unit.
      */
     float basePriceIce = 0.10;
 
     /**
-     * @brief priceLemonMultiplier is the multiplier for lemon prices
+     * @brief PriceLemonMultiplier is the multiplier for lemon prices.
      */
     float multiplierPriceLemons = 1.00;
 
     /**
-     * @brief priceSugarMultiplier is the multiplier for sugar prices.
+     * @brief PriceSugarMultiplier is the multiplier for sugar prices.
      */
     float multiplierPriceSugar = 1.00;
 
     /**
-     * @brief priceIceMultiplier is the multiplier for ice prices.
+     * @brief PriceIceMultiplier is the multiplier for ice prices.
      */
     float multiplierPriceIce = 1.00;
+
+    /**
+     * @brief The weather enum Stores all the possible types of weather.
+     */
+    enum weather{
+        RAINY,
+        SNOWY,
+        CLOUDY,
+        SUNNY
+    };
+
+    /**
+     * @brief The disasters enum Stores all the possible types of diaster.
+     */
+    enum disasters{
+        NO_DISASTER,
+        TORNADO,
+        DUCK,
+        WHALE
+    };
 };
 
 /**
@@ -200,12 +236,12 @@ struct World
 struct Weights
 {
     /**
-     * @brief Demand increase per reputation point
+     * @brief Demand increase per reputation point.
      */
     float reputation = 1.00;
 
     /**
-     * @brief Demand increase per marketing unit
+     * @brief Demand increase per marketing unit.
      */
     float marketing = 1.00;
 
@@ -218,38 +254,38 @@ struct Weights
 struct GameState
 {
     /**
-     * @brief current in-game date, starting at 0.
+     * @brief Current in-game date, starting at 0.
      */
     int currentDate   = 0;
 
     /**
-     * @brief current in-game level, starting at 0 and increasing with
+     * @brief Current in-game level, starting at 0 and increasing with
      *        every 5 days.
      */
     int currentLevel = this->currentDate / 5;
 
     /**
-     * @brief gameLength represents the length of the game, in days
+     * @brief GameLength represents the length of the game, in days.
      */
     int gameLength = DEFAULT_GAME_LENGTH;
 
     /**
-     * @brief statistics for the player's stand
+     * @brief Statistics for the player's stand
      */
     Stand stand;
 
     /**
-     * @brief statistics for the current state of the world.
+     * @brief Statistics for the current state of the world.
      */
     World world;
 
     /**
-     * @brief an array of all the stats for every in-game day
+     * @brief An array of all the stats for every in-game day.
      */
     Day days[DEFAULT_GAME_LENGTH];
 
     /**
-     * @brief the currentDate's statistics.
+     * @brief The currentDate's statistics.
      */
     Day& today()
     {
@@ -262,20 +298,19 @@ struct GameState
     }
 
     /**
-     * @brief the current day's recipe for lemonade.
+     * @brief The current day's recipe for lemonade.
      */
     LemonadeRecipe& currentLemonade = this->today().lemonade;
 
     /**
-     * @brief the ideal recipe for lemonade
+     * @brief The ideal recipe for lemonade.
      */
     LemonadeRecipe perfectLemonade;
 
     /**
-     * @brief the weights used in the demand calculations during the simulation
+     * @brief The weights used in the demand calculations during the simulation.
      */
     Weights weights;
-
 };
 
 #endif // GAMESTATE_H

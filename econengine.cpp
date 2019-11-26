@@ -31,7 +31,7 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
     // 		   through the calendar and foreshadow news events?
 
     // Set the future weather for all days in the game.
-    this->setWeatherPattern(game.days, game.gameLength);
+    this->generateDays(game.days, game.gameLength);
 }
 
 
@@ -40,7 +40,7 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
     // Set today's lemonade recipe from the provided recipe.
     game.today().lemonade = newLemonadeRecipe;
 
-    // Runs the simulation using the new LemonadeStats provided
+    // Runs the simulation using the new LemonadeStats provided.
     this->runSimulation();
 
     // Log the day's stats to the console.
@@ -61,7 +61,7 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 
 void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 {
-    // Convert Lemonade to a LemonadeStats struct
+    // Convert Lemonade to a LemonadeStats struct.
     LemonadeRecipe stats(newLemonade);
 
     // Use onNewDayStats to give the converted LemonadeStats
@@ -74,7 +74,7 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 void EconEngine::onUpgradePurchased(int upgradeId)
 {
 
-    // Get the upgrade from the stand Upgrades
+    // Get the upgrade from the stand Upgrades.
     Upgrade* upgrade = game.stand.upgrades[upgradeId];
 
     // Deduct the cost of the upgrade from the player's wallet.
@@ -101,10 +101,10 @@ void EconEngine::runSimulation()
     //		 on any conditions that may have changed.
     game.weights.reputation = 1.50;
 
-    // Calculates demand based on internal states
+    // Calculates demand based on internal states.
     int cupsDemanded = this->calculateDemand();
 
-    // Set the number of cups sold to the number demanded
+    // Set the number of cups sold to the number demanded.
     int cupsMade = game.today().lemonade.pitchers * game.stand.cupsPerPitcher;
     int cupsSold = cupsDemanded;
 
@@ -122,7 +122,7 @@ void EconEngine::runSimulation()
     game.today().demanded = cupsDemanded;
     game.today().income = cupsSold * game.today().lemonade.pricePerCup;
 
-    // Calculate the total cost of the lemonade, and the profit
+    // Calculate the total cost of the lemonade, and the profit.
     game.today().cost   = totalCostOfLemonade();
     game.today().profit = calculateProfit(game.today().cost, game.today().income);
 
@@ -149,9 +149,8 @@ int EconEngine::calculateDemand()
     return result;
 }
 
-void EconEngine::setWeatherPattern(Day* days, int numDays)
+void EconEngine::generateDays(Day* days, int numDays)
 {
-    // TODO: Determine how we want to "randomize" weather patterns.
     for (int i = 0; i < numDays; i++)
     {
         // Skip day if it has already been simulated.
@@ -159,12 +158,39 @@ void EconEngine::setWeatherPattern(Day* days, int numDays)
         {
             continue;
         }
-
-        days[i].temperature = 65;
+        if(i == 14){
+            setDisasterLevel3();
+        }
+        int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
+        game.days[i].weatherState = random;
+        switch(random){
+        case 0:
+            days[i].temperature = 55;
+            break;
+        case 1:
+            days[i].temperature = 25;
+            break;
+        case 2:
+            days[i].temperature = 65;
+            break;
+        case 3:
+            days[i].temperature = 72;
+            break;
+        }
     }
-
     return;
+}
 
+void EconEngine::setDisasterLevel3(){
+    int random = 2 + ( std::rand() % ( 3 - 2 + 1 ) );
+    switch (random){
+    case 1:
+        game.days->disaster = 2;
+        break;
+    case 2:
+        game.days->disaster = 3;
+        break;
+    }
 }
 
 float EconEngine::totalCostOfLemonade()
@@ -175,7 +201,7 @@ float EconEngine::totalCostOfLemonade()
 
     float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
 
-    //calculate cost in relation to number of pitchers.
+    //Calculate cost in relation to number of pitchers.
     totalCostOfIngredients = game.today().lemonade.pitchers * totalCostOfIngredients;
     return totalCostOfIngredients;
 }
