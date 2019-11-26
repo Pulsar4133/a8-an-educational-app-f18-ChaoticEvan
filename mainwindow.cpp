@@ -12,7 +12,7 @@
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    world(b2Vec2 (0.0f, 50.0f))
+    world(b2Vec2 (0.0f, 9.81f))
 
 {
     ui->setupUi(this);
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
     //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
     //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
-    QTimer::singleShot(10,this,&MainWindow::updateWorld);
+    QTimer::singleShot(30,this,&MainWindow::updateWorld);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
     // The body is also added to the world.
-    b2Body* groundBody = world.CreateBody(&groundBodyDef);
+    groundBody = world.CreateBody(&groundBodyDef);
     // Define the ground box shape.
     b2PolygonShape groundBox;
 
@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     QLabel *groundLabel = new QLabel();
     groundLabel->setFixedSize(300, 300);
-    QPixmap groundPix("C:/Users/spenc/CS3505/ClipArtPitcher.png");
+    QPixmap groundPix("/home/ryan/Pitcher.png");
     int gw = groundLabel->width();
     int gh = groundLabel->height();
     layout->addWidget(groundLabel);
@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
+    bodyDef.linearVelocity = b2Vec2(float(rand()) / float(RAND_MAX),0.0f);
     bodyDef.position.Set(120.0f, 0.0f);
     body = world.CreateBody(&bodyDef);
 
@@ -99,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     lemonImage = new QLabel();
     lemonImage->setFixedSize(100, 100);
-    QPixmap lemonPix("C:/Users/spenc/CS3505/lemon image.jpg");
+    QPixmap lemonPix("/home/ryan/lemon.png");
     int w = lemonImage->width();
     int h = lemonImage->height();
 
@@ -109,7 +110,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
     body->SetUserData(lemonImage);
-    body->SetAngularVelocity( -90 * DEGTORAD );
 
 }
 
@@ -119,12 +119,26 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 6, 2);
+    world.Step(1.0f/60.f, 5, 2);
     // Now print the position and angle of the body.
     b2Vec2 position = body->GetPosition();
-    lemonImage->setGeometry(position.x, position.y, 100, 100);
-    emit sigNewPos(position.y*100);
+    b2Vec2 vec(0.0f,0.8f);
+    body->ApplyLinearImpulse(vec,body->GetWorldCenter(),true);
+    lemonImage->setGeometry(position.x, position.y, 0, 100);
     QTimer::singleShot(10,this,&MainWindow::updateWorld);
+}
+
+void MainWindow::collisionCheck(){
+    //Gets edge for body and itertes through each edge
+    for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next){
+        //check if body is in contact with another body
+        if(edge->contact->IsTouching()){
+            //get the fixture
+          if(edge->contact->GetFixtureB()->GetBody() == groundBody){
+                 body->SetActive(false);
+          }
+        }
+    }
 }
 
 void MainWindow::on_startButton_clicked()

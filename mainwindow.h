@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, EconEngine* model = new EconEngine());
     ~MainWindow();
+    void collisionCheck();
 
 signals:
     void sigNewPos(int);
@@ -37,6 +38,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Lemonade* lemonade;
+    b2Body* groundBody;
     b2Body* body;
     b2World world;
     QHBoxLayout* layout;
