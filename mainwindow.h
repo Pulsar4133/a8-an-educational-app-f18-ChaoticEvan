@@ -20,6 +20,9 @@ public:
     MainWindow(QWidget *parent = nullptr, EconEngine* model = new EconEngine());
     ~MainWindow();
     void collisionCheck();
+    void createGroundBody();
+    void createLemonBody();
+    void createPitcherBody();
 
 signals:
     void sigNewPos(int);
@@ -39,7 +42,8 @@ private:
     Ui::MainWindow *ui;
     Lemonade* lemonade;
     b2Body* groundBody;
-    b2Body* body;
+    b2Body* lemonBody;
+    b2Body* pitcherBody;
     b2World world;
     QHBoxLayout* layout;
     QLabel* lemonImage;

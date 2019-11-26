@@ -25,60 +25,45 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
     QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
-
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(10.0f, 100.0f);
-    groundBodyDef.type = b2_staticBody;
-
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-    groundBody = world.CreateBody(&groundBodyDef);
-    // Define the ground box shape.
-    b2PolygonShape groundBox;
-
-    // The extents are the half-widths of the box.
-    groundBox.SetAsBox(375.0f, 5.0f);
-
-    // Add the ground fixture to the ground body.
-    groundBody->CreateFixture(&groundBox, 1.0f);
-
     layout = new QHBoxLayout();
+    createGroundBody();
+    createLemonBody();
+    createPitcherBody();
 
-    b2BodyDef statTestBodyDef;
-    statTestBodyDef.type = b2_dynamicBody;
-    statTestBodyDef.position.Set(0.0f, 0.0f);
+}
 
-    b2Body *statTestBody;
-    statTestBody = world.CreateBody(&statTestBodyDef);
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
 
-    b2PolygonShape testBox;
-    testBox.SetAsBox(1.0f, 1.0f);
-
-    b2FixtureDef testFixDef;
-    testFixDef.shape = &testBox;
-    testFixDef.density = 1.0f;
-    testFixDef.friction = 0.1f;
-    testFixDef.restitution = 0.9f;
-
-    statTestBody->CreateFixture(&testFixDef);
-
-    QLabel *groundLabel = new QLabel();
-    groundLabel->setFixedSize(300, 300);
-    QPixmap groundPix("/home/ryan/Pitcher.png");
-    int gw = groundLabel->width();
-    int gh = groundLabel->height();
-    layout->addWidget(groundLabel);
-    groundLabel->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    statTestBody->SetUserData(groundLabel);
-
+void MainWindow::updateWorld(){
+    world.Step(1.0f/60.f, 4, 1);
+    // Now print the position and angle of the body.
+    b2Vec2 position = lemonBody->GetPosition();
+    b2Vec2 vec(0.0f,0.8f);
+    lemonBody->ApplyLinearImpulse(vec,lemonBody->GetWorldCenter(),true);
+    lemonImage->setGeometry(position.x, position.y, 0, 100);
+    //collisionCheck();
+    QTimer::singleShot(20,this,&MainWindow::updateWorld);
+}
+void MainWindow::createLemonBody(){
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.linearVelocity = b2Vec2(float(rand()) / float(RAND_MAX),0.0f);
-    bodyDef.position.Set(120.0f, 0.0f);
-    body = world.CreateBody(&bodyDef);
+    bodyDef.linearVelocity = b2Vec2(0.0f,1.0f);
+    bodyDef.position.Set(375.0f, 0.0f);
+    lemonBody = world.CreateBody(&bodyDef);
+
+    lemonImage = new QLabel();
+    lemonImage->setFixedSize(50, 50);
+    QPixmap lemonPix("/home/ryan/lemon.png");
+    int w = lemonImage->width();
+    int h = lemonImage->height();
+
+    layout->addWidget(lemonImage);
+    lemWin = new QWidget();
+    lemWin->setLayout(layout);
+    lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
     // Define another box shape for our dynamic body.
     b2PolygonShape dynamicBox;
@@ -96,47 +81,67 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     fixtureDef.restitution = 0.9f;
 
     // Add the shape to the body.
-    body->CreateFixture(&fixtureDef);
+    lemonBody->CreateFixture(&fixtureDef);
 
-    lemonImage = new QLabel();
-    lemonImage->setFixedSize(100, 100);
-    QPixmap lemonPix("/home/ryan/lemon.png");
-    int w = lemonImage->width();
-    int h = lemonImage->height();
-
-    layout->addWidget(lemonImage);
-    lemWin = new QWidget();
-    lemWin->setLayout(layout);
-    lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-
-    body->SetUserData(lemonImage);
-
+    lemonBody->SetUserData(lemonImage);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+void MainWindow::createGroundBody(){
+    // Define the ground body.
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(40.0f, 400.0f);
+    groundBodyDef.type = b2_staticBody;
+
+    // Call the body factory which allocates memory for the ground body
+    // from a pool and creates the ground box shape (also from a pool).
+    // The body is also added to the world.
+    groundBody = world.CreateBody(&groundBodyDef);
+    // Define the ground box shape.
+    b2PolygonShape groundBox;
+
+    // The extents are the half-widths of the box.
+    groundBox.SetAsBox(375.0f, 2.0f);
+
+    // Add the ground fixture to the ground body.
+    groundBody->CreateFixture(&groundBox, 1.0f);
 }
 
-void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 5, 2);
-    // Now print the position and angle of the body.
-    b2Vec2 position = body->GetPosition();
-    b2Vec2 vec(0.0f,0.8f);
-    body->ApplyLinearImpulse(vec,body->GetWorldCenter(),true);
-    lemonImage->setGeometry(position.x, position.y, 0, 100);
-    QTimer::singleShot(10,this,&MainWindow::updateWorld);
+void MainWindow::createPitcherBody(){
+    b2BodyDef statTestBodyDef;
+    statTestBodyDef.type = b2_dynamicBody;
+    statTestBodyDef.position.Set(375.0f, 0.0f);
+
+    QLabel *groundLabel = new QLabel();
+    groundLabel->setFixedSize(150, 150);
+    QPixmap groundPix("/home/ryan/Pitcher.png");
+    int gw = groundLabel->width();
+    int gh = groundLabel->height();
+    layout->addWidget(groundLabel);
+    groundLabel->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+
+    pitcherBody = world.CreateBody(&statTestBodyDef);
+
+    b2PolygonShape testBox;
+    testBox.SetAsBox(gw, gh);
+
+    b2FixtureDef testFixDef;
+    testFixDef.shape = &testBox;
+    testFixDef.density = 1.0f;
+    testFixDef.friction = 0.1f;
+    testFixDef.restitution = 0.9f;
+
+    pitcherBody->CreateFixture(&testFixDef);
+
+    pitcherBody->SetUserData(groundLabel);
 }
 
 void MainWindow::collisionCheck(){
-    //Gets edge for body and itertes through each edge
-    for (b2ContactEdge* edge = body->GetContactList(); edge; edge = edge->next){
+    //Gets edge for body and iterates through each edge
+    for (b2ContactEdge* edge = lemonBody->GetContactList(); edge; edge = edge->next){
         //check if body is in contact with another body
         if(edge->contact->IsTouching()){
-            //get the fixture
-          if(edge->contact->GetFixtureB()->GetBody() == groundBody){
-                 body->SetActive(false);
-          }
+             world.DestroyBody(lemonBody);
         }
     }
 }
