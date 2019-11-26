@@ -18,7 +18,7 @@
  *
  * 		  EconEngine::gameState();
  */
-class EconEngine : public QObject
+class GameModel : public QObject
 {
     Q_OBJECT
 public:
@@ -26,13 +26,13 @@ public:
     /**
      * @brief getInstance Will return the program's EconModel instance.
      */
-    static EconEngine* instance();
+    static GameModel* instance();
 
     /**
      * @brief getState Will provide a read-only reference to the GameState
      * 		  structure of the program's EconModel singleton.
      */
-    static GameState* gameState();
+    static GameState* state();
 
 signals:
     /**
@@ -73,12 +73,12 @@ private:
      * @brief Creates a new EconEngine able to run economic simulations
      * 		  of a lemonade stand.
      */
-    explicit EconEngine(QObject *parent = nullptr);
+    explicit GameModel(QObject *parent = nullptr);
 
     // TODO: Assignment Operator
     // TODO: Copy Constructor
 
-    static EconEngine* m_engineInstance;
+    static GameModel* m_engineInstance;
 
     /**
      * @brief Game contains all of the current game state data, such as

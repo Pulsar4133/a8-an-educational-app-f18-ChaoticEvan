@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include <QTimer>
 
-MainWindow::MainWindow(QWidget *parent, EconEngine* model)
+MainWindow::MainWindow(QWidget *parent, GameModel* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
     world(b2Vec2 (0.0f, -10.0f))
@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
-    QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
-    QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+    QObject::connect(this, &MainWindow::sigStartSimulation, model, &GameModel::onNewDayLemonade);
+    QObject::connect(model, &GameModel::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
 
 
     // Connects the Create Lemonade button to the main window.

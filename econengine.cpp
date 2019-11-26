@@ -5,26 +5,26 @@
 #include "upgrades.h"
 
 // Initialize the instance pointer to null.
-EconEngine* EconEngine::m_engineInstance = NULL;
+GameModel* GameModel::m_engineInstance = NULL;
 
-EconEngine* EconEngine::instance()
+GameModel* GameModel::instance()
 {
     // If an engine instance has not been created yet, do so.
     if (!m_engineInstance)
     {
-        m_engineInstance = new EconEngine();
+        m_engineInstance = new GameModel();
     }
 
     // Return the pointer for the singleton instance of the engine.
     return m_engineInstance;
 }
 
-GameState* EconEngine::gameState()
+GameState* GameModel::state()
 {
-    return &EconEngine::instance()->game;
+    return &GameModel::instance()->game;
 }
 
-EconEngine::EconEngine(QObject *parent) : QObject(parent)
+GameModel::GameModel(QObject *parent) : QObject(parent)
 {
     // SETTLE: Do we want to calculate/randomize game conditions
     //		   at the beginning of the game, in order to give forecasts
@@ -35,7 +35,7 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
 }
 
 
-void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
+void GameModel::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 {
     // Set today's lemonade recipe from the provided recipe.
     game.today().lemonade = newLemonadeRecipe;
@@ -59,7 +59,7 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
     return;
 }
 
-void EconEngine::onNewDayLemonade(Lemonade newLemonade)
+void GameModel::onNewDayLemonade(Lemonade newLemonade)
 {
     // Convert Lemonade to a LemonadeStats struct.
     LemonadeRecipe stats(newLemonade);
@@ -71,7 +71,7 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
     return;
 }
 
-void EconEngine::onUpgradePurchased(int upgradeId)
+void GameModel::onUpgradePurchased(int upgradeId)
 {
 
     // Get the upgrade from the stand Upgrades.
@@ -89,7 +89,7 @@ void EconEngine::onUpgradePurchased(int upgradeId)
     return;
 }
 
-void EconEngine::runSimulation()
+void GameModel::runSimulation()
 {
 
     // TODO: Recalculate ideal lemonade stats,
@@ -135,12 +135,12 @@ void EconEngine::runSimulation()
     return;
 }
 
-float EconEngine::calculateProfit(float cost, float income)
+float GameModel::calculateProfit(float cost, float income)
 {
     return income - cost;
 }
 
-int EconEngine::calculateDemand()
+int GameModel::calculateDemand()
 {
     // TODO: Calculate the demand according to the weights and values of internal variables.
     //       currently
@@ -149,7 +149,7 @@ int EconEngine::calculateDemand()
     return result;
 }
 
-void EconEngine::generateDays(Day* days, int numDays)
+void GameModel::generateDays(Day* days, int numDays)
 {
     for (int i = 0; i < numDays; i++)
     {
@@ -181,7 +181,7 @@ void EconEngine::generateDays(Day* days, int numDays)
     return;
 }
 
-void EconEngine::setDisasterLevel3(){
+void GameModel::setDisasterLevel3(){
     int random = 2 + ( std::rand() % ( 3 - 2 + 1 ) );
     switch (random){
     case 1:
@@ -193,7 +193,7 @@ void EconEngine::setDisasterLevel3(){
     }
 }
 
-float EconEngine::totalCostOfLemonade()
+float GameModel::totalCostOfLemonade()
 {
     float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons;
     float costOfSugar  = game.today().lemonade.sugar * game.world.priceSugar;

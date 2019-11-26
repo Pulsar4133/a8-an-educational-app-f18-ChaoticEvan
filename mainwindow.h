@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr, EconEngine* model = EconEngine::instance());
+    MainWindow(QWidget *parent = nullptr, GameModel* model = GameModel::instance());
     ~MainWindow();
 
 signals:
@@ -37,7 +37,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    GameState& game = *EconEngine::gameState();
+    GameState& game = *GameModel::state();
     Lemonade lemonade;
     b2Body* body;
     b2World world;
