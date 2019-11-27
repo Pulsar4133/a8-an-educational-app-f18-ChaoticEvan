@@ -3,11 +3,19 @@
 
 #include <QObject>
 
+// Forward declare LemonadeRecipe.
+struct LemonadeRecipe;
+
 class Lemonade
 {
 
 public:
     Lemonade(int,int,int,double);
+    Lemonade();
+
+    //Setters and getters.
+    void setRecipe(int, int, int, double);
+    void setRecipe(const LemonadeRecipe recipe);
 
     void setPricePerCup(double pricePerCup);
     double getPricePerCup(){return pricePerCup;}
@@ -24,10 +32,13 @@ public:
     void setNumPitchers(int numPitchers);
     int getNumPitchers(){return numPitchers;}
 
+    //A method to add elements.
     void addOneLemon();
     void addOneSugar();
     void addOneIce();
     void addOnePitcher();
+
+    void reset();
 
 private:
     int sugar;

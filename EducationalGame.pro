@@ -65,7 +65,9 @@ SOURCES += \
     econengine.cpp \
     lemonade.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scrolltext.cpp \
+    upgrades.cpp
 
 HEADERS += \
     Box2D/Box2D.h \
@@ -116,8 +118,12 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    gamestate.h \
     lemonade.h \
-    mainwindow.h
+    mainwindow.h \
+    scrolltext.h \
+    recipe.h \
+    upgrades.h
 
 FORMS += \
     mainwindow.ui
@@ -127,6 +133,27 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+win32: LIBS += -L$$PWD/SFML/lib/ -lsfml-main -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+
+INCLUDEPATH += $$PWD/SFML/include
+DEPENDPATH += $$PWD/SFML/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/sfml-main.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/libsfml-main.a
 DISTFILES += \
     Images/Background Default.png \
-    Images/Background Default.png
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Default.png \
+    Images/Background Overcast.png \
+    Images/Background Overcast.png \
+    Images/Background Rain.png \
+    Images/Background Rain.png \
+    Images/Background Tornado.png \
+    Images/Background Tornado.png \
+    Images/ClipArtPitcher.png \
+    Images/Whale.png \
+    Images/logo.png
+
+RESOURCES += \
+    startImages.qrc

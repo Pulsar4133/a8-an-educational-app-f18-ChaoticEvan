@@ -1,11 +1,12 @@
 #include "Box2D/Box2D.h"
-//#include "lemonade.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTimer>
+#include "scrolltext.h"
+#include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
-#include <iostream>
+#include <QMessageBox>
+#include <QTimer>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -19,10 +20,15 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 {
     ui->setupUi(this);
 
+    // These are UI connections.
     QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
-    //QObject::connect(ui-> startButton, &QPushButton::clicked, model, &EconEngine::onNewDayLemonade);
-    //QObject::connect(model, &EconEngine::sigSimulationComplete, model, );
-    QTimer::singleShot(15,this,&MainWindow::updateWorld);
+
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
+    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
+    QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -90,6 +96,9 @@ void MainWindow::createLemonBody(){
 
     // Add the shape to the body.
     lemonBody->CreateFixture(&fixtureDef);
+
+    // Preloads all .png files
+    loadStartImages();
 }
 ///Creates priv member variable groundBody in box2d.
 /// groundBody defines the ground level for our world.
@@ -155,9 +164,17 @@ void MainWindow::collisionCheck(){
 void MainWindow::on_startButton_clicked()
 {
     ui->welcomeFrame->setVisible(false);
+    ui->dayFrame->setVisible(false);
+    ui->progressFrame->setVisible(true);
+    ui->progressFrame->raise();
 
-    emit sigStartSimulation();
+    this->createLemonade();
+
+    changeNewsText("Welcome to Lemononmics! Beware of whales!");
+  
+    emit sigStartSimulation(this->lemonade);
 }
+
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
 /// \brief MainWindow::createLemonade
@@ -166,36 +183,12 @@ void MainWindow::createLemonade(){
     lemWin->show();
     lemWin->setMinimumWidth(750);
     lemWin->setMinimumHeight(750);
-    lemonade = new Lemonade(ui->LemonSpinBox->value(),ui->sugarSpinBox->value(),ui->iceSpinBox->value(),ui->priceSpinBox->value());
 
+    lemonade.setRecipe(ui->LemonSpinBox->value(),
+                       ui->sugarSpinBox->value(),
+                       ui->iceSpinBox->value(),
+                       ui->priceSpinBox->value());
 
-//    for(int i = 0; i < lemonade->getSugar(); i++)
-//    {
-
-//    }
-//    for(int i = 0; i < lemonade->getLemon(); i++)
-//    {
-
-//    }
-//    for(int i = 0; i < lemonade->getIce(); i++)
-//    {
-
-//    }
-//    for(int i = 0; i < lemonade->getPricePerCup(); i++)
-//    {
-
-//    }
-
-}
-
-
-
-void MainWindow::onGameUpdate(GameState state)
-{
-    ui->profitLabel->setText("Profit: $" + QString::number(state.day->profit));
-    ui->salesLabel->setText("Sales: $" + QString::number(state.day->sales));
-    ui->costLabel->setText("Cost: $" + QString::number(state.day->cost));
-    ui->demandLabel->setText("Demand: " + QString::number(state.day->demanded));
 }
 
 /// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
@@ -204,16 +197,124 @@ void MainWindow::onGameUpdate(GameState state)
 ///
 void MainWindow::on_yesterdayButton_clicked()
 {
-    ui->LemonSpinBox->setValue(lemonade->getLemon());
-    ui->sugarSpinBox->setValue(lemonade->getSugar());
-    ui->iceSpinBox->setValue(lemonade->getIce());
-    ui->priceSpinBox->setValue(lemonade->getPricePerCup());
-    // Keep lemonade on same recipe. Move on.
-    qDebug() << lemonade->getSugar();
-    qDebug() << lemonade->getLemon();
-    qDebug() << lemonade->getIce();
-    qDebug() << lemonade->getPricePerCup();
 
+    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
+    ui->LemonSpinBox->setValue(lemonade.getLemon());
+    ui->sugarSpinBox->setValue(lemonade.getSugar());
+    ui->iceSpinBox->setValue(lemonade.getIce());
+    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+    // Keep lemonade on same recipe. Move on.
+    qDebug() << lemonade.getSugar();
+    qDebug() << lemonade.getLemon();
+    qDebug() << lemonade.getIce();
+    qDebug() << lemonade.getPricePerCup();
+
+}
+
+void MainWindow::updateData()
+{
+    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
+    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
+    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
+    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
+}
+
+///
+/// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
+///
+void MainWindow::redirectKhanAcademy()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
+    msgBox.exec();
+}
+
+void MainWindow::onSimulationComplete()
+{
+    this->updateData();
+    this->animationForDay();
+}
+
+void MainWindow::animationForDay()
+{
+    QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
+    QPixmap defaultImage;
+    // TODO: Update the values for checking crowd tiers
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
+    if(game.yesterday().demanded < 50)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
+        defaultImage = temp;
+    }
+    else if(game.yesterday().demanded < 101)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        defaultImage = temp;
+    }
+    else
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        defaultImage = temp;
+    }
+    ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+}
+
+void MainWindow::loadStartImages()
+{
+    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images.
+    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+
+    // Creates background color and fills with light blue.
+    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
+            startBackground.fill(QColor(47, 191, 235));
+    QPixmap defaultImage(":/img/Images/Background Default.png");
+    QPixmap startLogo(":/img/Images/logo.png");
+
+    // Sets each image to corresponding label.
+    ui->welcomeBackground->setPixmap(startBackground);
+    ui->welcomeLogo->setPixmap(startLogo);
+    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+}
+
+void MainWindow::on_welcomeCheck4_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck4->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck3_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck3->setVisible(false);
+    }
+}
+
+void MainWindow::on_welcomeCheck2_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->welcomeCheck2->setVisible(false);
+    }
+}
+
+void MainWindow::on_day_change(QString scrollText)
+{
+    this->changeNewsText(scrollText);
+}
+
+void MainWindow::changeNewsText(QString scrollText)
+{
+    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
+    ScrollText* news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    layout->addWidget(news);
+    news->setText(scrollText);
 }
 
 
