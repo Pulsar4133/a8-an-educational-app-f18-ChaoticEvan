@@ -47,6 +47,7 @@ private:
     b2World world;
     QHBoxLayout* layout;
     QLabel* lemonImage;
+    QLabel* pitcherImage;
     QWidget *lemWin;
 };
 #endif // MAINWINDOW_H
