@@ -170,7 +170,7 @@ void MainWindow::on_startButton_clicked()
 
     this->createLemonade();
 
-    changeNewsText("Welcome to Lemononmics! Beware of whales!");
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
   
     emit sigStartSimulation(this->lemonade);
 }
