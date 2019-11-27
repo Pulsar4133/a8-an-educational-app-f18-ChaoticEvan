@@ -3,6 +3,9 @@
 #include "Box2D/Box2D.h"
 #include "econengine.h"
 #include "lemonade.h"
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QWidget>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -16,6 +19,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, EconEngine* model = EconEngine::instance());
     ~MainWindow();
+    void collisionCheck();
+    void createGroundBody();
+    void createLemonBody();
+    void createPitcherBody();
 
 signals:
     void sigNewPos(int);
@@ -38,10 +45,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    b2Body* groundBody;
+    b2Body* lemonBody;
+    b2Body* pitcherBody;
+    b2World world;
+    QHBoxLayout* layout;
+    QLabel* lemonImage;
+    QLabel* pitcherImage;
+    QWidget *lemWin;
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
-    b2Body* body;
-    b2World world;
 
     void loadStartImages();
     void updateData();
