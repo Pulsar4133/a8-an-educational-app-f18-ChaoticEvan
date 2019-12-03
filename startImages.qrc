@@ -15,4 +15,7 @@
         <file>Images/Crowd_Levels/Crowd Heavy.png</file>
         <file>Images/Crowd_Levels/Crowd Light.png</file>
     </qresource>
+    <qresource prefix="/txt">
+        <file>textResources/newsStories.txt</file>
+    </qresource>
 </RCC>

@@ -7,6 +7,8 @@
 #include <QGraphicsPixmapItem>
 #include <QMessageBox>
 #include <QTimer>
+#include <QFile>
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
@@ -230,9 +232,17 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
     }
 }
 
-void MainWindow::on_day_change(QString scrollText)
+void MainWindow::on_day_change(QVector<QString>* newsStories)
 {
-    this->changeNewsText(scrollText);
+    QVector<QString>* stories = MainWindow::getNewsStories(":/txt/newsStories.txt");
+
+    QTime now = QTime::currentTime();
+
+    int storyIndex = now.msec() % stories->size();
+
+    QString story = stories->at(storyIndex);
+
+    this->changeNewsText(story);
 }
 
 void MainWindow::changeNewsText(QString scrollText)
@@ -243,4 +253,24 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setFont(font);
     layout->addWidget(news);
     news->setText(scrollText);
+}
+
+QVector<QString>* MainWindow::getNewsStories(QString filePath)
+{
+    QFile storiesFile(filePath);
+    QVector<QString>* storiesArray = new QVector<QString>;
+
+    if(!storiesFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", storiesFile.errorString());
+    }
+
+    QTextStream input(&storiesFile);
+
+    while(!input.atEnd())
+    {
+        QString story = input.readLine();
+        storiesArray->append(story);
+    }
+
+    return storiesArray;
 }

@@ -358,22 +358,27 @@
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>430</y>
+      <y>450</y>
       <width>541</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
-    <widget class="QWidget" name="tab_1">
+    <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Umbrella</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Grapes</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Neon Sign</string>
      </attribute>
     </widget>
    </widget>
@@ -546,10 +551,10 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
+   <zorder>upgradesWidget</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>progressFrame</zorder>
-   <zorder>upgradesWidget</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>
