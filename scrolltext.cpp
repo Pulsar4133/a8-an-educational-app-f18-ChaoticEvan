@@ -49,7 +49,7 @@ void ScrollText::updateText()
     singleTextWidth = fontMetrics().width(text);
     timer.start();
     scrollPos = 0;
-    staticText.setText(seperator + text);
+    staticText.setText(text);
     staticText.prepare(QTransform(), font());
     wholeTextSize = QSize(fontMetrics().width(staticText.text()), fontMetrics().height());
 }
