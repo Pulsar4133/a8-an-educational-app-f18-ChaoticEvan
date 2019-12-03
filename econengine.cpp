@@ -185,15 +185,19 @@ void EconEngine::generateDays(Day* days, int numDays)
         game.days[i].weatherState = random;
         switch(random){
         case 0:
+            //Rainy weather
             days[i].temperature = 55;
             break;
         case 1:
+            //Snowy weather
             days[i].temperature = 25;
             break;
         case 2:
+            //Cloudy weather
             days[i].temperature = 65;
             break;
         case 3:
+            //Sunny weather
             days[i].temperature = 72;
             break;
         }
