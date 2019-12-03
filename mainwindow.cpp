@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->setupUi(this);
 
     // These are UI connections.
-    QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
 
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
@@ -237,17 +236,40 @@ void MainWindow::onSimulationComplete()
 
 void MainWindow::animationForDay()
 {
+    QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+    QPixmap background;
+    if (game.yesterday().weatherState == 0)
+    {
+        //Rainy weather
+        QPixmap backgroundTemp(":/img/Images/Background Rain.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 1)
+    {
+        //Snowy weather
+        QPixmap backgroundTemp(":/img/Images/Background Snow.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 2)
+    {
+        //Cloudy weather
+        QPixmap backgroundTemp(":/img/Images/Background Overcast.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 3)
+    {
+        //Sunny weather
+        QPixmap backgroundTemp(":/img/Images/Background Default.png");
+        background = backgroundTemp;
+    }
+    ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
-    // TODO: Update the values for checking crowd tiers
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
-    if(game.yesterday().demanded < 50)
+    if(game.yesterday().demanded < 44)
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
     }
-    else if(game.yesterday().demanded < 101)
+    else if(game.yesterday().demanded < 74)
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
