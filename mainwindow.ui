@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>177</height>
+       <height>192</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -253,6 +253,19 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="calendarLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1061</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="graphsFrame">
      <property name="geometry">
@@ -547,10 +560,10 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
+   <zorder>progressFrame</zorder>
    <zorder>upgradesWidget</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
-   <zorder>progressFrame</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>

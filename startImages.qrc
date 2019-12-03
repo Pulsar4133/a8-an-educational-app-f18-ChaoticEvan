@@ -15,6 +15,12 @@
         <file>Images/Crowd_Levels/Crowd Heavy.png</file>
         <file>Images/Crowd_Levels/Crowd Light.png</file>
         <file>Images/Background Snow.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek1Short.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek1Tall.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek2Short.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek2Tall.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek3Short.png</file>
+        <file>Images/Calendars/lemonomicsCalendarWeek3Tall.png</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
