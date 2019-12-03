@@ -42,6 +42,7 @@ private slots:
     void on_welcomeCheck2_clicked(bool checked);
 
     void on_day_change(QString scrollText);
+    void on_progress_start();
 
 private:
     Ui::MainWindow *ui;
@@ -60,5 +61,6 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    QVector<QString>* getNewsStories(QString filePath);
 };
 #endif // MAINWINDOW_H

@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>177</height>
+       <height>192</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -253,6 +253,19 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="calendarLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1061</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QFrame" name="graphsFrame">
      <property name="geometry">
@@ -354,22 +367,27 @@
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>430</y>
+      <y>450</y>
       <width>541</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
-    <widget class="QWidget" name="tab_1">
+    <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Umbrella</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Grapes</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Neon Sign</string>
      </attribute>
     </widget>
    </widget>
@@ -542,10 +560,10 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
-   <zorder>simulationFrame</zorder>
-   <zorder>ingredientsFrame</zorder>
    <zorder>progressFrame</zorder>
    <zorder>upgradesWidget</zorder>
+   <zorder>simulationFrame</zorder>
+   <zorder>ingredientsFrame</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
   </widget>

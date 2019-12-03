@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createGroundBody();
     createLemonBody();
     createPitcherBody();
-
 }
 
 MainWindow::~MainWindow()
@@ -280,6 +279,29 @@ void MainWindow::animationForDay()
         defaultImage = temp;
     }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+}
+
+void MainWindow::on_progress_start()
+{
+    QPixmap calendar;
+    if (game.currentDate <= 5)
+    {
+        QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
+        calendar = calendarImage;
+    }
+    else if (game.currentDate > 5 && game.currentDate <= 10)
+    {
+        QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
+        calendar = calendarImage;
+    }
+    else
+    {
+        QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
+        calendar = calendarImage;
+    }
+    int width = ui->calendarLabel->width();
+    int height = ui->calendarLabel->height();
+    ui->calendarLabel->setPixmap(calendar.scaled(width, height, Qt::IgnoreAspectRatio));
 }
 
 void MainWindow::loadStartImages()
