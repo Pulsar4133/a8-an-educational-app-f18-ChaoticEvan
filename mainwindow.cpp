@@ -7,19 +7,21 @@
 #include <QGraphicsPixmapItem>
 #include <QMessageBox>
 #include <QTimer>
-#include <QFile>
-#include <QTime>
+
+#define DEGTORAD 0.0174532925199432957f
+#define WIDTH 25
+#define HEIGHT 40
 
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    world(b2Vec2 (0.0f, -10.0f))
+    world(b2Vec2 (0.0f, 9.81f))
 
 {
     ui->setupUi(this);
 
     // These are UI connections.
-    QObject::connect(ui->startButton, &QPushButton::pressed, this, &MainWindow::on_startButton_clicked);
+
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
@@ -30,64 +32,132 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
     QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
+    layout = new QHBoxLayout();
+    createGroundBody();
+    createLemonBody();
+    createPitcherBody();
 
-
-    // Define the ground body.
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0f, -10.0f);
-
-    // Call the body factory which allocates memory for the ground body
-    // from a pool and creates the ground box shape (also from a pool).
-    // The body is also added to the world.
-    b2Body* groundBody = world.CreateBody(&groundBodyDef);
-    // Define the ground box shape.
-            b2PolygonShape groundBox;
-
-            // The extents are the half-widths of the box.
-            groundBox.SetAsBox(50.0f, 10.0f);
-
-            // Add the ground fixture to the ground body.
-            groundBody->CreateFixture(&groundBox, 0.0f);
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(0.0f, 4.0f);
-    body = world.CreateBody(&bodyDef);
-
-    // Define another box shape for our dynamic body.
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);
-
-    // Define the dynamic body fixture.
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-
-    // Set the box density to be non-zero, so it will be dynamic.
-    fixtureDef.density = 1.0f;
-
-    // Override the default friction.
-    fixtureDef.friction = 0.3f;
-    fixtureDef.restitution = 0.9f;
-
-    // Add the shape to the body.
-    body->CreateFixture(&fixtureDef);
-
-    // Preloads all .png files
-    loadStartImages();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+///Performs a simulation step for box2d world.
+/// Updating the position & velocity of all bodies in the world.
+/// \brief MainWindow::updateWorld
+///
 void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 6, 2);
+    world.Step(1.0f/60.f, 4, 1);
+    //Get position of bodies to update QLabel image positions
+    b2Vec2 position = lemonBody->GetPosition();
+    b2Vec2 pitchPos = pitcherBody->GetPosition();
+     //move images with bodies to visually test
+    //height & width is fixed so updating the two will not change the Qlabel
+    lemonImage->setGeometry(position.x, position.y, 0, 0);
+    pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
 
-    // Now print the position and angle of the body.
-    b2Vec2 position = body->GetPosition();
-    emit sigNewPos(position.y*100);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    //check for collision of bodies
+    collisionCheck();
+    QTimer::singleShot(15,this,&MainWindow::updateWorld);
+}
+///Creates priv member variable lemonBody in box2d.
+/// lemonBody defines a lemon being dropped in our world.
+/// \brief MainWindow::createLemonBody
+///
+void MainWindow::createLemonBody(){
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(375.0f, 0.0f);
+    lemonBody = world.CreateBody(&bodyDef);
+
+    //Qlabel created purely for visually testing lemonBody.
+    lemonImage = new QLabel();
+    lemonImage->setFixedSize(50, 50);
+    QPixmap lemonPix("/home/ryan/lemon.png");
+    int w = lemonImage->width();
+    int h = lemonImage->height();
+    layout->addWidget(lemonImage);
+    lemWin = new QWidget();
+    lemWin->setLayout(layout);
+    lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+
+    // Define box shape for dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(WIDTH/2, HEIGHT/2);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
+
+    // Add the shape to the body.
+    lemonBody->CreateFixture(&fixtureDef);
+
+    // Preloads all .png files
+    loadStartImages();
+}
+///Creates priv member variable groundBody in box2d.
+/// groundBody defines the ground level for our world.
+/// \brief MainWindow::createGroundBody
+///
+void MainWindow::createGroundBody(){
+
+    // Define the ground body.
+    b2BodyDef groundBodyDef;
+    groundBodyDef.position.Set(40.0f, 300.0f);
+    groundBodyDef.type = b2_staticBody;
+    groundBody = world.CreateBody(&groundBodyDef);
+
+    // Define the ground box shape.
+    b2PolygonShape groundBox;
+    groundBox.SetAsBox(375.0f, 2.0f);
+
+    // Add the ground fixture to the ground body.
+    groundBody->CreateFixture(&groundBox, 1.0f);
+
+}
+///Creates priv member variable pitcherBody in box2d.
+/// pitcherBody defines a static body placed on groundBody.
+/// \brief MainWindow::createPitcherBody
+///
+void MainWindow::createPitcherBody(){
+    b2BodyDef statTestBodyDef;
+    statTestBodyDef.type = b2_staticBody;
+    statTestBodyDef.position.Set(375.0f, 300.0f);
+    pitcherBody = world.CreateBody(&statTestBodyDef);
+
+    //Qlabel created purely for visually testing pitcherBody.
+    pitcherImage = new QLabel();
+    pitcherImage->setFixedSize(100, 100);
+    QPixmap groundPix("/home/ryan/Pitcher.png");
+    int gw = pitcherImage->width();
+    int gh = pitcherImage->height();
+    layout->addWidget(pitcherImage);
+    pitcherImage->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+    // Define the pitcher box shape.
+    b2PolygonShape testBox;
+    testBox.SetAsBox(WIDTH/2, HEIGHT/2);
+
+    pitcherBody->CreateFixture(&testBox,1.0f);
+}
+
+///Checks for the collision of a body with another body
+/// using the edges of bodies to detect collision.
+/// \brief MainWindow::collisionCheck
+///
+void MainWindow::collisionCheck(){
+    //Gets edge for body and iterates through each edge
+    for (b2ContactEdge* edge = lemonBody->GetContactList(); edge; edge = edge->next){
+        //check if body is in contact with another body
+        if(edge->contact->IsTouching()){
+            lemonImage->setPixmap(QPixmap());
+             world.DestroyBody(lemonBody);
+        }
+    }
 }
 
 void MainWindow::on_startButton_clicked()
@@ -99,7 +169,7 @@ void MainWindow::on_startButton_clicked()
 
     this->createLemonade();
 
-    changeNewsText("Welcome to Lemononmics! Beware of whales!");
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
   
     emit sigStartSimulation(this->lemonade);
 }
@@ -109,15 +179,14 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
+    lemWin->show();
+    lemWin->setMinimumWidth(750);
+    lemWin->setMinimumHeight(750);
+
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
                        ui->priceSpinBox->value());
-    //Debug info produced below for testing.
-    qDebug() << lemonade.getSugar();
-    qDebug() << lemonade.getLemon();
-    qDebug() << lemonade.getIce();
-    qDebug() << lemonade.getPricePerCup();
 
 }
 
@@ -167,17 +236,40 @@ void MainWindow::onSimulationComplete()
 
 void MainWindow::animationForDay()
 {
+    QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+    QPixmap background;
+    if (game.yesterday().weatherState == 0)
+    {
+        //Rainy weather
+        QPixmap backgroundTemp(":/img/Images/Background Rain.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 1)
+    {
+        //Snowy weather
+        QPixmap backgroundTemp(":/img/Images/Background Snow.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 2)
+    {
+        //Cloudy weather
+        QPixmap backgroundTemp(":/img/Images/Background Overcast.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == 3)
+    {
+        //Sunny weather
+        QPixmap backgroundTemp(":/img/Images/Background Default.png");
+        background = backgroundTemp;
+    }
+    ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
-    // TODO: Update the values for checking crowd tiers
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
-    if(game.yesterday().demanded < 50)
+    if(game.yesterday().demanded < 44)
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
     }
-    else if(game.yesterday().demanded < 101)
+    else if(game.yesterday().demanded < 74)
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
@@ -232,17 +324,9 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
     }
 }
 
-void MainWindow::on_day_change(QVector<QString>* newsStories)
+void MainWindow::on_day_change(QString scrollText)
 {
-    QVector<QString>* stories = MainWindow::getNewsStories(":/txt/newsStories.txt");
-
-    QTime now = QTime::currentTime();
-
-    int storyIndex = now.msec() % stories->size();
-
-    QString story = stories->at(storyIndex);
-
-    this->changeNewsText(story);
+    this->changeNewsText(scrollText);
 }
 
 void MainWindow::changeNewsText(QString scrollText)
@@ -255,22 +339,4 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
-QVector<QString>* MainWindow::getNewsStories(QString filePath)
-{
-    QFile storiesFile(filePath);
-    QVector<QString>* storiesArray = new QVector<QString>;
 
-    if(!storiesFile.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(0, "error", storiesFile.errorString());
-    }
-
-    QTextStream input(&storiesFile);
-
-    while(!input.atEnd())
-    {
-        QString story = input.readLine();
-        storiesArray->append(story);
-    }
-
-    return storiesArray;
-}
