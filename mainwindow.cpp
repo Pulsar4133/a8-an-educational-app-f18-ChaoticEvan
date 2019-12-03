@@ -33,10 +33,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
     QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
-    layout = new QHBoxLayout();
     createGroundBody();
-    createLemonBody();
-    createPitcherBody();
 
 }
 
@@ -75,12 +72,13 @@ void MainWindow::createLemonBody(){
     //Qlabel created purely for visually testing lemonBody.
     lemonImage = new QLabel();
     lemonImage->setFixedSize(50, 50);
-    QPixmap lemonPix("/home/ryan/lemon.png");
+    QPixmap lemonPix(":/img/Images/lemon.png");
     int w = lemonImage->width();
     int h = lemonImage->height();
-    layout->addWidget(lemonImage);
-    lemWin = new QWidget();
-    lemWin->setLayout(layout);
+
+
+   // lemWin = new QWidget();
+   // lemWin->setLayout(layout);
     lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 
     // Define box shape for dynamic body.
@@ -169,6 +167,8 @@ void MainWindow::on_startButton_clicked()
     ui->progressFrame->raise();
 
     this->createLemonade();
+    createLemonBody();
+    createPitcherBody();
 
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
   
@@ -180,9 +180,6 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
-    lemWin->show();
-    lemWin->setMinimumWidth(750);
-    lemWin->setMinimumHeight(750);
 
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
