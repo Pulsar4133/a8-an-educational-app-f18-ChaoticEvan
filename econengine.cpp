@@ -140,9 +140,10 @@ float EconEngine::calculateProfit(float cost, float income)
 
 int EconEngine::calculateDemand()
 {
-    int result;
+    int result = 75; //Default have it max demand (without upgrades).
 
     int temp = game.days->temperature;
+    //Switched based off of the temperature.
     switch(temp){
     case 55:
         result = 20;
@@ -161,7 +162,7 @@ int EconEngine::calculateDemand()
     result += int(round(game.weights.marketing));
     result += int(round(game.weights.reputation));
 
-    //the max to result is 100, upgrades, the max is 75.
+    //The max to result is 100 with upgrades.
     if (result > 100){
         result == 100;
     }
@@ -181,23 +182,29 @@ void EconEngine::generateDays(Day* days, int numDays)
         if(i == 14){
             setDisasterLevel3();
         }
+        else if(i == 9){ //Tornado disaster.
+            game.days ->disaster = 1;
+        }
+        else{ //No Disaster
+            game.days -> disaster = 0;
+        }
         int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
         game.days[i].weatherState = random;
         switch(random){
         case 0:
-            //Rainy weather
+            //Rainy weather.
             days[i].temperature = 55;
             break;
         case 1:
-            //Snowy weather
+            //Snowy weather.
             days[i].temperature = 25;
             break;
         case 2:
-            //Cloudy weather
+            //Cloudy weather.
             days[i].temperature = 65;
             break;
         case 3:
-            //Sunny weather
+            //Sunny weather.
             days[i].temperature = 72;
             break;
         }
@@ -209,9 +216,11 @@ void EconEngine::setDisasterLevel3(){
     int random = 2 + ( std::rand() % ( 3 - 2 + 1 ) );
     switch (random){
     case 1:
+        //Duck Disaster
         game.days->disaster = 2;
         break;
     case 2:
+        //Whale Disaster
         game.days->disaster = 3;
         break;
     }
