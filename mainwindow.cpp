@@ -241,12 +241,12 @@ void MainWindow::animationForDay()
     if (game.yesterday().weatherState == 0)
     {
         //Rainy weather
-        QPixmap backgroundTemp(":/img/Images/Background Rainy.png");
+        QPixmap backgroundTemp(":/img/Images/Background Rain.png");
         background = backgroundTemp;
     } else if (game.yesterday().weatherState == 1)
     {
         //Snowy weather
-        QPixmap backgroundTemp(":/img/Images/Background Rainy.png");
+        QPixmap backgroundTemp(":/img/Images/Background Snow.png");
         background = backgroundTemp;
     } else if (game.yesterday().weatherState == 2)
     {
@@ -256,7 +256,7 @@ void MainWindow::animationForDay()
     } else if (game.yesterday().weatherState == 3)
     {
         //Sunny weather
-        QPixmap backgroundTemp(":/img/Images/Weather_Images/Background Default.png");
+        QPixmap backgroundTemp(":/img/Images/Background Default.png");
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));

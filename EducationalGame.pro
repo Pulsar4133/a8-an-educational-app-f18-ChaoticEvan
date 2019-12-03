@@ -149,6 +149,7 @@ DISTFILES += \
     Images/Background Overcast.png \
     Images/Background Rain.png \
     Images/Background Rain.png \
+    Images/Background Snow.png \
     Images/Background Tornado.png \
     Images/Background Tornado.png \
     Images/ClipArtPitcher.png \
