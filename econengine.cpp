@@ -2,6 +2,7 @@
   * This class is mimicing a "model".
   */
 #include "econengine.h"
+#include <math.h>
 #include "upgrades.h"
 
 // Initialize the instance pointer to null.
@@ -139,9 +140,31 @@ float EconEngine::calculateProfit(float cost, float income)
 
 int EconEngine::calculateDemand()
 {
-    // TODO: Calculate the demand according to the weights and values of internal variables.
-    //       currently
-    int result = 100;
+    int result;
+
+    int temp = game.days->temperature;
+    switch(temp){
+    case 55:
+        result = 20;
+        break;
+    case 25:
+        result = 10;
+        break;
+    case 65:
+        result = 60;
+        break;
+    case 72:
+        result = 75;
+        break;
+    }
+
+    result += int(round(game.weights.marketing));
+    result += int(round(game.weights.reputation));
+
+    //the max to result is 100, upgrades, the max is 75.
+    if (result > 100){
+        result == 100;
+    }
 
     return result;
 }
