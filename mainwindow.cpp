@@ -373,6 +373,40 @@ void MainWindow::changeNewsText(QString scrollText)
 
 void MainWindow::image_scroll()
 {
+    int x = ui->crowdLabel->x();
+    int y = ui->crowdLabel->y();
+    int width = ui->crowdLabel->width();
+    int height = ui->crowdLabel->height();
+    int demand = game.yesterday().demanded;
+
+    // how much the crowd moves per interval
+    x += 25;
+
+    // Moves label and updates crowd image
+    ui->crowdLabel->setGeometry(x, y, width, height);
+    if (demand < 44)
+    {
+        QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
+        ui->crowdLabel->setPixmap(lightCrowd);
+    }
+    else if (demand < 74)
+    {
+        QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        ui->crowdLabel->setPixmap(mediumCrowd);
+    }
+    else
+    {
+        QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        ui->crowdLabel->setPixmap(heavyCrowd);
+    }
+
+    // Once label is completely off screen, resets label position and stops timer.
+    if (x > width)
+    {
+        crowdTimer.stop();
+        ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
+    }
+}
   
 void MainWindow::closeDialogClosed(int i)
 {
@@ -448,39 +482,4 @@ void MainWindow::iceSpinBox_valueChanged()
 void MainWindow::sugarSpinBox_valueChanged()
 {
     updateIngredientsFrameCost();
-}
-
-    int x = ui->crowdLabel->x();
-    int y = ui->crowdLabel->y();
-    int width = ui->crowdLabel->width();
-    int height = ui->crowdLabel->height();
-    int demand = game.yesterday().demanded;
-
-    // how much the crowd moves per interval
-    x += 25;
-
-    // Moves label and updates crowd image
-    ui->crowdLabel->setGeometry(x, y, width, height);
-    if (demand < 44)
-    {
-        QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
-        ui->crowdLabel->setPixmap(lightCrowd);
-    }
-    else if (demand < 74)
-    {
-        QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
-        ui->crowdLabel->setPixmap(mediumCrowd);
-    }
-    else
-    {
-        QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
-        ui->crowdLabel->setPixmap(heavyCrowd);
-    }
-
-    // Once label is completely off screen, resets label position and stops timer.
-    if (x > width)
-    {
-        crowdTimer.stop();
-        ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
-    }
 }
