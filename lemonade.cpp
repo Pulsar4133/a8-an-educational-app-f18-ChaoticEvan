@@ -22,6 +22,15 @@ Lemonade::Lemonade()
     reset();
 }
 
+Lemonade::Lemonade(Lemonade *lemonade)
+{
+    this->lemon = lemonade->lemon;
+    this->ice = lemonade->ice;
+    this->sugar = lemonade->sugar;
+    this->pricePerCup = lemonade->pricePerCup;
+    this->numPitchers = lemonade->numPitchers;
+}
+
 void Lemonade::setRecipe(int lemons, int sugar, int ice, double price)
 {
     this->lemon = lemons;
