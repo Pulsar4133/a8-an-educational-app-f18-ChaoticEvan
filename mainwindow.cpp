@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::start_image_scroll);
-    QObject::connect(this, &MainWindow::sigDayComplete, this, &MainWindow::onSimulationComplete);
+//    QObject::connect(this, &MainWindow::sigDayComplete, this, &MainWindow::onSimulationComplete);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -269,16 +269,19 @@ void MainWindow::animationForDay()
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
+        currentCrowd = 1;
     }
     else if(game.yesterday().demanded < 74)
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
+        currentCrowd = 2;
     }
     else
     {
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
         defaultImage = temp;
+        currentCrowd = 3;
     }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     crowdTimer.start();
@@ -372,13 +375,31 @@ void MainWindow::start_image_scroll()
     int width = ui->crowdLabel->width();
     int height = ui->crowdLabel->height();
 
-    if (x >= width)
-    {
-        crowdTimer.stop();
-        emit sigDayComplete();
-    }
-
     x = x + 5;
 
     ui->crowdLabel->setGeometry(x, y, width, height);
+
+    QRect dimensions(1200, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
+    if (currentCrowd == 1)
+    {
+        QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
+        ui->crowdLabel->setPixmap(lightCrowd.copy(dimensions));
+    }
+    else if (currentCrowd == 2)
+    {
+        QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        ui->crowdLabel->setPixmap(mediumCrowd.copy(dimensions));
+    }
+    else
+    {
+        QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        ui->crowdLabel->setPixmap(heavyCrowd.copy(dimensions));
+    }
+
+    if (x >= width)
+    {
+        crowdTimer.stop();
+        ui->crowdLabel->setGeometry(-25, 450, 1147, 369);
+        emit sigDayComplete();
+    }
 }

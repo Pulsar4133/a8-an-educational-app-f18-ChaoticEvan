@@ -61,6 +61,7 @@ private:
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
+    int currentCrowd;
 
     void loadStartImages();
     void updateData();
