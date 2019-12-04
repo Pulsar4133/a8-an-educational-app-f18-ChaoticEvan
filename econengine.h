@@ -67,6 +67,8 @@ public slots:
      */
     void onUpgradePurchased(int upgradeId);
 
+    void onUpgradeWallet(int price);
+
 private:
 
     /**

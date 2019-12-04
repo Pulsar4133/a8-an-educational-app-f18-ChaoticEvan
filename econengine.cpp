@@ -115,6 +115,14 @@ void EconEngine::runSimulation()
         game.today().soldOut = true;
     }
 
+    //TODO put in upgrades code here:
+        game.stand.upgrades;
+//        #include <QMediaPlayer>
+//    QMediaPlayer *noise = new QMediaPlayer();
+//    noise ->setMedia(QUrl("qrc:/new/sounds/ba.mp3"));
+//    noise ->play();
+
+
     // Set the status of today's cups sold, cups demanded, and income.
     game.today().sales = cupsSold;
     game.today().demanded = cupsDemanded;
@@ -237,4 +245,9 @@ float EconEngine::totalCostOfLemonade()
     //Calculate cost in relation to number of pitchers.
     totalCostOfIngredients = game.today().lemonade.pitchers * totalCostOfIngredients;
     return totalCostOfIngredients;
+}
+
+void EconEngine::onUpgradeWallet(int price)
+{
+    game.stand.wallet -= price;
 }

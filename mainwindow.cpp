@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+    QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradeWallet);
 
 
     // Connects the Create Lemonade button to the main window.
@@ -361,4 +362,42 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+void MainWindow::on_BuyUmbrella_clicked()
+{
+    emit updateWallet(2000);
+}
 
+void MainWindow::on_BuyPitcher_clicked()
+{
+    emit updateWallet(250);
+}
+
+void MainWindow::on_BuyGrapes_clicked()
+{
+    emit updateWallet(2000);
+}
+
+void MainWindow::on_BuyBoomBox_clicked()
+{
+    emit updateWallet(75);
+}
+
+void MainWindow::on_BuySugar_clicked()
+{
+    emit updateWallet(150);
+}
+
+void MainWindow::on_BuyLemons_clicked()
+{
+    emit updateWallet(150);
+}
+
+void MainWindow::on_BuyNeonSIgn_clicked()
+{
+    emit updateWallet(75);
+}
+
+void MainWindow::on_BuyInsurance_clicked()
+{
+    emit updateWallet(250);
+}

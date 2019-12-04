@@ -27,6 +27,7 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
+    void updateWallet(int price);
 
 public slots:
     void updateWorld();
@@ -43,6 +44,22 @@ private slots:
 
     void on_day_change(QString scrollText);
     void on_progress_start();
+
+    void on_BuyUmbrella_clicked();
+
+    void on_BuyPitcher_clicked();
+
+    void on_BuyGrapes_clicked();
+
+    void on_BuyBoomBox_clicked();
+
+    void on_BuySugar_clicked();
+
+    void on_BuyLemons_clicked();
+
+    void on_BuyNeonSIgn_clicked();
+
+    void on_BuyInsurance_clicked();
 
 private:
     Ui::MainWindow *ui;
