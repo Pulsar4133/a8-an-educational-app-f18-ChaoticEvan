@@ -8,6 +8,8 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QTimer>
+#include "ui_endGameDialog.h"
+#include "endgamedialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +30,7 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
+    void openEndDialog();
 
 public slots:
     void updateWorld();
@@ -47,8 +50,19 @@ private slots:
     void image_scroll();
 
 
+    void closeGame();
+    void closeDialogClosed(int i);
+
+    void lemonSpinBox_valueChanged();
+
+    void iceSpinBox_valueChanged();
+
+    void sugarSpinBox_valueChanged();
+
 private:
     Ui::MainWindow *ui;
+    Ui::endgamedialog egd;
+    QDialog egPopup;
     b2Body* groundBody;
     b2Body* lemonBody;
     b2Body* pitcherBody;
@@ -67,5 +81,8 @@ private:
     void animationForDay();
     QVector<QString>* getNewsStories(QString filePath);
 
+    void openEndGameDialog();
+    double uiLemonadeCurrCost();
+    void updateIngredientsFrameCost();
 };
 #endif // MAINWINDOW_H

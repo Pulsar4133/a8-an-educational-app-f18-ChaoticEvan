@@ -12,6 +12,7 @@ class Lemonade
 public:
     Lemonade(int,int,int,double);
     Lemonade();
+    Lemonade(Lemonade *lemonade);
 
     //Setters and getters.
     void setRecipe(int, int, int, double);
