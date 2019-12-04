@@ -373,21 +373,46 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
       <string>Umbrella</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="BigPitcherUpgrade">
      <attribute name="title">
       <string>Grapes</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="GrapesUpgrade">
      <attribute name="title">
       <string>Neon Sign</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="BoomBoxUpgrade">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="SugarDealerUpgrade">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="OrganicLemonUpgrade">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="NeonSignUpgrade">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="InsuranceUpgrade">
+     <attribute name="title">
+      <string>Page</string>
      </attribute>
     </widget>
    </widget>
@@ -573,7 +598,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
