@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
-
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::start_image_scroll);
+    QObject::connect(this, &MainWindow::sigDayComplete, this, &MainWindow::onSimulationComplete);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createGroundBody();
     createLemonBody();
     createPitcherBody();
+    crowdTimer.setInterval(50);
 }
 
 MainWindow::~MainWindow()
@@ -259,7 +261,7 @@ void MainWindow::animationForDay()
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
-    QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
+    QRect dimensions(1200, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
@@ -279,6 +281,7 @@ void MainWindow::animationForDay()
         defaultImage = temp;
     }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+    crowdTimer.start();
 }
 
 void MainWindow::on_progress_start()
@@ -361,4 +364,21 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+void MainWindow::start_image_scroll()
+{
 
+    int x = ui->crowdLabel->x();
+    int y = ui->crowdLabel->y();
+    int width = ui->crowdLabel->width();
+    int height = ui->crowdLabel->height();
+
+    if (x >= width)
+    {
+        crowdTimer.stop();
+        emit sigDayComplete();
+    }
+
+    x = x + 5;
+
+    ui->crowdLabel->setGeometry(x, y, width, height);
+}

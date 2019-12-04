@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QWidget>
 #include <QMainWindow>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +28,7 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
+    void sigDayComplete();
 
 public slots:
     void updateWorld();
@@ -43,6 +45,8 @@ private slots:
 
     void on_day_change(QString scrollText);
     void on_progress_start();
+    void start_image_scroll();
+
 
 private:
     Ui::MainWindow *ui;
@@ -56,11 +60,13 @@ private:
     QWidget *lemWin;
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
+    QTimer crowdTimer;
 
     void loadStartImages();
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
     QVector<QString>* getNewsStories(QString filePath);
+
 };
 #endif // MAINWINDOW_H
