@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QWidget>
 #include <QMainWindow>
+#include <QTimer>
 #include "ui_endGameDialog.h"
 #include "endgamedialog.h"
 
@@ -46,6 +47,8 @@ private slots:
 
     void on_day_change(QString scrollText);
     void on_progress_start();
+    void image_scroll();
+
 
     void closeGame();
     void closeDialogClosed(int i);
@@ -70,12 +73,14 @@ private:
     QWidget *lemWin;
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
+    QTimer crowdTimer;
 
     void loadStartImages();
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
     QVector<QString>* getNewsStories(QString filePath);
+
     void openEndGameDialog();
     double uiLemonadeCurrCost();
     void updateIngredientsFrameCost();
