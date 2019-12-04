@@ -190,6 +190,8 @@ void MainWindow::on_startButton_clicked()
 
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
   
+    ui->startButton->setEnabled(false);
+
     emit sigStartSimulation(this->lemonade);
 }
 
@@ -207,6 +209,7 @@ void MainWindow::createLemonade(){
                        ui->iceSpinBox->value(),
                        ui->priceSpinBox->value());
 
+    ui->startButton->setEnabled(true);
 }
 
 /// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
@@ -215,18 +218,13 @@ void MainWindow::createLemonade(){
 ///
 void MainWindow::on_yesterdayButton_clicked()
 {
-    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
     ui->LemonSpinBox->setValue(lemonade.getLemon());
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
     updateIngredientsFrameCost();
-    // Keep lemonade on same recipe. Move on.
-    qDebug() << lemonade.getSugar();
-    qDebug() << lemonade.getLemon();
-    qDebug() << lemonade.getIce();
-    qDebug() << lemonade.getPricePerCup();
 
+    ui->startButton->setEnabled(true);
 }
 
 void MainWindow::updateData()
