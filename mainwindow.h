@@ -44,7 +44,7 @@ private slots:
 
     void on_day_change(QString scrollText);
     void on_progress_start();
-    void start_image_scroll();
+    void image_scroll();
 
 
 private:

@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
-    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::start_image_scroll);
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Time between crowd image being updated
     crowdTimer.setInterval(50);
+
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
 }
 
 MainWindow::~MainWindow()
@@ -171,7 +173,7 @@ void MainWindow::on_startButton_clicked()
 
     this->createLemonade();
 
-    changeNewsText("Welcome to Lemonomics! Beware of whales!");
+  //  changeNewsText();
   
     emit sigStartSimulation(this->lemonade);
 }
@@ -347,7 +349,7 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
-void MainWindow::start_image_scroll()
+void MainWindow::image_scroll()
 {
 
     int x = ui->crowdLabel->x();
