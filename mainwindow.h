@@ -28,7 +28,6 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
-    void sigDayComplete();
 
 public slots:
     void updateWorld();
@@ -61,7 +60,6 @@ private:
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
-    int currentCrowd;
 
     void loadStartImages();
     void updateData();

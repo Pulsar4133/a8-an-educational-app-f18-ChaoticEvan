@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::start_image_scroll);
-//    QObject::connect(this, &MainWindow::sigDayComplete, this, &MainWindow::onSimulationComplete);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -37,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createGroundBody();
     createLemonBody();
     createPitcherBody();
+
+    // Time between crowd image being updated
     crowdTimer.setInterval(50);
 }
 
@@ -261,29 +262,8 @@ void MainWindow::animationForDay()
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
-    QRect dimensions(1200, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
-    QPixmap defaultImage;
-    // We have to create a temp pixmap and set it to our default image
-    // because there is no obvious way to set a pixmap to a image
-    if(game.yesterday().demanded < 44)
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
-        defaultImage = temp;
-        currentCrowd = 1;
-    }
-    else if(game.yesterday().demanded < 74)
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
-        defaultImage = temp;
-        currentCrowd = 2;
-    }
-    else
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
-        defaultImage = temp;
-        currentCrowd = 3;
-    }
-    ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+
+    // Crowd begins moving across screen
     crowdTimer.start();
 }
 
@@ -374,32 +354,33 @@ void MainWindow::start_image_scroll()
     int y = ui->crowdLabel->y();
     int width = ui->crowdLabel->width();
     int height = ui->crowdLabel->height();
+    int demand = game.yesterday().demanded;
 
-    x = x + 5;
+    // how much the crowd moves per interval
+    x += 25;
 
+    // Moves label and updates crowd image
     ui->crowdLabel->setGeometry(x, y, width, height);
-
-    QRect dimensions(1200, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
-    if (currentCrowd == 1)
+    if (demand < 44)
     {
         QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
-        ui->crowdLabel->setPixmap(lightCrowd.copy(dimensions));
+        ui->crowdLabel->setPixmap(lightCrowd);
     }
-    else if (currentCrowd == 2)
+    else if (demand < 74)
     {
         QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
-        ui->crowdLabel->setPixmap(mediumCrowd.copy(dimensions));
+        ui->crowdLabel->setPixmap(mediumCrowd);
     }
     else
     {
         QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
-        ui->crowdLabel->setPixmap(heavyCrowd.copy(dimensions));
+        ui->crowdLabel->setPixmap(heavyCrowd);
     }
 
-    if (x >= width)
+    // Once label is completely off screen, resets label position and stops timer.
+    if (x > width)
     {
         crowdTimer.stop();
-        ui->crowdLabel->setGeometry(-25, 450, 1147, 369);
-        emit sigDayComplete();
+        ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
     }
 }
