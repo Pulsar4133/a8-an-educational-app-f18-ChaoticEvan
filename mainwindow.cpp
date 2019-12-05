@@ -56,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+
+    ui->startButton->setEnabled(false);
+    //ui->CreateLemonadeButton->setEnabled(false);
+    //ui->yesterdayButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -538,4 +542,16 @@ void MainWindow::iceSpinBox_valueChanged()
 void MainWindow::sugarSpinBox_valueChanged()
 {
     updateIngredientsFrameCost();
+}
+
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
 }

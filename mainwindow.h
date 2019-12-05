@@ -77,6 +77,8 @@ private slots:
 
     void on_BuyInsurance_clicked();
 
+    void on_beginButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Ui::endgamedialog egd;
