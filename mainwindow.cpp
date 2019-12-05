@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QSpinBox>
-#include "ui_endGameDialog.h"
+#include "ui_endgamedialog.h"
 
 #include <iostream>
 
@@ -74,8 +74,8 @@ void MainWindow::updateWorld(){
     b2Vec2 pitchPos = pitcherBody->GetPosition();
      //move images with bodies to visually test
     //height & width is fixed so updating the two will not change the Qlabel
-    lemonImage->setGeometry(position.x, position.y, 0, 0);
-    pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
+    lemonImage->setGeometry(  position.x, position.y, 0, 0);
+    pitcherImage->setGeometry(pitchPos.x, pitchPos.y, 0, 0);
 
     //check for collision of bodies
     collisionCheck();
@@ -553,13 +553,13 @@ void MainWindow::updateIngredientsFrameCost()
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
-    double lemonsCost = lemons * game.world.priceLemons;
+    double lemonsCost = lemons * game.world.priceLemons();
 
     int sugar = ui->sugarSpinBox->value();
-    double sugarCost = sugar * game.world.priceSugar;
+    double sugarCost = sugar * game.world.priceSugar();
 
     int ice = ui->iceSpinBox->value();
-    double iceCost = ice * game.world.priceIce;
+    double iceCost = ice * game.world.priceIce();
 
     int numPitchers = ui->pitchersSpinBox->value();
 

@@ -228,9 +228,9 @@ void EconEngine::setDisasterLevel3(){
 
 float EconEngine::totalCostOfLemonade()
 {
-    float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons;
-    float costOfSugar  = game.today().lemonade.sugar * game.world.priceSugar;
-    float costOfIce    = game.today().lemonade.ice * game.world.priceIce;
+    float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons();
+    float costOfSugar  = game.today().lemonade.sugar * game.world.priceSugar();
+    float costOfIce    = game.today().lemonade.ice * game.world.priceIce();
 
     float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
 
