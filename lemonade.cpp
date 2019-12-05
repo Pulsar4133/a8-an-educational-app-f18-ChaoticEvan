@@ -8,13 +8,13 @@
 /// \param sugar
 /// \param ice
 ///
-Lemonade::Lemonade(int lemons,int sugar,int ice, double price)
+Lemonade::Lemonade(int lemons,int sugar,int ice, double price, int pitchers)
 {
     this->lemon = lemons;
     this->sugar = sugar;
     this->ice = ice;
     this->pricePerCup = price;
-    numPitchers = 1;
+    this->numPitchers = pitchers;
 }
 
 Lemonade::Lemonade()
@@ -31,12 +31,13 @@ Lemonade::Lemonade(Lemonade *lemonade)
     this->numPitchers = lemonade->numPitchers;
 }
 
-void Lemonade::setRecipe(int lemons, int sugar, int ice, double price)
+void Lemonade::setRecipe(int lemons, int sugar, int ice, double price, int pitchers)
 {
     this->lemon = lemons;
     this->sugar = sugar;
     this->ice = ice;
     this->pricePerCup = price;
+    this->numPitchers = pitchers;
 }
 
 void Lemonade::setRecipe(const LemonadeRecipe recipe)
@@ -45,6 +46,7 @@ void Lemonade::setRecipe(const LemonadeRecipe recipe)
     this->sugar = recipe.sugar;
     this->ice = recipe.ice;
     this->pricePerCup = recipe.pricePerCup;
+    this->numPitchers = recipe.pitchers;
 }
 
 ///
@@ -126,6 +128,5 @@ void Lemonade::addOnePitcher()
 
 void Lemonade::reset()
 {
-    this->setRecipe(0,0,0,0);
-    this->numPitchers = 1;
+    this->setRecipe(0,0,0,0,0);
 }

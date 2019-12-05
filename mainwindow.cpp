@@ -53,9 +53,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
-    QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
-    QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
-    QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
+    QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
+    QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
 }
 
 MainWindow::~MainWindow()
@@ -210,6 +211,13 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
+    if(ui->pitchersSpinBox->value() == 0)
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("You will probably need at least 1 pitcher of lemonade!");
+        addIngMsg.exec();
+        return;
+    }
     if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
     {
         QMessageBox addIngMsg;
@@ -221,7 +229,8 @@ void MainWindow::createLemonade(){
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-                       ui->priceSpinBox->value());
+                       ui->priceSpinBox->value(),
+                       ui->pitchersSpinBox->value());
 
     ui->startButton->setEnabled(true);
 }
@@ -236,6 +245,7 @@ void MainWindow::on_yesterdayButton_clicked()
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+    ui->pitchersSpinBox->setValue(lemonade.getNumPitchers());
     updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
@@ -243,6 +253,7 @@ void MainWindow::on_yesterdayButton_clicked()
 
 void MainWindow::updateData()
 {
+    ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
@@ -550,22 +561,29 @@ double MainWindow::uiLemonadeCurrCost()
     int ice = ui->iceSpinBox->value();
     double iceCost = ice * game.world.priceIce;
 
-    double totalCost = lemonsCost + sugarCost + iceCost;
+    int numPitchers = ui->pitchersSpinBox->value();
+
+    double totalCost = (lemonsCost + sugarCost + iceCost) * numPitchers;
 
     return totalCost;
 }
 
-void MainWindow::lemonSpinBox_valueChanged()
+void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::iceSpinBox_valueChanged()
+void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::sugarSpinBox_valueChanged()
+void MainWindow::sugarSpinBox_valueChanged(int i)
+{
+    updateIngredientsFrameCost();
+}
+
+void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
