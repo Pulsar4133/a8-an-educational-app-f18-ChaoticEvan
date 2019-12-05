@@ -73,8 +73,8 @@ void MainWindow::updateWorld(){
     b2Vec2 pitchPos = pitcherBody->GetPosition();
      //move images with bodies to visually test
     //height & width is fixed so updating the two will not change the Qlabel
-    lemonImage->setGeometry(position.x, position.y, 0, 0);
-    pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
+    lemonImage->setGeometry(  position.x, position.y, 0, 0);
+    pitcherImage->setGeometry(pitchPos.x, pitchPos.y, 0, 0);
 
     //check for collision of bodies
     collisionCheck();
