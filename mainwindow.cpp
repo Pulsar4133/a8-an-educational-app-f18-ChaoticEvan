@@ -203,6 +203,8 @@ void MainWindow::on_startButton_clicked()
   //  changeNewsText();
 
     ui->startButton->setEnabled(false);
+    ui->CreateLemonadeButton->setEnabled(false);
+    ui->yesterdayButton->setEnabled(false);
 
     emit sigStartSimulation(this->lemonade);
 }
@@ -212,9 +214,13 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
-//    lemWin->show();
-//    lemWin->setMinimumWidth(750);
-//    lemWin->setMinimumHeight(750);
+    if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("This isn't a water stand!\nMake some lemonade!");
+        addIngMsg.exec();
+        return;
+    }
 
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
@@ -261,10 +267,12 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+
     if(game.currentDate == 15)
     {
         openEndGameDialog();
     }
+
 }
 
 void MainWindow::animationForDay()
@@ -299,6 +307,26 @@ void MainWindow::animationForDay()
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
+    QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
+    QPixmap defaultImage;
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
+    if(game.yesterday().demanded < 44)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
+        defaultImage = temp;
+    }
+    else if(game.yesterday().demanded < 74)
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        defaultImage = temp;
+    }
+    else
+    {
+        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        defaultImage = temp;
+    }
+    ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     ui->simulationPicture->setVisible(true);
 
     // Crowd begins moving across screen
@@ -465,6 +493,8 @@ void MainWindow::image_scroll()
         ui->profitLabel->setVisible(true);
         ui->salesLabel->setVisible(true);
         ui->costLabel->setVisible(true);
+        ui->CreateLemonadeButton->setEnabled(true);
+        ui->yesterdayButton->setEnabled(true);
     }
 }
 
