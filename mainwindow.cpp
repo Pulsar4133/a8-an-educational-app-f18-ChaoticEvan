@@ -293,6 +293,7 @@ void MainWindow::animationForDay()
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
+    ui->simulationPicture->setVisible(true);
 
     // Crowd begins moving across screen
     crowdTimer.start();
