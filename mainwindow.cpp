@@ -323,8 +323,6 @@ void MainWindow::animationForDay()
         defaultImage = temp;
     }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
     ui->simulationPicture->setVisible(true);
 
     // Crowd begins moving across screen
@@ -491,6 +489,8 @@ void MainWindow::image_scroll()
         ui->profitLabel->setVisible(true);
         ui->salesLabel->setVisible(true);
         ui->costLabel->setVisible(true);
+        ui->CreateLemonadeButton->setEnabled(true);
+        ui->yesterdayButton->setEnabled(true);
     }
 }
 
