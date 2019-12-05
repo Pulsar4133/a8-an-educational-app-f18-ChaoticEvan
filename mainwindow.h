@@ -32,6 +32,7 @@ signals:
     void sigStartSimulation(Lemonade lemonade);
     void updateWallet(int upgrade);
     void openEndDialog();
+    void showCalendar();
 
 public slots:
     void updateWorld();

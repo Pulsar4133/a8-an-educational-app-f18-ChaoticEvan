@@ -196,6 +196,35 @@
       <string/>
      </property>
     </widget>
+    <widget class="QFrame" name="dayFrame">
+     <property name="geometry">
+      <rect>
+       <x>950</x>
+       <y>420</y>
+       <width>1061</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="calendarLabel">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>50</y>
+       <width>1061</width>
+       <height>381</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
@@ -235,35 +264,6 @@
         <width>1061</width>
         <height>51</height>
        </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QFrame" name="dayFrame">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>40</y>
-       <width>1061</width>
-       <height>381</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <widget class="QLabel" name="calendarLabel">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>1061</width>
-        <height>381</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
       </property>
      </widget>
     </widget>
@@ -359,7 +359,6 @@
       </property>
      </widget>
     </widget>
-    <zorder>dayFrame</zorder>
     <zorder>graphsFrame</zorder>
     <zorder>newsFrame</zorder>
    </widget>
@@ -863,6 +862,7 @@ you’re about to make! </string>
      <zorder>BuyInsurance</zorder>
     </widget>
    </widget>
+   <zorder>upgradesWidget</zorder>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
@@ -876,7 +876,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
