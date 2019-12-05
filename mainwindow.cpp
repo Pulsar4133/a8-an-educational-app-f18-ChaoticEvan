@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
     QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradePurchased);
+    QObject::connect(this, &MainWindow::showCalendar, this, &MainWindow::on_progress_start);
 
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
 
@@ -264,6 +265,10 @@ void MainWindow::onSimulationComplete()
 
 void MainWindow::animationForDay()
 {
+    ui->demandLabel->setVisible(false);
+    ui->profitLabel->setVisible(false);
+    ui->salesLabel->setVisible(false);
+    ui->costLabel->setVisible(false);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
     if (game.yesterday().weatherState == 0)
@@ -295,11 +300,13 @@ void MainWindow::animationForDay()
 
 void MainWindow::on_progress_start()
 {
+    std::cout << "hereererere" << std::endl;
     QPixmap calendar;
     if (game.currentDate <= 5)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         calendar = calendarImage;
+        std::cout << "week1" << std::endl;
     }
     else if (game.currentDate > 5 && game.currentDate <= 10)
     {
@@ -447,6 +454,11 @@ void MainWindow::image_scroll()
     {
         crowdTimer.stop();
         ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
+        emit showCalendar();
+        ui->demandLabel->setVisible(true);
+        ui->profitLabel->setVisible(true);
+        ui->salesLabel->setVisible(true);
+        ui->costLabel->setVisible(true);
     }
 }
   
