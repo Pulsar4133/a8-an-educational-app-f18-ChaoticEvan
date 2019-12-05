@@ -20,7 +20,7 @@ struct Upgrade
     /**
      * @brief Cost of the upgrade, in dollars.
      */
-    float   cost;
+    float cost;
 
     /**
      * @brief Enumerable id of the upgrade, as listed in UPGRADE_ENUM.

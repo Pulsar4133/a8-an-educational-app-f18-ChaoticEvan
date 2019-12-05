@@ -27,7 +27,7 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
-    void updateWallet(int price);
+    void updateWallet(int upgrade);
 
 public slots:
     void updateWorld();
