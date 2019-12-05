@@ -356,8 +356,8 @@ void MainWindow::on_progress_start()
         currWeek = 2;
     }
 
+    calendarWeather(currWeek);
     ui->simulationPicture->setVisible(false);
-//    ui->dayFrame->setVisible(false);
     ui->calendarLabel->setVisible(true);
 }
 
@@ -367,8 +367,10 @@ void MainWindow::calendarWeather(int currWeek)
     {
         return;
     }
+    ui->calendarLabel->setVisible(false);
+    QRect dimensions(0, 0, ui->day1Label->width(), ui->day1Label->height());
     QPixmap temp(":/img/Images/Weather_Images/Sunny.png");
-    ui->day1Label->setPixmap(temp);
+    ui->day1Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 

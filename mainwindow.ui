@@ -228,10 +228,10 @@
     <widget class="QLabel" name="day1Label">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>50</y>
-       <width>47</width>
-       <height>13</height>
+       <x>285</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
       </rect>
      </property>
      <property name="text">
