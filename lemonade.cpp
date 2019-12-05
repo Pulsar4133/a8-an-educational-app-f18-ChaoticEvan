@@ -8,6 +8,7 @@
 /// \param sugar
 /// \param ice
 ///
+/// TODO comment all the code in this class
 Lemonade::Lemonade(int lemons,int sugar,int ice, double price)
 {
     this->lemon = lemons;
@@ -115,6 +116,7 @@ void Lemonade::addOnePitcher()
     ++numPitchers;
 }
 
+//TODO comment
 void Lemonade::reset()
 {
     this->setRecipe(0,0,0,0);

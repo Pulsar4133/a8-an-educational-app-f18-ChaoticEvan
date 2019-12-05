@@ -3,17 +3,32 @@
 
 #include <QObject>
 
-// Forward declare LemonadeRecipe.
+/*
+ * Forward declare LemonadeRecipe.
+ */
 struct LemonadeRecipe;
 
+/**TODO fill out
+ * @brief The Lemonade class
+ */
 class Lemonade
 {
 
 public:
+
+    /**TODO fill out
+     * @brief Lemonade
+     */
     Lemonade(int,int,int,double);
+
+    /**TODO fill out
+     * @brief Lemonade
+     */
     Lemonade();
 
-    //Setters and getters.
+    /**
+     * Setters and getters.
+     * */
     void setRecipe(int, int, int, double);
     void setRecipe(const LemonadeRecipe recipe);
 
@@ -32,20 +47,29 @@ public:
     void setNumPitchers(int numPitchers);
     int getNumPitchers(){return numPitchers;}
 
-    //A method to add elements.
+    /**
+     * Methods to add elements.
+     */
     void addOneLemon();
     void addOneSugar();
     void addOneIce();
     void addOnePitcher();
 
+    /**TODO
+     * @brief reset
+     */
     void reset();
 
 private:
+    /**
+     * Instant variables that will be used to store the values of each below.
+     * @brief sugar, lemon, ice, pricePerCup, numPitchers
+     */
     int sugar;
     int lemon;
     int ice;
 
-    //Might be moved out of this class, but starting with it here for now.
+    //Might be moved out of this class, but starting with it here for now. TODO
     double pricePerCup;
     int numPitchers;
 };

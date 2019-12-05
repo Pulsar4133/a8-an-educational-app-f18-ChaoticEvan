@@ -5,13 +5,13 @@
 #include "lemonade.h"
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QWidget>
 #include <QMainWindow>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
+//TODO comment all code in here.
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

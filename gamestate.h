@@ -8,7 +8,11 @@
 #include "recipe.h"
 #include <functional>
 
+/**
+ *TODO fill out
+ */
 struct Upgrade;
+
 /**
  * @brief The UPGRADE_ENUM enum provides an enumeration of all
  * 		  purchasable upgrades.
@@ -29,17 +33,31 @@ enum UPGRADE_ENUM
     NUM_UPGRADES
 };
 
+/** TODO fill this out
+ * @brief The Upgrades class
+ */
 class Upgrades
 {
 
 private:
 
+    /**TODO fill out
+     * @brief m_upgradeList
+     */
     Upgrade* m_upgradeList[UPGRADE_ENUM::NUM_UPGRADES];
 
 public:
 
+    /** TODO fill out
+     * @brief Upgrades
+     */
     Upgrades();
 
+    /** TODO fill out
+     * @brief operator []
+     * @param i
+     * @return
+     */
     Upgrade*& operator[](int i) { return m_upgradeList[i]; }
 
 };
@@ -256,7 +274,7 @@ struct GameState
     int gameLength = DEFAULT_GAME_LENGTH;
 
     /**
-     * @brief Statistics for the player's stand
+     * @brief Statistics for the player's stand.
      */
     Stand stand;
 
@@ -278,6 +296,10 @@ struct GameState
         return days[currentDate];
     }
 
+    /** TODO fill out
+     * @brief yesterday
+     * @return
+     */
     Day& yesterday()
     {
         return (currentDate > 0) ? days[currentDate - 1] : days[currentDate];

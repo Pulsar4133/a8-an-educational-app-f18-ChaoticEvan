@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "Box2D/Box2D.h"
+#include <QApplication>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <stdio.h>
-#include <QApplication>
 
 
 int main(int argc, char *argv[])

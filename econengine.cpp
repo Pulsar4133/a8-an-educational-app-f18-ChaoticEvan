@@ -164,7 +164,7 @@ int EconEngine::calculateDemand()
 
     //The max to result is 100 with upgrades.
     if (result > 100){
-        result == 100;
+        result = 100;
     }
 
     return result;

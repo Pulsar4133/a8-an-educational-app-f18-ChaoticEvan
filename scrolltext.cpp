@@ -20,6 +20,9 @@ ScrollText::~ScrollText()
 
 }
 
+///
+/// getters and setters
+///
 QString ScrollText::getText()
 {
     return text;

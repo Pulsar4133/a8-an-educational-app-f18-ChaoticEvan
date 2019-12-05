@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
     world(b2Vec2 (0.0f, 9.81f))
-
 {
     ui->setupUi(this);
 
@@ -43,6 +42,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 ///Performs a simulation step for box2d world.
 /// Updating the position & velocity of all bodies in the world.
 /// \brief MainWindow::updateWorld
@@ -61,6 +61,7 @@ void MainWindow::updateWorld(){
     collisionCheck();
     QTimer::singleShot(15,this,&MainWindow::updateWorld);
 }
+
 ///Creates priv member variable lemonBody in box2d.
 /// lemonBody defines a lemon being dropped in our world.
 /// \brief MainWindow::createLemonBody
@@ -99,6 +100,7 @@ void MainWindow::createLemonBody(){
     // Preloads all .png files
     loadStartImages();
 }
+
 ///Creates priv member variable groundBody in box2d.
 /// groundBody defines the ground level for our world.
 /// \brief MainWindow::createGroundBody
@@ -119,6 +121,7 @@ void MainWindow::createGroundBody(){
     groundBody->CreateFixture(&groundBox, 1.0f);
 
 }
+
 ///Creates priv member variable pitcherBody in box2d.
 /// pitcherBody defines a static body placed on groundBody.
 /// \brief MainWindow::createPitcherBody
@@ -160,20 +163,6 @@ void MainWindow::collisionCheck(){
     }
 }
 
-void MainWindow::on_startButton_clicked()
-{
-    ui->welcomeFrame->setVisible(false);
-    ui->dayFrame->setVisible(false);
-    ui->progressFrame->setVisible(true);
-    ui->progressFrame->raise();
-
-    this->createLemonade();
-
-    changeNewsText("Welcome to Lemonomics! Beware of whales!");
-  
-    emit sigStartSimulation(this->lemonade);
-}
-
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
 /// \brief MainWindow::createLemonade
@@ -187,26 +176,6 @@ void MainWindow::createLemonade(){
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
                        ui->priceSpinBox->value());
-
-}
-
-/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
-/// Sets the values of the spinboxes on the UI to the lemonade data.
-/// \brief MainWindow::on_yesterdayButton_clicked
-///
-void MainWindow::on_yesterdayButton_clicked()
-{
-
-    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
-    ui->LemonSpinBox->setValue(lemonade.getLemon());
-    ui->sugarSpinBox->setValue(lemonade.getSugar());
-    ui->iceSpinBox->setValue(lemonade.getIce());
-    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
-    // Keep lemonade on same recipe. Move on.
-    qDebug() << lemonade.getSugar();
-    qDebug() << lemonade.getLemon();
-    qDebug() << lemonade.getIce();
-    qDebug() << lemonade.getPricePerCup();
 
 }
 
@@ -282,6 +251,33 @@ void MainWindow::animationForDay()
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
 }
 
+void MainWindow::loadStartImages()
+{
+    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images.
+    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+
+    // Creates background color and fills with light blue.
+    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
+            startBackground.fill(QColor(47, 191, 235));
+    QPixmap defaultImage(":/img/Images/Background Default.png");
+    QPixmap startLogo(":/img/Images/logo.png");
+
+    // Sets each image to corresponding label.
+    ui->welcomeBackground->setPixmap(startBackground);
+    ui->welcomeLogo->setPixmap(startLogo);
+    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+}
+
+void MainWindow::changeNewsText(QString scrollText)
+{
+    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
+    ScrollText* news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    layout->addWidget(news);
+    news->setText(scrollText);
+}
+
 void MainWindow::on_progress_start()
 {
     QPixmap calendar;
@@ -305,22 +301,43 @@ void MainWindow::on_progress_start()
     ui->calendarLabel->setPixmap(calendar.scaled(width, height, Qt::IgnoreAspectRatio));
 }
 
-void MainWindow::loadStartImages()
+/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
+/// Sets the values of the spinboxes on the UI to the lemonade data.
+/// \brief MainWindow::on_yesterdayButton_clicked
+///
+void MainWindow::on_yesterdayButton_clicked()
 {
-    // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images.
-    QRect dimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
 
-    // Creates background color and fills with light blue.
-    QPixmap startBackground(ui->welcomeBackground->width(), ui->welcomeBackground->height());
-            startBackground.fill(QColor(47, 191, 235));
-    QPixmap defaultImage(":/img/Images/Background Default.png");
-    QPixmap startLogo(":/img/Images/logo.png");
+    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
+    ui->LemonSpinBox->setValue(lemonade.getLemon());
+    ui->sugarSpinBox->setValue(lemonade.getSugar());
+    ui->iceSpinBox->setValue(lemonade.getIce());
+    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+    // Keep lemonade on same recipe. Move on.
+    qDebug() << lemonade.getSugar();
+    qDebug() << lemonade.getLemon();
+    qDebug() << lemonade.getIce();
+    qDebug() << lemonade.getPricePerCup();
+}
 
-    // Sets each image to corresponding label.
-    ui->welcomeBackground->setPixmap(startBackground);
-    ui->welcomeLogo->setPixmap(startLogo);
-    ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+///
+/// Below are methods that are trigged when they are clicked in the ui.
+/// \brief MainWindow::on_"button"_clicked
+/// \param checked
+///
 
+void MainWindow::on_startButton_clicked()
+{
+    ui->welcomeFrame->setVisible(false);
+    ui->dayFrame->setVisible(false);
+    ui->progressFrame->setVisible(true);
+    ui->progressFrame->raise();
+
+    this->createLemonade();
+
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
+
+    emit sigStartSimulation(this->lemonade);
 }
 
 void MainWindow::on_welcomeCheck4_clicked(bool checked)
@@ -350,16 +367,6 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
 void MainWindow::on_day_change(QString scrollText)
 {
     this->changeNewsText(scrollText);
-}
-
-void MainWindow::changeNewsText(QString scrollText)
-{
-    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
-    ScrollText* news = new ScrollText(ui->newsWidget);
-    QFont font("manjari", 20);
-    news->setFont(font);
-    layout->addWidget(news);
-    news->setText(scrollText);
 }
 
 void MainWindow::on_BuyUmbrella_clicked()
