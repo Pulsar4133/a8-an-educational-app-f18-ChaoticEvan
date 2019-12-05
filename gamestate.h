@@ -184,7 +184,7 @@ struct World
     /**
      * @brief Current price per unit of lemons.
      */
-    float calcPriceLemons()	{ return basePriceLemons * multiplierPriceLemons; }
+    float priceLemons()	{ return basePriceLemons * multiplierPriceLemons; }
 
     /**
      * @brief Current price per unit of sugar.

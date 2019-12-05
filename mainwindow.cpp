@@ -542,13 +542,13 @@ void MainWindow::updateIngredientsFrameCost()
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
-    double lemonsCost = lemons * game.world.priceLemons;
+    double lemonsCost = lemons * game.world.priceLemons();
 
     int sugar = ui->sugarSpinBox->value();
-    double sugarCost = sugar * game.world.priceSugar;
+    double sugarCost = sugar * game.world.priceSugar();
 
     int ice = ui->iceSpinBox->value();
-    double iceCost = ice * game.world.priceIce;
+    double iceCost = ice * game.world.priceIce();
 
     double totalCost = lemonsCost + sugarCost + iceCost;
 
