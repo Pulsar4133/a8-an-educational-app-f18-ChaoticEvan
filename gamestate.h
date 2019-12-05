@@ -8,7 +8,11 @@
 #include "recipe.h"
 #include <functional>
 
+/**
+ * A struct to store all the upgrades.
+ */
 struct Upgrade;
+
 /**
  * @brief The UPGRADE_ENUM enum provides an enumeration of all
  * 		  purchasable upgrades.
@@ -33,13 +37,24 @@ class Upgrades
 {
 
 private:
-
+    /** TODO
+     * @brief m_upgradeList
+     */
     Upgrade* m_upgradeList[UPGRADE_ENUM::NUM_UPGRADES];
 
 public:
-
+    /**
+     * A constructor for Upgrades.
+     * @brief Upgrades
+     */
     Upgrades();
 
+    /**
+     * A method to access upgrades at certain indices.
+     * @brief operator []
+     * @param i
+     * @return
+     */
     Upgrade*& operator[](int i) { return m_upgradeList[i]; }
 
 };
@@ -148,22 +163,26 @@ struct Day
  */
 struct World
 {
+    /**
+     * A variablet to store the severity of the weather.
+     * @brief weatherSeverity
+     */
     int weatherSeverity	= 0;
 
     /**
      * @brief Current price per unit of lemons.
      */
-    float priceLemons	= basePriceLemons * multiplierPriceLemons;
+    float priceLemons = basePriceLemons * multiplierPriceLemons;
 
     /**
      * @brief Current price per unit of sugar.
      */
-    float priceSugar	= basePriceSugar * multiplierPriceSugar;
+    float priceSugar = basePriceSugar * multiplierPriceSugar;
 
     /**
      * @brief Current price per unit of ice.
      */
-    float priceIce		= basePriceIce * multiplierPriceIce;
+    float priceIce = basePriceIce * multiplierPriceIce;
 
     /**
      * @brief BaseLemonPrice is the base price of a lemon unit.
@@ -256,7 +275,7 @@ struct GameState
     int gameLength = DEFAULT_GAME_LENGTH;
 
     /**
-     * @brief Statistics for the player's stand
+     * @brief Statistics for the player's stand.
      */
     Stand stand;
 
@@ -278,6 +297,11 @@ struct GameState
         return days[currentDate];
     }
 
+    /**
+     * A method ot retrieve the datay for the previous day.
+     * @brief yesterday
+     * @return
+     */
     Day& yesterday()
     {
         return (currentDate > 0) ? days[currentDate - 1] : days[currentDate];
