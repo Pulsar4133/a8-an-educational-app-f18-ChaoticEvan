@@ -30,6 +30,7 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
+    void updateWallet(int upgrade);
     void openEndDialog();
 
 public slots:
@@ -58,6 +59,22 @@ private slots:
     void iceSpinBox_valueChanged();
 
     void sugarSpinBox_valueChanged();
+
+    void on_BuyUmbrella_clicked();
+
+    void on_BuyPitcher_clicked();
+
+    void on_BuyGrapes_clicked();
+
+    void on_BuyBoomBox_clicked();
+
+    void on_BuySugar_clicked();
+
+    void on_BuyLemons_clicked();
+
+    void on_BuyNeonSIgn_clicked();
+
+    void on_BuyInsurance_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -34,8 +34,8 @@
       <rect>
        <x>130</x>
        <y>130</y>
-       <width>295</width>
-       <height>192</height>
+       <width>306</width>
+       <height>268</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -560,12 +560,315 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
    </widget>
+   <widget class="QTabWidget" name="upgradesWidget">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>450</y>
+      <width>541</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="umbrellaUpgrade">
+     <attribute name="title">
+      <string>Umbrella</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyUmbrella">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>232</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Whale Button</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="umbrellaPrice">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$2000</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="BigPitcherUpgrade">
+     <attribute name="title">
+      <string>Big Pitcher</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyPitcher">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>230</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Big Pitcher</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PricePitcher">
+      <property name="geometry">
+       <rect>
+        <x>-4</x>
+        <y>2</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$250</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="GrapesUpgrade">
+     <attribute name="title">
+      <string>Grapes</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyGrapes">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>220</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Grapes</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="GrapesPrice">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$2000</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="BoomBoxUpgrade">
+     <attribute name="title">
+      <string>Boom Box</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyBoomBox">
+      <property name="geometry">
+       <rect>
+        <x>384</x>
+        <y>212</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Boom Box</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PriceBoomBox">
+      <property name="geometry">
+       <rect>
+        <x>-4</x>
+        <y>2</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$75</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="SugarDealerUpgrade">
+     <attribute name="title">
+      <string>Sugar</string>
+     </attribute>
+     <widget class="QPushButton" name="BuySugar">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>212</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Sugar</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PriceSugar">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$150</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="OrganicLemonUpgrade">
+     <attribute name="title">
+      <string> Lemons</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyLemons">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>220</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Lemons</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LemonPrice">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$150</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="NeonSignUpgrade">
+     <attribute name="title">
+      <string>Neon Sign</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyNeonSIgn">
+      <property name="geometry">
+       <rect>
+        <x>384</x>
+        <y>222</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Neon Sign</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="NeonSIgnPrice">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>101</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$50</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="InsuranceUpgrade">
+     <attribute name="title">
+      <string>Insurance</string>
+     </attribute>
+     <widget class="QPushButton" name="BuyInsurance">
+      <property name="geometry">
+       <rect>
+        <x>394</x>
+        <y>222</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buy Insurance</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="InsurancePrice">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$250</string>
+      </property>
+     </widget>
+     <zorder>InsurancePrice</zorder>
+     <zorder>BuyInsurance</zorder>
+    </widget>
+   </widget>
    <zorder>progressFrame</zorder>
-   <zorder>upgradesWidget</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
+   <zorder>upgradesWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
