@@ -191,6 +191,8 @@ void MainWindow::on_startButton_clicked()
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
   
     ui->startButton->setEnabled(false);
+    ui->CreateLemonadeButton->setEnabled(false);
+    ui->yesterdayButton->setEnabled(false);
 
     emit sigStartSimulation(this->lemonade);
 }
@@ -200,9 +202,13 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
-//    lemWin->show();
-//    lemWin->setMinimumWidth(750);
-//    lemWin->setMinimumHeight(750);
+    if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("This isn't a water stand!\nMake some lemonade!");
+        addIngMsg.exec();
+        return;
+    }
 
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
@@ -249,10 +255,12 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+
     if(game.currentDate == 15)
     {
         openEndGameDialog();
     }
+
 }
 
 void MainWindow::animationForDay()
@@ -301,6 +309,8 @@ void MainWindow::animationForDay()
         defaultImage = temp;
     }
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
 }
 
 void MainWindow::on_progress_start()
