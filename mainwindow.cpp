@@ -320,7 +320,9 @@ void MainWindow::on_progress_start()
     }
     int width = ui->calendarLabel->width();
     int height = ui->calendarLabel->height();
-    ui->calendarLabel->setPixmap(calendar.scaled(width, height, Qt::IgnoreAspectRatio));
+    ui->simulationPicture->setVisible(false);
+    QRect calendarDimensions(0, 0, ui->welcomeBackground->width(), ui->welcomeBackground->height());
+    ui->calendarLabel->setPixmap(calendar.copy(calendarDimensions));
 }
 
 void MainWindow::loadStartImages()
