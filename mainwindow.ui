@@ -228,7 +228,59 @@
     <widget class="QLabel" name="day1Label">
      <property name="geometry">
       <rect>
-       <x>285</x>
+       <x>284</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day2Label">
+     <property name="geometry">
+      <rect>
+       <x>412</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day3Label">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day4Label">
+     <property name="geometry">
+      <rect>
+       <x>668</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day5Label">
+     <property name="geometry">
+      <rect>
+       <x>796</x>
        <y>-42</y>
        <width>300</width>
        <height>600</height>
@@ -909,7 +961,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

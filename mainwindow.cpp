@@ -367,10 +367,13 @@ void MainWindow::calendarWeather(int currWeek)
     {
         return;
     }
-    ui->calendarLabel->setVisible(false);
     QRect dimensions(0, 0, ui->day1Label->width(), ui->day1Label->height());
     QPixmap temp(":/img/Images/Weather_Images/Sunny.png");
     ui->day1Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day2Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day3Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day4Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day5Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 
