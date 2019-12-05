@@ -108,7 +108,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QTextEdit" name="textEdit">
+       <widget class="QTextEdit" name="ingredientCostLabel">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -186,7 +186,7 @@
     <widget class="QLabel" name="crowdLabel">
      <property name="geometry">
       <rect>
-       <x>-25</x>
+       <x>-1000</x>
        <y>450</y>
        <width>1147</width>
        <height>369</height>
@@ -362,6 +362,34 @@
     <zorder>dayFrame</zorder>
     <zorder>graphsFrame</zorder>
     <zorder>newsFrame</zorder>
+   </widget>
+   <widget class="QTabWidget" name="upgradesWidget">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>450</y>
+      <width>541</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="umbrellaUpgrade">
+     <attribute name="title">
+      <string>Umbrella</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Grapes</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Neon Sign</string>
+     </attribute>
+    </widget>
    </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">

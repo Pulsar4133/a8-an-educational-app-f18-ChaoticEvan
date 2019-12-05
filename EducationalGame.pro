@@ -63,6 +63,7 @@ SOURCES += \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
     econengine.cpp \
+    endgamedialog.cpp \
     lemonade.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -118,6 +119,7 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    endgamedialog.h \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
@@ -126,6 +128,7 @@ HEADERS += \
     upgrades.h
 
 FORMS += \
+    endgamedialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
