@@ -4,12 +4,13 @@
 #include "econengine.h"
 #include "endgamedialog.h"
 #include "lemonade.h"
-#include "ui_endGameDialog.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
 #include <QTimer>
 #include <QWidget>
+#include "ui_endgamedialog.h"
+#include "endgamedialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,6 +37,7 @@ signals:
     void sigStartSimulation(Lemonade lemonade);
     void updateWallet(int upgrade);
     void openEndDialog();
+    void showCalendar();
 
 public slots:
     void updateWorld();
