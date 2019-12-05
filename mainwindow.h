@@ -8,7 +8,7 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QTimer>
-#include "ui_endGameDialog.h"
+#include "ui_endgamedialog.h"
 #include "endgamedialog.h"
 
 QT_BEGIN_NAMESPACE
