@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
-
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
@@ -337,26 +336,41 @@ void MainWindow::on_progress_start()
 {
     std::cout << "hereererere" << std::endl;
     QPixmap calendar;
+    int currWeek = -99;
     if (game.currentDate <= 5)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
-        std::cout << "week1" << std::endl;
+        currWeek = 0;
     }
     else if (game.currentDate > 5 && game.currentDate <= 10)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 1;
     }
     else
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 2;
     }
+
     ui->simulationPicture->setVisible(false);
 //    ui->dayFrame->setVisible(false);
     ui->calendarLabel->setVisible(true);
 }
+
+void MainWindow::calendarWeather(int currWeek)
+{
+    if(currWeek == -99)
+    {
+        return;
+    }
+    QPixmap temp(":/img/Images/Weather_Images/Sunny.png");
+    ui->day1Label->setPixmap(temp);
+}
+
 
 void MainWindow::loadStartImages()
 {
