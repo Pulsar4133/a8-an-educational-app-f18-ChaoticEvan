@@ -7,6 +7,10 @@
 #include <QGraphicsPixmapItem>
 #include <QMessageBox>
 #include <QTimer>
+#include <QSpinBox>
+#include "ui_endGameDialog.h"
+
+#include <iostream>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -19,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
 {
     ui->setupUi(this);
+    egd.setupUi(&egPopup);
 
     // These are UI connections.
 
@@ -29,14 +34,27 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
     QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradePurchased);
 
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
-    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
+    QObject::connect(ui->CreateLemonadeButton, &QPushButton::pressed, this, &MainWindow::createLemonade);
     layout = new QHBoxLayout();
     createGroundBody();
     createLemonBody();
     createPitcherBody();
+
+    // Time between crowd image being updated
+    crowdTimer.setInterval(50);
+
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
+
+    QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
+    QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
+
+    QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
+    QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
+    QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
 }
 
 MainWindow::~MainWindow()
@@ -167,10 +185,20 @@ void MainWindow::on_startButton_clicked()
     ui->progressFrame->setVisible(true);
     ui->progressFrame->raise();
 
-    this->createLemonade();
+    if(game.currentDate != 0)
+        if(lemonade.getLemon() == 0 && lemonade.getIce() == 0 && lemonade.getSugar() == 0)
+        {
+            QMessageBox makeLemMessage;
+            makeLemMessage.setWindowTitle("Make some lemonade!");
+            makeLemMessage.setText("Make some lemonade first!\nLemonade must have at least one ingredient!");
+            makeLemMessage.exec();
+            return;
+        }
 
-    changeNewsText("Welcome to Lemonomics! Beware of whales!");
+  //  changeNewsText();
   
+    ui->startButton->setEnabled(false);
+
     emit sigStartSimulation(this->lemonade);
 }
 
@@ -179,15 +207,16 @@ void MainWindow::on_startButton_clicked()
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
-    lemWin->show();
-    lemWin->setMinimumWidth(750);
-    lemWin->setMinimumHeight(750);
+//    lemWin->show();
+//    lemWin->setMinimumWidth(750);
+//    lemWin->setMinimumHeight(750);
 
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
                        ui->priceSpinBox->value());
 
+    ui->startButton->setEnabled(true);
 }
 
 /// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
@@ -196,18 +225,13 @@ void MainWindow::createLemonade(){
 ///
 void MainWindow::on_yesterdayButton_clicked()
 {
-
-    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
     ui->LemonSpinBox->setValue(lemonade.getLemon());
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
-    // Keep lemonade on same recipe. Move on.
-    qDebug() << lemonade.getSugar();
-    qDebug() << lemonade.getLemon();
-    qDebug() << lemonade.getIce();
-    qDebug() << lemonade.getPricePerCup();
+    updateIngredientsFrameCost();
 
+    ui->startButton->setEnabled(true);
 }
 
 void MainWindow::updateData()
@@ -232,6 +256,10 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+    if(game.currentDate == 15)
+    {
+        openEndGameDialog();
+    }
 }
 
 void MainWindow::animationForDay()
@@ -260,26 +288,9 @@ void MainWindow::animationForDay()
         background = backgroundTemp;
     }
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
-    QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
-    QPixmap defaultImage;
-    // We have to create a temp pixmap and set it to our default image
-    // because there is no obvious way to set a pixmap to a image
-    if(game.yesterday().demanded < 44)
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
-        defaultImage = temp;
-    }
-    else if(game.yesterday().demanded < 74)
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
-        defaultImage = temp;
-    }
-    else
-    {
-        QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
-        defaultImage = temp;
-    }
-    ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
+
+    // Crowd begins moving across screen
+    crowdTimer.start();
 }
 
 void MainWindow::on_progress_start()
@@ -400,4 +411,117 @@ void MainWindow::on_BuyNeonSIgn_clicked()
 void MainWindow::on_BuyInsurance_clicked()
 {
     emit updateWallet(6);
+}
+
+void MainWindow::image_scroll()
+{
+    int x = ui->crowdLabel->x();
+    int y = ui->crowdLabel->y();
+    int width = ui->crowdLabel->width();
+    int height = ui->crowdLabel->height();
+    int demand = game.yesterday().demanded;
+
+    // how much the crowd moves per interval
+    x += 25;
+
+    // Moves label and updates crowd image
+    ui->crowdLabel->setGeometry(x, y, width, height);
+    if (demand < 44)
+    {
+        QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
+        ui->crowdLabel->setPixmap(lightCrowd);
+    }
+    else if (demand < 74)
+    {
+        QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        ui->crowdLabel->setPixmap(mediumCrowd);
+    }
+    else
+    {
+        QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        ui->crowdLabel->setPixmap(heavyCrowd);
+    }
+
+    // Once label is completely off screen, resets label position and stops timer.
+    if (x > width)
+    {
+        crowdTimer.stop();
+        ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
+    }
+}
+  
+void MainWindow::closeDialogClosed(int i)
+{
+    closeGame();
+}
+
+void MainWindow::closeGame()
+{
+    egPopup.close();
+    this->close();
+}
+
+void MainWindow::openEndGameDialog()
+{
+    QString playerStats = "Total Income: ";
+    double income = 0;
+    double cost = 0;
+    int sales = 0;
+    int daysSoldOut = 0;
+    double profit = 0;
+    for(int i = 0; i < 15; i++)
+    {
+        income += game.days[i].income;
+        cost += game.days[i].cost;
+        sales += game.days[i].sales;
+        profit += game.days[i].profit;
+        if(game.days[i].soldOut)
+            daysSoldOut++;
+
+    }
+    playerStats.append(QString::number(income) +
+                       "\nTotal Cost: " + QString::number(cost) +
+                       "\nTotal Sales: " + QString::number(sales) +
+                       "\nDays Sold Out: " + QString::number(daysSoldOut) +
+                       "\nTotal Profit/Loss: " + QString::number(profit));
+    egd.playerStatsLabel->setText(playerStats);
+
+    egPopup.show();
+}
+
+void MainWindow::updateIngredientsFrameCost()
+{
+    QString cost = QString::number(uiLemonadeCurrCost());
+    ui->ingredientCostLabel->setText("$" + cost);
+}
+
+double MainWindow::uiLemonadeCurrCost()
+{
+    int lemons = ui->LemonSpinBox->value();
+    double lemonsCost = lemons * game.world.priceLemons;
+
+    int sugar = ui->sugarSpinBox->value();
+    double sugarCost = sugar * game.world.priceSugar;
+
+    int ice = ui->iceSpinBox->value();
+    double iceCost = ice * game.world.priceIce;
+
+    double totalCost = lemonsCost + sugarCost + iceCost;
+
+    return totalCost;
+}
+
+void MainWindow::lemonSpinBox_valueChanged()
+{
+    updateIngredientsFrameCost();
+}
+
+void MainWindow::iceSpinBox_valueChanged()
+{
+    updateIngredientsFrameCost();
+}
+
+void MainWindow::sugarSpinBox_valueChanged()
+{
+    updateIngredientsFrameCost();
 }
