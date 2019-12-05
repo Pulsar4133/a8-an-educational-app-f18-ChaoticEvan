@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
     QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradePurchased);
+    QObject::connect(this, &MainWindow::showCalendar, this, &MainWindow::on_progress_start);
 
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
 
@@ -196,7 +197,7 @@ void MainWindow::on_startButton_clicked()
         }
 
   //  changeNewsText();
-  
+
     ui->startButton->setEnabled(false);
     ui->CreateLemonadeButton->setEnabled(false);
     ui->yesterdayButton->setEnabled(false);
@@ -272,6 +273,12 @@ void MainWindow::onSimulationComplete()
 
 void MainWindow::animationForDay()
 {
+    ui->calendarLabel->setVisible(false);
+    ui->demandLabel->setVisible(false);
+    ui->profitLabel->setVisible(false);
+    ui->salesLabel->setVisible(false);
+    ui->costLabel->setVisible(false);
+    ui->simulationFrame->setVisible(true);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
     if (game.yesterday().weatherState == 0)
@@ -318,6 +325,7 @@ void MainWindow::animationForDay()
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     ui->CreateLemonadeButton->setEnabled(true);
     ui->yesterdayButton->setEnabled(true);
+    ui->simulationPicture->setVisible(true);
 
     // Crowd begins moving across screen
     crowdTimer.start();
@@ -325,25 +333,27 @@ void MainWindow::animationForDay()
 
 void MainWindow::on_progress_start()
 {
+    std::cout << "hereererere" << std::endl;
     QPixmap calendar;
     if (game.currentDate <= 5)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
-        calendar = calendarImage;
+        ui->calendarLabel->setPixmap(calendarImage);
+        std::cout << "week1" << std::endl;
     }
     else if (game.currentDate > 5 && game.currentDate <= 10)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
-        calendar = calendarImage;
+        ui->calendarLabel->setPixmap(calendarImage);
     }
     else
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
-        calendar = calendarImage;
+        ui->calendarLabel->setPixmap(calendarImage);
     }
-    int width = ui->calendarLabel->width();
-    int height = ui->calendarLabel->height();
-    ui->calendarLabel->setPixmap(calendar.scaled(width, height, Qt::IgnoreAspectRatio));
+    ui->simulationPicture->setVisible(false);
+//    ui->dayFrame->setVisible(false);
+    ui->calendarLabel->setVisible(true);
 }
 
 void MainWindow::loadStartImages()
@@ -361,7 +371,6 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
-
 }
 
 void MainWindow::on_welcomeCheck4_clicked(bool checked)
@@ -477,9 +486,14 @@ void MainWindow::image_scroll()
     {
         crowdTimer.stop();
         ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
+        emit showCalendar();
+        ui->demandLabel->setVisible(true);
+        ui->profitLabel->setVisible(true);
+        ui->salesLabel->setVisible(true);
+        ui->costLabel->setVisible(true);
     }
 }
-  
+
 void MainWindow::closeDialogClosed(int i)
 {
     closeGame();
