@@ -32,7 +32,9 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+    QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradePurchased);
 
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -41,6 +43,11 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createGroundBody();
     createLemonBody();
     createPitcherBody();
+
+    // Time between crowd image being updated
+    crowdTimer.setInterval(50);
+
+    changeNewsText("Welcome to Lemonomics! Beware of whales!");
 
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
@@ -188,7 +195,7 @@ void MainWindow::on_startButton_clicked()
             return;
         }
 
-    changeNewsText("Welcome to Lemonomics! Beware of whales!");
+  //  changeNewsText();
   
     ui->startButton->setEnabled(false);
     ui->CreateLemonadeButton->setEnabled(false);
@@ -311,6 +318,9 @@ void MainWindow::animationForDay()
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     ui->CreateLemonadeButton->setEnabled(true);
     ui->yesterdayButton->setEnabled(true);
+
+    // Crowd begins moving across screen
+    crowdTimer.start();
 }
 
 void MainWindow::on_progress_start()
@@ -393,6 +403,83 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+void MainWindow::on_BuyUmbrella_clicked()
+{
+    emit updateWallet(1);
+}
+
+void MainWindow::on_BuyPitcher_clicked()
+{
+    emit updateWallet(7);
+}
+
+void MainWindow::on_BuyGrapes_clicked()
+{
+    emit updateWallet(5);
+}
+
+void MainWindow::on_BuyBoomBox_clicked()
+{
+    emit updateWallet(4);
+}
+
+void MainWindow::on_BuySugar_clicked()
+{
+    emit updateWallet(2);
+}
+
+void MainWindow::on_BuyLemons_clicked()
+{
+    emit updateWallet(3);
+}
+
+void MainWindow::on_BuyNeonSIgn_clicked()
+{
+    emit updateWallet(0);
+}
+
+void MainWindow::on_BuyInsurance_clicked()
+{
+    emit updateWallet(6);
+}
+
+void MainWindow::image_scroll()
+{
+    int x = ui->crowdLabel->x();
+    int y = ui->crowdLabel->y();
+    int width = ui->crowdLabel->width();
+    int height = ui->crowdLabel->height();
+    int demand = game.yesterday().demanded;
+
+    // how much the crowd moves per interval
+    x += 25;
+
+    // Moves label and updates crowd image
+    ui->crowdLabel->setGeometry(x, y, width, height);
+    if (demand < 44)
+    {
+        QPixmap lightCrowd(":/img/Images/Crowd_Levels/Crowd Light.png");
+        ui->crowdLabel->setPixmap(lightCrowd);
+    }
+    else if (demand < 74)
+    {
+        QPixmap mediumCrowd(":/img/Images/Crowd_Levels/Crowd Medium.png");
+        ui->crowdLabel->setPixmap(mediumCrowd);
+    }
+    else
+    {
+        QPixmap heavyCrowd(":/img/Images/Crowd_Levels/Crowd Heavy.png");
+        ui->crowdLabel->setPixmap(heavyCrowd);
+    }
+
+    // Once label is completely off screen, resets label position and stops timer.
+    if (x > width)
+    {
+        crowdTimer.stop();
+        ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
+    }
+}
+  
 void MainWindow::closeDialogClosed(int i)
 {
     closeGame();
@@ -468,4 +555,3 @@ void MainWindow::sugarSpinBox_valueChanged()
 {
     updateIngredientsFrameCost();
 }
-
