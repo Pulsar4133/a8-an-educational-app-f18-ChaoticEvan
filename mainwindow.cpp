@@ -6,11 +6,11 @@
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <QMediaPlayer>
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
 #include "ui_endgamedialog.h"
-#include <iostream>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+    playMusic();
 }
 
 ///Deconstructor.
@@ -128,6 +129,7 @@ void MainWindow::createLemonBody(){
     // Preloads all .png files.
     loadStartImages();
 }
+
 ///Creates priv member variable groundBody in box2d.
 /// groundBody defines the ground level for our world.
 /// \brief MainWindow::createGroundBody
@@ -148,6 +150,7 @@ void MainWindow::createGroundBody(){
     groundBody->CreateFixture(&groundBox, 1.0f);
 
 }
+
 ///Creates priv member variable pitcherBody in box2d.
 /// pitcherBody defines a static body placed on groundBody.
 /// \brief MainWindow::createPitcherBody
@@ -226,6 +229,16 @@ void MainWindow::redirectKhanAcademy()
     QMessageBox msgBox;
     msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
     msgBox.exec();
+}
+
+///
+/// A method to play music.
+/// \brief MainWindow::playMusic
+///
+void MainWindow::playMusic(){
+    QMediaPlayer *noise = new QMediaPlayer();
+    noise ->setMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    noise ->play();
 }
 
 void MainWindow::onSimulationComplete()

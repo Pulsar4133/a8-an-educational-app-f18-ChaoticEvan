@@ -94,6 +94,7 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void playMusic();
     QVector<QString>* getNewsStories(QString filePath);
 
     void openEndGameDialog();
