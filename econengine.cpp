@@ -4,9 +4,6 @@
 #include "econengine.h"
 #include <math.h>
 #include "upgrades.h"
-#include <iostream>
-
-using namespace std;
 
 // Initialize the instance pointer to null.
 EconEngine* EconEngine::m_engineInstance = NULL;
@@ -92,8 +89,6 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 
 void EconEngine::runSimulation()
 {
-    cout <<"running SImulation"<< endl;
-
     // TODO: Recalculate ideal lemonade stats,
     //		 e.g. different ice cubes based on
     //		 temperature or something.
@@ -144,50 +139,42 @@ float EconEngine::calculateProfit(float cost, float income)
 
 int EconEngine::calculateDemand()
 {
-    cout <<"calculate demand" << endl;
-
     int result = 75; //Default have it max demand (without upgrades).
 
     int temp = game.today().temperature;
+
     //Switched based off of the temperature.
     switch(temp){
     case 55:
-        cout << "in rain" <<endl;
         result = 20;
         break;
     case 25:
-        cout << "in snow" <<endl;
         result = 10;
         break;
     case 65:
-        cout << "in cloud" <<endl;
         result = 60;
         break;
     case 72:
-        cout << "in sunny" <<endl;
         result = 75;
         break;
     }
 
     int marketing = int(round(game.weights.marketing));
     int rep = int(round(game.weights.reputation));
-    cout << marketing <<endl << rep <<endl;
     result += marketing;
     result += rep;
 
-    //The max to result is 100 with upgrades.
-    if (result > 100){
-        cout << "high" <<endl;
+    // The max to result is 100 with upgrades.
+    if (result > 100)
+    {
         result = 100;
     }
 
-    cout <<result<< endl<< temp <<endl;
     return result;
 }
 
 void EconEngine::generateDays(Day* days, int numDays)
 {
-    cout <<"generate days"<<endl;
     for (int i = 0; i < numDays; i++)
     {
         // Skip day if it has already been simulated.

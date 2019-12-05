@@ -170,21 +170,6 @@ struct World
     int weatherSeverity	= 0;
 
     /**
-     * @brief Current price per unit of lemons.
-     */
-    float priceLemons = basePriceLemons * multiplierPriceLemons;
-
-    /**
-     * @brief Current price per unit of sugar.
-     */
-    float priceSugar = basePriceSugar * multiplierPriceSugar;
-
-    /**
-     * @brief Current price per unit of ice.
-     */
-    float priceIce = basePriceIce * multiplierPriceIce;
-
-    /**
      * @brief BaseLemonPrice is the base price of a lemon unit.
      */
     float basePriceLemons = 0.50;
@@ -213,6 +198,21 @@ struct World
      * @brief PriceIceMultiplier is the multiplier for ice prices.
      */
     float multiplierPriceIce = 1.00;
+
+    /**
+     * @brief Current price per unit of lemons.
+     */
+    float priceLemons = basePriceLemons * multiplierPriceLemons;
+
+    /**
+     * @brief Current price per unit of sugar.
+     */
+    float priceSugar = basePriceSugar * multiplierPriceSugar;
+
+    /**
+     * @brief Current price per unit of ice.
+     */
+    float priceIce = basePriceIce * multiplierPriceIce;
 
     /**
      * @brief The weather enum Stores all the possible types of weather.
