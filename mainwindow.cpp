@@ -4,6 +4,7 @@
 #include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
+#include <vector>
 #include <QGraphicsPixmapItem>
 #include <QMessageBox>
 #include <QTimer>
@@ -282,6 +283,11 @@ void MainWindow::animationForDay()
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
     ui->simulationFrame->setVisible(true);
+    ui->day1Label->setVisible(false);
+    ui->day2Label->setVisible(false);
+    ui->day3Label->setVisible(false);
+    ui->day4Label->setVisible(false);
+    ui->day5Label->setVisible(false);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
     if (game.yesterday().weatherState == 0)
@@ -334,7 +340,11 @@ void MainWindow::animationForDay()
 
 void MainWindow::on_progress_start()
 {
-    std::cout << "hereererere" << std::endl;
+    ui->day1Label->setVisible(true);
+    ui->day2Label->setVisible(true);
+    ui->day3Label->setVisible(true);
+    ui->day4Label->setVisible(true);
+    ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
     if (game.currentDate <= 5)
@@ -367,13 +377,40 @@ void MainWindow::calendarWeather(int currWeek)
     {
         return;
     }
-    QRect dimensions(0, 0, ui->day1Label->width(), ui->day1Label->height());
-    QPixmap temp(":/img/Images/Weather_Images/Sunny.png");
-    ui->day1Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->day2Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->day3Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->day4Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->day5Label->setPixmap(temp.scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
+    QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
+    QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
+    QPixmap tornadoDay(":/img/Images/Weather_Images/Tornado.png");
+    std::vector<QPixmap> currWeekWeather;
+    for (unsigned int i = 0 ; i < 5 ; i++)
+    {
+        if (game.days[i+currWeek*5].weatherState == 0)
+        {
+            //Rainy weather
+            currWeekWeather.push_back(rainyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 1)
+        {
+            //Snowy weather
+            currWeekWeather.push_back(tornadoDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 2)
+        {
+            //Cloudy weather
+            currWeekWeather.push_back(cloudyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 3)
+        {
+            //Sunny weather
+            currWeekWeather.push_back(sunnyDay);
+            //background = backgroundTemp;
+        }
+    }
+    ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day4Label->setPixmap(currWeekWeather[3].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day5Label->setPixmap(currWeekWeather[4].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 
