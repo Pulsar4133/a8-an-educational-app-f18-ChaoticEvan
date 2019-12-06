@@ -11,7 +11,7 @@
 bool EPrompt::initialized = false;
 PromptData EPrompt::PROMPTS[EPrompt::NUM_ENUMS] = {};
 
-void EPrompt::displayEduPrompt(int promptID, bool force = false)
+void EPrompt::displayEduPrompt(int promptID, bool force)
 {
 
 

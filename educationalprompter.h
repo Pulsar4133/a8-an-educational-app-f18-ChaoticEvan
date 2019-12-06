@@ -37,7 +37,7 @@ class EPrompt
 
 public:
 
-    static void displayEduPrompt(int promptId, bool force);
+    static void displayEduPrompt(int promptId, bool force = false);
     static void redirectToURL(QString url);
 
     enum PROMPT_IDS

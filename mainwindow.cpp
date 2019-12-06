@@ -362,6 +362,10 @@ void MainWindow::on_progress_start()
     {
         EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
     }
+    else if (game.currentDate == 2)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
+    }
 
 }
 
