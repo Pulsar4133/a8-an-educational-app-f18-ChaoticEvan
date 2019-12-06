@@ -362,34 +362,6 @@
     <zorder>graphsFrame</zorder>
     <zorder>newsFrame</zorder>
    </widget>
-   <widget class="QTabWidget" name="upgradesWidget">
-    <property name="geometry">
-     <rect>
-      <x>1060</x>
-      <y>450</y>
-      <width>541</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>1</number>
-    </property>
-    <widget class="QWidget" name="umbrellaUpgrade">
-     <attribute name="title">
-      <string>Umbrella</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>Grapes</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Neon Sign</string>
-     </attribute>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
@@ -552,12 +524,26 @@ you’re about to make! </string>
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="MuteMusic">
+     <property name="geometry">
+      <rect>
+       <x>950</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mute Music</string>
+     </property>
+    </widget>
     <zorder>welcomeBackground</zorder>
     <zorder>welcomeLabel1</zorder>
     <zorder>welcomeCheck4</zorder>
     <zorder>welcomeCheck3</zorder>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
+    <zorder>MuteMusic</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
@@ -569,7 +555,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -862,7 +848,6 @@ you’re about to make! </string>
      <zorder>BuyInsurance</zorder>
     </widget>
    </widget>
-   <zorder>upgradesWidget</zorder>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
@@ -876,7 +861,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

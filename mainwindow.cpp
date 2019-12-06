@@ -6,7 +6,6 @@
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
-#include <QMediaPlayer>
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
@@ -236,7 +235,6 @@ void MainWindow::redirectKhanAcademy()
 /// \brief MainWindow::playMusic
 ///
 void MainWindow::playMusic(){
-    QMediaPlayer *noise = new QMediaPlayer();
     noise ->setMedia(QUrl("qrc:/music/The Duck Song.mp3"));
     noise ->play();
 }
@@ -423,6 +421,20 @@ void MainWindow::on_day_change(QString scrollText)
     this->changeNewsText(scrollText);
 }
 
+void MainWindow::on_MuteMusic_clicked()
+{
+    if (isMusicPlaying)
+    {
+        isMusicPlaying = false;
+        noise-> stop();
+    }
+    else
+    {
+        isMusicPlaying = true;
+        noise -> play();
+    }
+}
+
 void MainWindow::changeNewsText(QString scrollText)
 {
     QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
@@ -451,6 +463,9 @@ void MainWindow::on_BuyGrapes_clicked()
 void MainWindow::on_BuyBoomBox_clicked()
 {
     emit updateWallet(4);
+    noise -> stop();
+    noise ->setMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    noise ->play();
 }
 
 void MainWindow::on_BuySugar_clicked()
@@ -592,3 +607,4 @@ void MainWindow::sugarSpinBox_valueChanged()
 {
     updateIngredientsFrameCost();
 }
+

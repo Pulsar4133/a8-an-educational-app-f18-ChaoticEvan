@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
+#include <QMediaPlayer>
 #include <QTimer>
 #include <QWidget>
 #include "ui_endgamedialog.h"
@@ -74,6 +75,8 @@ private slots:
     void on_welcomeCheck3_clicked(bool checked);
     void on_welcomeCheck2_clicked(bool checked);
 
+    void on_MuteMusic_clicked();
+
 private:
     Ui::MainWindow *ui;
     Ui::endgamedialog egd;
@@ -89,6 +92,8 @@ private:
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
+    QMediaPlayer *noise = new QMediaPlayer();
+    bool isMusicPlaying = true;
 
     void loadStartImages();
     void updateData();
