@@ -8,7 +8,8 @@
  */
 struct LemonadeRecipe;
 
-/**TODO fill out
+/**
+ * A class that represents the Lemonade object in the education application.
  * @brief The Lemonade class
  */
 class Lemonade
@@ -28,7 +29,7 @@ public:
 
     /**
      * Setters and getters.
-     * */
+     */
     void setRecipe(int, int, int, double);
     void setRecipe(const LemonadeRecipe recipe);
 
@@ -55,7 +56,8 @@ public:
     void addOneIce();
     void addOnePitcher();
 
-    /**TODO
+    /**
+     * A method to reset the number of ingredients.
      * @brief reset
      */
     void reset();

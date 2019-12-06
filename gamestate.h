@@ -9,7 +9,7 @@
 #include <functional>
 
 /**
- *TODO fill out
+ * A struct to store all the upgrades.
  */
 struct Upgrade;
 
@@ -40,20 +40,20 @@ class Upgrades
 {
 
 private:
-
-    /**TODO fill out
+    /** TODO
      * @brief m_upgradeList
      */
     Upgrade* m_upgradeList[UPGRADE_ENUM::NUM_UPGRADES];
 
 public:
-
-    /** TODO fill out
+    /**
+     * A constructor for Upgrades.
      * @brief Upgrades
      */
     Upgrades();
 
-    /** TODO fill out
+    /**
+     * A method to access upgrades at certain indices.
      * @brief operator []
      * @param i
      * @return
@@ -166,22 +166,11 @@ struct Day
  */
 struct World
 {
+    /**
+     * A variablet to store the severity of the weather.
+     * @brief weatherSeverity
+     */
     int weatherSeverity	= 0;
-
-    /**
-     * @brief Current price per unit of lemons.
-     */
-    float priceLemons	= basePriceLemons * multiplierPriceLemons;
-
-    /**
-     * @brief Current price per unit of sugar.
-     */
-    float priceSugar	= basePriceSugar * multiplierPriceSugar;
-
-    /**
-     * @brief Current price per unit of ice.
-     */
-    float priceIce		= basePriceIce * multiplierPriceIce;
 
     /**
      * @brief BaseLemonPrice is the base price of a lemon unit.
@@ -212,6 +201,21 @@ struct World
      * @brief PriceIceMultiplier is the multiplier for ice prices.
      */
     float multiplierPriceIce = 1.00;
+
+    /**
+     * @brief Current price per unit of lemons.
+     */
+    float priceLemons = basePriceLemons * multiplierPriceLemons;
+
+    /**
+     * @brief Current price per unit of sugar.
+     */
+    float priceSugar = basePriceSugar * multiplierPriceSugar;
+
+    /**
+     * @brief Current price per unit of ice.
+     */
+    float priceIce = basePriceIce * multiplierPriceIce;
 
     /**
      * @brief The weather enum Stores all the possible types of weather.
@@ -296,7 +300,9 @@ struct GameState
         return days[currentDate];
     }
 
-    /** TODO fill out
+
+    /**
+     * A method ot retrieve the datay for the previous day.
      * @brief yesterday
      * @return
      */

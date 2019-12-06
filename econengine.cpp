@@ -89,7 +89,6 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 
 void EconEngine::runSimulation()
 {
-
     // TODO: Recalculate ideal lemonade stats,
     //		 e.g. different ice cubes based on
     //		 temperature or something.
@@ -142,7 +141,8 @@ int EconEngine::calculateDemand()
 {
     int result = 75; //Default have it max demand (without upgrades).
 
-    int temp = game.days->temperature;
+    int temp = game.today().temperature;
+
     //Switched based off of the temperature.
     switch(temp){
     case 55:
@@ -159,12 +159,15 @@ int EconEngine::calculateDemand()
         break;
     }
 
-    result += int(round(game.weights.marketing));
-    result += int(round(game.weights.reputation));
+    int marketing = int(round(game.weights.marketing));
+    int rep = int(round(game.weights.reputation));
+    result += marketing;
+    result += rep;
 
-    //The max to result is 100 with upgrades.
-    if (result > 100){
-        result = 100;
+    // The max to result is 100 with upgrades.
+    if (result > 100)
+    {
+      result = 100;
     }
 
     return result;
