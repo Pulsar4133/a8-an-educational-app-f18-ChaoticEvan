@@ -4,6 +4,7 @@
 #include "gamestate.h"
 #include "lemonade.h"
 #include <QObject>
+#include <random>
 
 /**
  * @brief The EconEngine class has two functions:
@@ -67,6 +68,11 @@ public slots:
      */
     void onUpgradePurchased(int upgradeId);
 
+    /**
+     * @brief balanceWeights will use today's stats to rebalance weights, such as reputation.
+     */
+    void balanceWeights();
+
 private:
     /**
      * @brief Creates a new EconEngine able to run economic simulations
@@ -128,6 +134,20 @@ private:
      * @return cost
      */
     float totalCostOfLemonade();
+
+    /**
+     * @brief Determines the weight of an ideal recipe on demand
+     * @return
+     */
+    int determineRecipeBonus();
+
+    /**
+     * @brief determinePriceWeight determines the weight of the price on sales
+     * @return
+     */
+    float determinePriceWeight();
+
+    std::normal_distribution<float> tempDistribution;
 
 };
 
