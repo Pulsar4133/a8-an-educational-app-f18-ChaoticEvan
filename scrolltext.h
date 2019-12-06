@@ -1,10 +1,10 @@
 #ifndef SCROLLTEXT_H
 #define SCROLLTEXT_H
 
-#include <QWidget>
-#include <QTimer>
-#include <QStaticText>
 #include <QLabel>
+#include <QStaticText>
+#include <QTimer>
+#include <QWidget>
 
 class ScrollText : public QWidget
 {

@@ -90,24 +90,24 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="priceLabel">
         <property name="text">
          <string>Price Per Cup</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QDoubleSpinBox" name="priceSpinBox"/>
       </item>
-      <item row="5" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="dayCostLabel">
         <property name="text">
          <string>Cost</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="7" column="1">
        <widget class="QTextEdit" name="ingredientCostLabel">
         <property name="enabled">
          <bool>false</bool>
@@ -123,7 +123,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="8" column="1">
        <widget class="QPushButton" name="yesterdayButton">
         <property name="maximumSize">
          <size>
@@ -136,7 +136,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="8" column="0">
        <widget class="QPushButton" name="CreateLemonadeButton">
         <property name="minimumSize">
          <size>
@@ -149,7 +149,38 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="pitchersLabel">
+        <property name="text">
+         <string>Number of Pitchers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="pitchersSpinBox"/>
+      </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="ingDayLabel">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>80</y>
+       <width>100</width>
+       <height>35</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Day: 0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
@@ -219,6 +250,71 @@
        <y>50</y>
        <width>1061</width>
        <height>381</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day1Label">
+     <property name="geometry">
+      <rect>
+       <x>284</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day2Label">
+     <property name="geometry">
+      <rect>
+       <x>412</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day3Label">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day4Label">
+     <property name="geometry">
+      <rect>
+       <x>668</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day5Label">
+     <property name="geometry">
+      <rect>
+       <x>796</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
       </rect>
      </property>
      <property name="text">
@@ -362,34 +458,6 @@
     <zorder>graphsFrame</zorder>
     <zorder>newsFrame</zorder>
    </widget>
-   <widget class="QTabWidget" name="upgradesWidget">
-    <property name="geometry">
-     <rect>
-      <x>1060</x>
-      <y>450</y>
-      <width>541</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>1</number>
-    </property>
-    <widget class="QWidget" name="umbrellaUpgrade">
-     <attribute name="title">
-      <string>Umbrella</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>Grapes</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Neon Sign</string>
-     </attribute>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
@@ -417,7 +485,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1601</width>
+      <width>1600</width>
       <height>851</height>
      </rect>
     </property>
@@ -552,12 +620,46 @@ you’re about to make! </string>
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="beginButton">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>800</y>
+       <width>250</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Begin</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="MuteMusic">
+     <property name="geometry">
+      <rect>
+       <x>950</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Mute Music</string>
+     </property>
+    </widget>
     <zorder>welcomeBackground</zorder>
     <zorder>welcomeLabel1</zorder>
     <zorder>welcomeCheck4</zorder>
     <zorder>welcomeCheck3</zorder>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
+    <zorder>beginButton</zorder>
+    <zorder>MuteMusic</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
@@ -569,7 +671,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -862,7 +964,6 @@ you’re about to make! </string>
      <zorder>BuyInsurance</zorder>
     </widget>
    </widget>
-   <zorder>upgradesWidget</zorder>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
@@ -876,7 +977,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

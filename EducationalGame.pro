@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui \
+         multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -146,6 +147,8 @@ DEPENDPATH += $$PWD/SFML/include
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/sfml-main.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/libsfml-main.a
 DISTFILES += \
+    ../../../../../../Downloads/Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    ../../../../../../Downloads/The Duck Song.mp3 \
     Images/Background Default.png \
     Images/Background Default.png \
     Images/Background Default.png \
@@ -159,7 +162,11 @@ DISTFILES += \
     Images/Background Tornado.png \
     Images/ClipArtPitcher.png \
     Images/Whale.png \
-    Images/logo.png
+    Images/logo.png \
+    Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    The Duck Song.mp3 \
+    music/Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    music/The Duck Song.mp3
 
 RESOURCES += \
     startImages.qrc
