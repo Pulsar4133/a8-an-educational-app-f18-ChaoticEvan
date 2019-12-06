@@ -61,11 +61,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
     QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
-      
-    // Connects for ingredients.
-    QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
-    QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
-    QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
 
     ui->startButton->setEnabled(false);
     //ui->CreateLemonadeButton->setEnabled(false);
@@ -441,21 +436,6 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
-}
-
-/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
-/// Sets the values of the spinboxes on the UI to the lemonade data.
-/// \brief MainWindow::on_yesterdayButton_clicked
-///
-void MainWindow::on_yesterdayButton_clicked()
-{
-    ui->LemonSpinBox->setValue(lemonade.getLemon());
-    ui->sugarSpinBox->setValue(lemonade.getSugar());
-    ui->iceSpinBox->setValue(lemonade.getIce());
-    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
-    updateIngredientsFrameCost();
-
-    ui->startButton->setEnabled(true);
 }
 
 /// Below are methods that occur due to a button being clicked in the ui.
