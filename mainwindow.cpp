@@ -347,13 +347,13 @@ void MainWindow::on_progress_start()
     ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
-    if (game.currentDate <= 5)
+    if (game.currentDate <= 4)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 0;
     }
-    else if (game.currentDate > 5 && game.currentDate <= 10)
+    else if (game.currentDate > 4 && game.currentDate <= 9)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
