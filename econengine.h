@@ -68,7 +68,6 @@ public slots:
     void onUpgradePurchased(int upgradeId);
 
 private:
-
     /**
      * @brief Creates a new EconEngine able to run economic simulations
      * 		  of a lemonade stand.
@@ -78,6 +77,10 @@ private:
     // TODO: Assignment Operator
     // TODO: Copy Constructor
 
+    /**
+     * A variable that stores the EconEngine.
+     * @brief m_engineInstance
+     */
     static EconEngine* m_engineInstance;
 
     /**

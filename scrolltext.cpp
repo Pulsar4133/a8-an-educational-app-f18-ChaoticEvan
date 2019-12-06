@@ -1,7 +1,7 @@
 #include "scrolltext.h"
+#include <QHBoxLayout>
 #include <QPainter>
 #include <QWidget>
-#include <QHBoxLayout>
 
 ScrollText::ScrollText(QWidget *parent) : QWidget(parent), scrollPos(0)
 {
