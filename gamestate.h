@@ -69,7 +69,7 @@ struct Stand
      * @brief Reputation points to represent the current reputation of
      * 		  the player's stand.
      */
-    int reputation	= 0;
+    int reputation = 0;
 
     /**
      * @brief Marketing points to represent how much draw the player has
@@ -244,12 +244,12 @@ struct Weights
     /**
      * @brief Demand increase per reputation point.
      */
-    float reputation = 1.00;
+    float reputation = 0.1;
 
     /**
      * @brief Demand increase per marketing unit.
      */
-    float marketing = 1.00;
+    float marketing = 0;
 };
 
 /**
@@ -310,7 +310,7 @@ struct GameState
     /**
      * @brief The current day's recipe for lemonade.
      */
-    LemonadeRecipe& currentLemonade = this->today().lemonade;
+    LemonadeRecipe& currentLemonade() { return this->today().lemonade; }
 
     /**
      * @brief The ideal recipe for lemonade.
