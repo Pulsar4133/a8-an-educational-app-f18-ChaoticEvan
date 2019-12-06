@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QSpinBox>
-#include "ui_endGameDialog.h"
+#include "ui_endgamedialog.h"
 
 #include <iostream>
 
