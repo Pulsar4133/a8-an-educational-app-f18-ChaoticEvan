@@ -253,7 +253,7 @@ void MainWindow::updateData()
 /// \brief MainWindow::playMusic
 ///
 void MainWindow::playMusic(){
-    noise ->setMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    noise ->setMedia(QUrl("qrc:/music/ducksong.mp3"));
     noise ->play();
 }
 
@@ -527,7 +527,7 @@ void MainWindow::on_BuyBoomBox_clicked()
 {
     emit updateWallet(4);
     noise -> stop();
-    noise ->setMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    noise ->setMedia(QUrl("qrc:/music/rickroll.mp3"));
     noise ->play();
 }
 
