@@ -88,19 +88,12 @@ void MainWindow::updateWorld(){
         jump = false;
     }
 
-    if(lemonBody != nullptr){
-        b2Vec2 position = lemonBody->GetPosition();
-        lemonImage->setGeometry(position.x, position.y, 0, 0);
-    }
-    if(sugarCubeBody != nullptr){
-         b2Vec2 sugarPos = sugarCubeBody->GetPosition();
-         sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
-    }
-    if(iceCubeBody != nullptr){
-        b2Vec2 icePos = iceCubeBody->GetPosition();
-        iceImage->setGeometry(icePos.x,icePos.y,0,0);
-    }
-
+    b2Vec2 position = lemonBody->GetPosition();
+    lemonImage->setGeometry(position.x, position.y, 0, 0);
+    b2Vec2 sugarPos = sugarCubeBody->GetPosition();
+    sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
+    b2Vec2 icePos = iceCubeBody->GetPosition();
+    iceImage->setGeometry(icePos.x,icePos.y,0,0);
     b2Vec2 pitchPos = pitcherBody->GetPosition();
     pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
 
@@ -274,7 +267,6 @@ void MainWindow::collisionCheck(){
         //check if body is in contact with another body
         if(edge->contact->IsTouching()){
             lemonImage->setHidden(true);
-            //lemonImage->setPixmap(QPixmap());
              world.DestroyBody(lemonBody);
              iceImage->setHidden(false);
              updateIceBody();
@@ -294,8 +286,7 @@ void MainWindow::collisionCheck(){
         //check if body is in contact with another body
         if(edge3->contact->IsTouching()){
             sugarImage->setHidden(true);
-            //sugarImage->setPixmap(QPixmap());
-             world.DestroyBody(sugarCubeBody);
+            world.DestroyBody(sugarCubeBody);
 
         }
     }
