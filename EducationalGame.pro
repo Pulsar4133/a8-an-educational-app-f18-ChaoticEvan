@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui \
+         multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -63,6 +64,7 @@ SOURCES += \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
     econengine.cpp \
+    endgamedialog.cpp \
     lemonade.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -118,6 +120,7 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    endgamedialog.h \
     gamestate.h \
     lemonade.h \
     mainwindow.h \
@@ -126,6 +129,7 @@ HEADERS += \
     upgrades.h
 
 FORMS += \
+    endgamedialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
@@ -141,6 +145,8 @@ DEPENDPATH += $$PWD/SFML/include
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/sfml-main.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/SFML/lib/libsfml-main.a
 DISTFILES += \
+    ../../../../../../Downloads/Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    ../../../../../../Downloads/The Duck Song.mp3 \
     Images/Background Default.png \
     Images/Background Default.png \
     Images/Background Default.png \
@@ -149,11 +155,16 @@ DISTFILES += \
     Images/Background Overcast.png \
     Images/Background Rain.png \
     Images/Background Rain.png \
+    Images/Background Snow.png \
     Images/Background Tornado.png \
     Images/Background Tornado.png \
     Images/ClipArtPitcher.png \
     Images/Whale.png \
-    Images/logo.png
+    Images/logo.png \
+    Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    The Duck Song.mp3 \
+    music/Rick Astley - Never Gonna Give You Up (Video).mp3 \
+    music/The Duck Song.mp3
 
 RESOURCES += \
     startImages.qrc

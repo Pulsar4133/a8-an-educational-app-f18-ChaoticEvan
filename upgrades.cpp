@@ -57,7 +57,8 @@ Upgrades::Upgrades()
                     "Invest in the sound of music. Gather the kiddos to drink to the sound of some sick tunes.",
                     75.00,
                     UPGRADE_ENUM::BOOM_BOX,
-                    [] (GameState& game)
+                //TODO put in music
+                    [](GameState& game)
                     {
                         game.stand.reputation += 50;
                     });

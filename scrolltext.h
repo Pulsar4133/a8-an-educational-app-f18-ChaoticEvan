@@ -1,16 +1,14 @@
 #ifndef SCROLLTEXT_H
 #define SCROLLTEXT_H
 
-#include <QWidget>
-#include <QTimer>
-#include <QStaticText>
 #include <QLabel>
+#include <QStaticText>
+#include <QTimer>
+#include <QWidget>
 
 class ScrollText : public QWidget
 {
     Q_OBJECT
-  //  Q_PROPERTY(QString text READ text WRITE setText)
-//    Q_PROPERTY(QString separator READ separator WRITE setSeparator)
 
 public:
     explicit ScrollText(QWidget *parent = nullptr);
