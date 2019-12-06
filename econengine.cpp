@@ -4,6 +4,17 @@
 #include "econengine.h"
 #include <math.h>
 #include "upgrades.h"
+#include <QDebug>
+
+#define TEMPERATURE_AVERAGE 85
+#define TEMPERATURE_VARIANCE 5
+#define BASE_RECIPE_BONUS 50
+#define REPUTATION_POINTS_PER_SALE 0.3
+#define MAX_DEMAND 300
+#define MIN_DEMAND 1
+#define PERFECT_LEMONS 6
+#define PERFECT_SUGAR  4
+#define PERFECT_PRICE 1.5
 
 // Initialize the instance pointer to null.
 EconEngine* EconEngine::m_engineInstance = NULL;
@@ -33,6 +44,11 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
 
     // Set the future weather for all days in the game.
     this->generateDays(game.days, game.gameLength);
+
+    game.perfectLemonade = LemonadeRecipe();
+    game.perfectLemonade.lemons = PERFECT_LEMONS;
+    game.perfectLemonade.sugar = PERFECT_SUGAR;
+    game.perfectLemonade.pricePerCup = PERFECT_PRICE;
 }
 
 
@@ -89,14 +105,13 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 
 void EconEngine::runSimulation()
 {
-    // TODO: Recalculate ideal lemonade stats,
-    //		 e.g. different ice cubes based on
-    //		 temperature or something.
-    game.perfectLemonade.ice = 2;
 
-    // TODO: Recalculate weights of internal structures based
-    //		 on any conditions that may have changed.
-    game.weights.reputation = 1.50;
+    // Perfect lemonade: One ice cube per 5 degrees over 70 degrees
+    game.perfectLemonade.ice = (game.today().temperature - 70) / 5;
+    if (game.perfectLemonade.ice < 0)
+    {
+        game.perfectLemonade.ice = 0;
+    }
 
     // Calculates demand based on internal states.
     int cupsDemanded = this->calculateDemand();
@@ -127,7 +142,7 @@ void EconEngine::runSimulation()
     // wallet.
     game.stand.wallet += game.today().profit;
 
-    // SETTLE: Do we want bankruptcy to be a Game Over condition?
+    this->balanceWeights();
 
     return;
 }
@@ -139,38 +154,95 @@ float EconEngine::calculateProfit(float cost, float income)
 
 int EconEngine::calculateDemand()
 {
-    int result = 75; //Default have it max demand (without upgrades).
+    int result = 0; //Default have it max demand (without upgrades).
 
     int temp = game.today().temperature;
 
     //Switched based off of the temperature.
+    int baseDemand = 0;
     switch(temp){
     case 55:
-        result = 20;
+        baseDemand = 10;
         break;
     case 25:
-        result = 10;
+        baseDemand = 5;
         break;
     case 65:
-        result = 60;
+        baseDemand = 15;
         break;
     case 72:
-        result = 75;
+        baseDemand = 20;
         break;
     }
 
-    int marketing = int(round(game.weights.marketing));
-    int rep = int(round(game.weights.reputation));
-    result += marketing;
-    result += rep;
+    float priceMult = this->determinePriceWeight();
 
-    // The max to result is 100 with upgrades.
-    if (result > 100)
+    result = baseDemand;
+
+    result = (baseDemand
+           + game.stand.marketing  * game.weights.marketing
+           + game.stand.reputation * game.weights.reputation)
+           * priceMult;
+
+    if (result > MAX_DEMAND)
     {
-        result = 100;
+        result = MAX_DEMAND;
+    }
+    else if (result < MIN_DEMAND)
+    {
+        result = MIN_DEMAND;
     }
 
+    qDebug() << baseDemand
+             << "\t"
+             << game.stand.reputation
+             << "\t"
+             << game.stand.marketing
+             << "\t"
+             << priceMult
+             << "\t"
+             << result;
+
     return result;
+}
+
+void EconEngine::balanceWeights()
+{
+    game.stand.reputation += int(game.today().sales * REPUTATION_POINTS_PER_SALE);
+    game.stand.reputation += determineRecipeBonus();
+    // TODO: Incorporate price into reputation
+}
+
+int EconEngine::determineRecipeBonus()
+{
+    int result = BASE_RECIPE_BONUS;
+
+    int lemonsDiff = 	game.today().lemonade.lemons -
+                        game.perfectLemonade.lemons;
+
+    int sugarDiff = 	game.today().lemonade.sugar -
+                        game.perfectLemonade.sugar;
+
+    int iceDiff = 		game.today().lemonade.ice -
+                        game.perfectLemonade.ice;
+
+    int squaredDiffSum = lemonsDiff * lemonsDiff +
+                         sugarDiff * sugarDiff +
+                         iceDiff * iceDiff;
+
+    result -= squaredDiffSum;
+
+    return result;
+
+}
+
+float EconEngine::determinePriceWeight()
+{
+    float idealPrice = game.perfectLemonade.pricePerCup;
+
+    float diffRatio = game.today().lemonade.pricePerCup / idealPrice;
+
+    return 1 / (diffRatio);
 }
 
 void EconEngine::generateDays(Day* days, int numDays)
@@ -231,9 +303,9 @@ void EconEngine::setDisasterLevel3(){
 
 float EconEngine::totalCostOfLemonade()
 {
-    float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons;
-    float costOfSugar  = game.today().lemonade.sugar * game.world.priceSugar;
-    float costOfIce    = game.today().lemonade.ice * game.world.priceIce;
+    float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons();
+    float costOfSugar  = game.today().lemonade.sugar * game.world.priceSugar();
+    float costOfIce    = game.today().lemonade.ice * game.world.priceIce();
 
     float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
 

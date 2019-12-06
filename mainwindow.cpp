@@ -11,6 +11,7 @@
 #include <QSpinBox>
 #include <QTimer>
 #include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -26,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
-    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
@@ -65,14 +65,12 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
-    // Connects for ingredients.
-    QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
-    QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
-    QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
+    QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
+    QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
 
     ui->startButton->setEnabled(false);
-    //ui->CreateLemonadeButton->setEnabled(false);
-    //ui->yesterdayButton->setEnabled(false);
     playMusic();
 }
 
@@ -344,8 +342,16 @@ void MainWindow::on_startButton_clicked()
 /// and then pass by reference to the data member lemonade.
 /// \brief MainWindow::createLemonade
 ///
-void MainWindow::createLemonade()
-{
+
+void MainWindow::createLemonade(){
+    if(ui->pitchersSpinBox->value() == 0)
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("You will probably need at least 1 pitcher of lemonade!");
+        addIngMsg.exec();
+        return;
+    }
+
     if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
     {
         QMessageBox addIngMsg;
@@ -358,7 +364,10 @@ void MainWindow::createLemonade()
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-                       ui->priceSpinBox->value());
+
+                       ui->priceSpinBox->value(),
+                       ui->pitchersSpinBox->value());
+    ui->startButton->setEnabled(true);
 }
 
 /// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
@@ -367,13 +376,13 @@ void MainWindow::createLemonade()
 ///
 void MainWindow::on_yesterdayButton_clicked()
 {
-
-    // IDEA: use game.days[currentDay - 1].lemonade to get yesterday's recipe! :)
     ui->LemonSpinBox->setValue(lemonade.getLemon());
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
 
+    ui->pitchersSpinBox->setValue(lemonade.getNumPitchers());
+    updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
 
@@ -381,21 +390,13 @@ void MainWindow::on_yesterdayButton_clicked()
 
 void MainWindow::updateData()
 {
+    ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
 }
 
-///
-/// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
-///
-void MainWindow::redirectKhanAcademy()
-{
-    QMessageBox msgBox;
-    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
-    msgBox.exec();
-}
 
 ///
 /// A method to play music.
@@ -410,12 +411,6 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
-
-    if(game.currentDate == 15)
-    {
-        openEndGameDialog();
-    }
-
 }
 
 void MainWindow::animationForDay()
@@ -512,6 +507,12 @@ void MainWindow::on_progress_start()
     calendarWeather(currWeek);
     ui->simulationPicture->setVisible(false);
     ui->calendarLabel->setVisible(true);
+
+    if (game.currentDate == 1)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
+    }
+
 }
 
 void MainWindow::calendarWeather(int currWeek)
@@ -576,21 +577,6 @@ void MainWindow::loadStartImages()
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
 }
 
-/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
-/// Sets the values of the spinboxes on the UI to the lemonade data.
-/// \brief MainWindow::on_yesterdayButton_clicked
-///
-void MainWindow::on_yesterdayButton_clicked()
-{
-    ui->LemonSpinBox->setValue(lemonade.getLemon());
-    ui->sugarSpinBox->setValue(lemonade.getSugar());
-    ui->iceSpinBox->setValue(lemonade.getIce());
-    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
-    updateIngredientsFrameCost();
-
-    ui->startButton->setEnabled(true);
-}
-
 /// Below are methods that occur due to a button being clicked in the ui.
 
 void MainWindow::on_startButton_clicked()
@@ -613,6 +599,8 @@ void MainWindow::on_startButton_clicked()
   //  changeNewsText();
 
     ui->startButton->setEnabled(false);
+    ui->CreateLemonadeButton->setEnabled(false);
+    ui->yesterdayButton->setEnabled(false);
 
     emit sigStartSimulation(this->lemonade);
 }
@@ -643,7 +631,7 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
 
 void MainWindow::on_day_change(QString scrollText)
 {
-    this->changeNewsText(scrollText);
+
 }
 
 void MainWindow::on_MuteMusic_clicked()
@@ -754,7 +742,12 @@ void MainWindow::image_scroll()
         ui->costLabel->setVisible(true);
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
+        if(game.currentDate == 15)
+        {
+            openEndGameDialog();
+        }
     }
+
 }
 
 void MainWindow::closeDialogClosed(int i)
@@ -805,30 +798,37 @@ void MainWindow::updateIngredientsFrameCost()
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
-    double lemonsCost = lemons * game.world.priceLemons;
+    double lemonsCost = lemons * game.world.priceLemons();
 
     int sugar = ui->sugarSpinBox->value();
-    double sugarCost = sugar * game.world.priceSugar;
+    double sugarCost = sugar * game.world.priceSugar();
 
     int ice = ui->iceSpinBox->value();
-    double iceCost = ice * game.world.priceIce;
+    double iceCost = ice * game.world.priceIce();
 
-    double totalCost = lemonsCost + sugarCost + iceCost;
+    int numPitchers = ui->pitchersSpinBox->value();
+
+    double totalCost = (lemonsCost + sugarCost + iceCost) * numPitchers;
 
     return totalCost;
 }
 
-void MainWindow::lemonSpinBox_valueChanged()
+void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::iceSpinBox_valueChanged()
+void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::sugarSpinBox_valueChanged()
+void MainWindow::sugarSpinBox_valueChanged(int i)
+{
+    updateIngredientsFrameCost();
+}
+
+void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }

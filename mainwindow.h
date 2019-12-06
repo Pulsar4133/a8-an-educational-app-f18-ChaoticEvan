@@ -36,10 +36,10 @@ signals:
     void updateWallet(int upgrade);
     void openEndDialog();
     void showCalendar();
+    void sigAnimationEnded();
 
 public slots:
     void updateWorld();
-    void redirectKhanAcademy();
     void onSimulationComplete();
     void updateSugarBody();
     void updateLemonBody();
@@ -54,9 +54,10 @@ private slots:
     void closeGame();
     void closeDialogClosed(int i);
 
-    void lemonSpinBox_valueChanged();
-    void iceSpinBox_valueChanged();
-    void sugarSpinBox_valueChanged();
+    void lemonSpinBox_valueChanged(int i);
+    void iceSpinBox_valueChanged(int i);
+    void sugarSpinBox_valueChanged(int i);
+    void pitcherSpinBox_valueChanged(int i);
 
     /**
      * @brief Button clicks.
