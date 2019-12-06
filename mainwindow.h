@@ -12,6 +12,7 @@
 #include <QWidget>
 #include "ui_endgamedialog.h"
 #include "endgamedialog.h"
+#include "scrolltext.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -97,6 +98,9 @@ private:
     QTimer crowdTimer;
     QMediaPlayer *noise = new QMediaPlayer();
     bool isMusicPlaying = true;
+    QVector<QString>* newsStories;
+    QHBoxLayout* newsLayout;
+    ScrollText* news;
 
     void loadStartImages();
     void updateData();

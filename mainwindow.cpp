@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
+#include <QFile>
+#include <QTime>
 #include "ui_endgamedialog.h"
 #include "educationalprompter.h"
 
@@ -51,7 +53,15 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     crowdTimer.setInterval(50);
 
     // Set beginning text for the game.
+    newsLayout = new QHBoxLayout(ui->newsWidget);
+    news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    newsLayout->addWidget(news);
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
+    // QVector of all news stories
+    newsStories = MainWindow::getNewsStories(":/txt/textResources/newsStories.txt");
+
 
     // End screen pop up.
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
@@ -446,7 +456,11 @@ void MainWindow::on_startButton_clicked()
             return;
         }
 
-  //  changeNewsText();
+    // Sets new story semi-randomly via current time in miliseconds
+    QTime now = QTime::currentTime();
+    int storyIndex = now.msec() % newsStories->size();
+    QString story = newsStories->at(storyIndex);
+    changeNewsText(story);
 
     ui->startButton->setEnabled(false);
     ui->CreateLemonadeButton->setEnabled(false);
@@ -500,11 +514,7 @@ void MainWindow::on_MuteMusic_clicked()
 
 void MainWindow::changeNewsText(QString scrollText)
 {
-    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
-    ScrollText* news = new ScrollText(ui->newsWidget);
-    QFont font("manjari", 20);
-    news->setFont(font);
-    layout->addWidget(news);
+    // ScrollText method to change text being painted
     news->setText(scrollText);
 }
 
@@ -693,4 +703,26 @@ void MainWindow::on_beginButton_clicked()
     ui->welcomeCheck2->setVisible(false);
     ui->welcomeCheck3->setVisible(false);
     ui->welcomeCheck4->setVisible(false);
+}
+
+QVector<QString>* MainWindow::getNewsStories(QString filePath)
+{
+    QFile storiesFile(filePath);
+    QVector<QString>* storiesArray = new QVector<QString>;
+
+    // Makes sure stories file can be opened
+    if(!storiesFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", storiesFile.errorString());
+    }
+
+    QTextStream input(&storiesFile);
+
+    // While there are still stories in the file
+    while(!input.atEnd())
+    {
+        QString story = input.readLine();
+        storiesArray->append(story);
+    }
+
+    return storiesArray;
 }
