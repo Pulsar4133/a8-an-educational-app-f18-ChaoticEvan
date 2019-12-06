@@ -63,8 +63,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
 
     ui->startButton->setEnabled(false);
-    //ui->CreateLemonadeButton->setEnabled(false);
-    //ui->yesterdayButton->setEnabled(false);
     playMusic();
 }
 
@@ -272,12 +270,6 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
-
-    if(game.currentDate == 15)
-    {
-        openEndGameDialog();
-    }
-
 }
 
 void MainWindow::animationForDay()
@@ -460,6 +452,8 @@ void MainWindow::on_startButton_clicked()
   //  changeNewsText();
 
     ui->startButton->setEnabled(false);
+    ui->CreateLemonadeButton->setEnabled(false);
+    ui->yesterdayButton->setEnabled(false);
 
     emit sigStartSimulation(this->lemonade);
 }
@@ -601,6 +595,10 @@ void MainWindow::image_scroll()
         ui->costLabel->setVisible(true);
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
+        if(game.currentDate == 15)
+        {
+            openEndGameDialog();
+        }
     }
 }
 
