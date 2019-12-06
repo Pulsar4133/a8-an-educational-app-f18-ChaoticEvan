@@ -157,6 +157,20 @@ void EPrompt::initPrompts()
 
                 );
 
+    INIT_PROMPT(P_PRODUCT_DIFFERENTIATION) PromptData(
+
+                "Product Differentiation",
+
+                "Don't be yourself - be different!",
+
+                "There's only a few ways to make lemonade. What makes you different from your competitors? "
+                "In any business, it's important to <b>differentiate</b> yourself from your competitors by "
+                "making your product or service unique in some way - like going organic!",
+
+                "https://www.investopedia.com/terms/p/product_differentiation.asp"
+
+                );
+
 }
 
 PromptData& EPrompt::getPromptData(int promptID)
