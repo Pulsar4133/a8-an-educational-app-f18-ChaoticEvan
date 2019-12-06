@@ -33,10 +33,10 @@ signals:
     void updateWallet(int upgrade);
     void openEndDialog();
     void showCalendar();
+    void sigAnimationEnded();
 
 public slots:
     void updateWorld();
-    void redirectKhanAcademy();
     void onSimulationComplete();
 
 private slots:

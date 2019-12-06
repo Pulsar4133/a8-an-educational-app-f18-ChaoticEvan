@@ -63,6 +63,7 @@ SOURCES += \
     Box2D/Dynamics/b2WorldCallbacks.cpp \
     Box2D/Rope/b2Rope.cpp \
     econengine.cpp \
+    educationalprompter.cpp \
     endgamedialog.cpp \
     lemonade.cpp \
     main.cpp \
@@ -119,6 +120,7 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     econengine.h \
+    educationalprompter.h \
     endgamedialog.h \
     gamestate.h \
     lemonade.h \

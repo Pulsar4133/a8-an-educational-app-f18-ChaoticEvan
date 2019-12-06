@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QSpinBox>
 #include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 
 #include <iostream>
 
@@ -27,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // These are UI connections.
 
-    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
@@ -249,16 +249,6 @@ void MainWindow::updateData()
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
 }
 
-///
-/// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
-///
-void MainWindow::redirectKhanAcademy()
-{
-    QMessageBox msgBox;
-    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
-    msgBox.exec();
-}
-
 void MainWindow::onSimulationComplete()
 {
     this->updateData();
@@ -352,6 +342,12 @@ void MainWindow::on_progress_start()
     ui->simulationPicture->setVisible(false);
 //    ui->dayFrame->setVisible(false);
     ui->calendarLabel->setVisible(true);
+
+    if (game.currentDate == 1)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
+    }
+
 }
 
 void MainWindow::loadStartImages()
@@ -397,7 +393,7 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
 
 void MainWindow::on_day_change(QString scrollText)
 {
-    this->changeNewsText(scrollText);
+
 }
 
 void MainWindow::changeNewsText(QString scrollText)
@@ -492,6 +488,7 @@ void MainWindow::image_scroll()
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
     }
+
 }
 
 void MainWindow::closeDialogClosed(int i)
@@ -569,3 +566,4 @@ void MainWindow::sugarSpinBox_valueChanged()
 {
     updateIngredientsFrameCost();
 }
+
