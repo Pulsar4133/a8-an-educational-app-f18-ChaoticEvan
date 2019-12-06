@@ -1,6 +1,5 @@
 #include "gamestate.h"
 #include "upgrades.h"
-//        #include <QMediaPlayer>
 
 /*
  * PROCESS FOR CREATING UPGRADES:
@@ -59,10 +58,7 @@ Upgrades::Upgrades()
                     75.00,
                     UPGRADE_ENUM::BOOM_BOX,
                 //TODO put in music
-                    [//    QMediaPlayer *noise = new QMediaPlayer();
-            //    noise ->setMedia(QUrl("qrc:/new/sounds/ba.mp3"));
-            //    noise ->play();
-            ] (GameState& game)
+                    [](GameState& game)
                     {
                         game.stand.reputation += 50;
                     });
