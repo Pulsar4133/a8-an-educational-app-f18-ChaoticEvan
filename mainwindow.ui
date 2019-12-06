@@ -225,6 +225,71 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="day1Label">
+     <property name="geometry">
+      <rect>
+       <x>284</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day2Label">
+     <property name="geometry">
+      <rect>
+       <x>412</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day3Label">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day4Label">
+     <property name="geometry">
+      <rect>
+       <x>668</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="day5Label">
+     <property name="geometry">
+      <rect>
+       <x>796</x>
+       <y>-42</y>
+       <width>300</width>
+       <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
@@ -389,7 +454,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1601</width>
+      <width>1600</width>
       <height>851</height>
      </rect>
     </property>
@@ -524,6 +589,23 @@ you’re about to make! </string>
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="beginButton">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>800</y>
+       <width>250</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Begin</string>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
     <widget class="QPushButton" name="MuteMusic">
      <property name="geometry">
       <rect>
@@ -543,6 +625,7 @@ you’re about to make! </string>
     <zorder>welcomeCheck3</zorder>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
+    <zorder>beginButton</zorder>
     <zorder>MuteMusic</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
@@ -861,6 +944,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
+     <height>19</height>
      <height>21</height>
     </rect>
    </property>

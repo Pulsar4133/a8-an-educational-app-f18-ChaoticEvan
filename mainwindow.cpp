@@ -5,6 +5,7 @@
 #include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
+#include <vector>
 #include <QGraphicsPixmapItem>
 #include <QMessageBox>
 #include <QSpinBox>
@@ -25,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
-
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
@@ -61,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+
+    ui->startButton->setEnabled(false);
+    //ui->CreateLemonadeButton->setEnabled(false);
+    //ui->yesterdayButton->setEnabled(false);
     playMusic();
 }
 
@@ -259,6 +263,11 @@ void MainWindow::animationForDay()
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
     ui->simulationFrame->setVisible(true);
+    ui->day1Label->setVisible(false);
+    ui->day2Label->setVisible(false);
+    ui->day3Label->setVisible(false);
+    ui->day4Label->setVisible(false);
+    ui->day5Label->setVisible(false);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
     if (game.yesterday().weatherState == 0)
@@ -311,28 +320,81 @@ void MainWindow::animationForDay()
 
 void MainWindow::on_progress_start()
 {
-    std::cout << "hereererere" << std::endl;
+    ui->day1Label->setVisible(true);
+    ui->day2Label->setVisible(true);
+    ui->day3Label->setVisible(true);
+    ui->day4Label->setVisible(true);
+    ui->day5Label->setVisible(true);
     QPixmap calendar;
-    if (game.currentDate <= 5)
+    int currWeek = -99;
+    if (game.currentDate <= 4)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
-        std::cout << "week1" << std::endl;
+        currWeek = 0;
     }
-    else if (game.currentDate > 5 && game.currentDate <= 10)
+    else if (game.currentDate > 4 && game.currentDate <= 9)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 1;
     }
     else
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 2;
     }
+
+    calendarWeather(currWeek);
     ui->simulationPicture->setVisible(false);
-//    ui->dayFrame->setVisible(false);
     ui->calendarLabel->setVisible(true);
 }
+
+void MainWindow::calendarWeather(int currWeek)
+{
+    if(currWeek == -99)
+    {
+        return;
+    }
+    QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
+    QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
+    QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
+    QPixmap tornadoDay(":/img/Images/Weather_Images/Tornado.png");
+    QPixmap snowyDay(":/img/Images/Weather_Images/Snowy.png");
+
+    std::vector<QPixmap> currWeekWeather;
+    for (unsigned int i = 0 ; i < 5 ; i++)
+    {
+        if (game.days[i+currWeek*5].weatherState == 0)
+        {
+            //Rainy weather
+            currWeekWeather.push_back(rainyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 1)
+        {
+            //Snowy weather
+            currWeekWeather.push_back(snowyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 2)
+        {
+            //Cloudy weather
+            currWeekWeather.push_back(cloudyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 3)
+        {
+            //Sunny weather
+            currWeekWeather.push_back(sunnyDay);
+            //background = backgroundTemp;
+        }
+    }
+    ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day4Label->setPixmap(currWeekWeather[3].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day5Label->setPixmap(currWeekWeather[4].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
 
 void MainWindow::loadStartImages()
 {
@@ -608,3 +670,14 @@ void MainWindow::sugarSpinBox_valueChanged()
     updateIngredientsFrameCost();
 }
 
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}

@@ -77,6 +77,8 @@ private slots:
 
     void on_MuteMusic_clicked();
 
+    void on_beginButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Ui::endgamedialog egd;
@@ -99,6 +101,7 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void calendarWeather(int currWeek);
     void playMusic();
     QVector<QString>* getNewsStories(QString filePath);
 
