@@ -16,7 +16,7 @@ void EPrompt::displayEduPrompt(int promptID)
 
     // Create MessageBox
     QMessageBox msgBox;
-    msgBox.setText		     (EPrompt::getPromptData(promptID).title);
+    msgBox.setText		     ("<h2>" + EPrompt::getPromptData(promptID).header + "</h2>");
     msgBox.setInformativeText(EPrompt::getPromptData(promptID).message);
     msgBox.setWindowTitle    (EPrompt::getPromptData(promptID).title);
 
@@ -50,12 +50,14 @@ void EPrompt::initPrompts()
                 "Lemonomics is a game that will teach you how to run a small business and"
                 " completely dominate your local beverage market!",
 
-                "Each day, you'll create a recipe for your lemonade and open up your stand "
+                "<br><br>"
+
+                "Each day, you'll create a <b>recipe</b> for your lemonade and open up your stand "
                 "for customers. You probably won't get your recipe or price right the first time"
-                " - to find the perfect recipe, you'll need to watch your demand. With a good recipe, "
+                " - to find the perfect recipe, you'll need to <b>keep a close eye on your demand</b>. With a good recipe, "
                 "everybody in town will want a taste of your lemonade!"
 
-                "\n\n"
+                "<br><br>"
 
                 "Closely watching how changes to your business affect demand is important to "
                 "running a successful business!",
@@ -65,20 +67,23 @@ void EPrompt::initPrompts()
                 );
 
     INIT_PROMPT(P_PRICE_EFFECT) PromptData(
-                "The Price Effect",
+                "Quantity and Price Effects",
 
-                "Congratulations on your first day of business!",
+                "Congratulations on finishing your first day!",
 
-                "Look at all those sales! Hopefully you made enough lemonade to satisfy the demand. "
-                "Obviously, demand is great! It means plenty of people are buying your product and "
-                "telling their friends. One of the best ways to create more demand is to lower your "
-                "price. This is called the <b>Price Effect.<\b>"
+                "To keep running a successful business, pay close attention to your <b>price</b> "
+                "and <b>quantity sold</b>."
 
-                "\n\n"
+                "<br><br>"
 
-                "Dropping your price will help you sell more, but it will also drop the amount of "
-                "money you make per cup. Is it better to lower your price to sell more lemonade for "
-                "less money per cup, or raise your price to sell less lemonade for more money per cup?",
+                "Lowering your price will increase your quantity sold but earn you less money per "
+                "cup. Raising your price will decrease your quantity sold but increase your money "
+                "per cup."
+
+                "<br><br>"
+
+                "These relationships are called the <b>Price and Quantity Effects</b>. If you pay "
+                "close attention, you can balance these effects to make a ton of money!",
 
                 "https://pressbooks.bccampus.ca/uvicecon103/chapter/4-4-elasticity-and-revenue/"
                 );
