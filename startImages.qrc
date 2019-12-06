@@ -32,7 +32,6 @@
     </qresource>
     <qresource prefix="/">
         <file>Images/Weather_Images/Snowy.png</file>
-        <file>music/Rick Astley - Never Gonna Give You Up (Video).mp3</file>
-        <file>music/The Duck Song.mp3</file>
+
     </qresource>
 </RCC>

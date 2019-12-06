@@ -26,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->setupUi(this);
     egd.setupUi(&egPopup);
 
+
     // These are UI connections.
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    //QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
 
@@ -109,8 +110,18 @@ void MainWindow::updateLemonBody(){
 /// \brief MainWindow::updateWorld
 ///
 void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 4, 1);
+    world.Step(1.0f/30.f, 8, 8);
     if(jump){
+        //if body isn't active don't show image
+        if(!lemonBody->IsActive()){
+            lemonImage->setHidden(false);
+        }
+        if(!sugarCubeBody->IsActive()){
+            sugarImage->setHidden(false);
+        }
+        if(!iceCubeBody->IsActive()){
+           iceImage->setHidden(false);
+        }
         updateLemonBody();
         jump = false;
     }
@@ -298,7 +309,9 @@ void MainWindow::collisionCheck(){
         // Check if body is in contact with another body.
         if(edge->contact->IsTouching()){
             lemonImage->setHidden(true);
-             world.DestroyBody(lemonBody);
+             //world.DestroyBody(lemonBody);
+            lemonBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            lemonBody->SetActive(false);
              iceImage->setHidden(false);
              updateIceBody();
         }
@@ -308,7 +321,9 @@ void MainWindow::collisionCheck(){
         if(edge2->contact->IsTouching()){
             iceImage->setHidden(true);
             //iceImage->setPixmap(QPixmap());
-             world.DestroyBody(iceCubeBody);
+            // world.DestroyBody(iceCubeBody);
+            iceCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            iceCubeBody->SetActive(false);
              sugarImage->setHidden(false);
              updateSugarBody();
         }
@@ -317,11 +332,13 @@ void MainWindow::collisionCheck(){
         //check if body is in contact with another body
         if(edge3->contact->IsTouching()){
             sugarImage->setHidden(true);
-            world.DestroyBody(sugarCubeBody);
-
+            //world.DestroyBody(sugarCubeBody);
+            sugarCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            sugarCubeBody->SetActive(false);
         }
     }
 }
+
 
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
@@ -571,6 +588,8 @@ void MainWindow::on_startButton_clicked()
     ui->dayFrame->setVisible(false);
     ui->progressFrame->setVisible(true);
     ui->progressFrame->raise();
+   //QTimer::singleShot(5,this,&MainWindow::updateWorld);
+    updateWorld();
 
     if(game.currentDate != 0)
         if(lemonade.getLemon() == 0 && lemonade.getIce() == 0 && lemonade.getSugar() == 0)
