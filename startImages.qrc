@@ -15,5 +15,7 @@
         <file>Images/Crowd_Levels/Crowd Heavy.png</file>
         <file>Images/Crowd_Levels/Crowd Light.png</file>
         <file>Images/lemon.png</file>
+        <file>Images/iceCube.png</file>
+        <file>Images/sugarCube.png</file>
     </qresource>
 </RCC>
