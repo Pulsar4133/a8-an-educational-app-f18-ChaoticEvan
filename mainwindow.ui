@@ -606,6 +606,8 @@ you’re about to make! </string>
        <width>40</width>
        <height>40</height>
       </size>
+     </property>
+    </widget>
     <widget class="QPushButton" name="MuteMusic">
      <property name="geometry">
       <rect>
