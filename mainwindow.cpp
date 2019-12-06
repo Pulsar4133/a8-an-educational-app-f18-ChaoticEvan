@@ -5,12 +5,14 @@
 #include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
+#include <vector>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
 #include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -26,8 +28,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
-
-    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
@@ -59,9 +59,12 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
     // Connects for ingredients.
-    QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
-    QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
-    QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
+    QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
+    QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
+    QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
+
+    ui->startButton->setEnabled(false);
 
     // Play begin playing the duck song as soon as the game loads.
     playMusic();
@@ -90,7 +93,7 @@ void MainWindow::updateWorld(){
     // Get position of bodies to update QLabel image positions
     b2Vec2 position = lemonBody->GetPosition();
     b2Vec2 pitchPos = pitcherBody->GetPosition();
-
+  
     // Move images with bodies to visually test.
     // Height & width is fixed so updating the two will not change the Qlabel.
     lemonImage->setGeometry(position.x, position.y, 0, 0);
@@ -207,6 +210,13 @@ void MainWindow::collisionCheck(){
 /// \brief MainWindow::createLemonade
 ///
 void MainWindow::createLemonade(){
+    if(ui->pitchersSpinBox->value() == 0)
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("You will probably need at least 1 pitcher of lemonade!");
+        addIngMsg.exec();
+        return;
+    }
     if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
     {
         QMessageBox addIngMsg;
@@ -218,7 +228,24 @@ void MainWindow::createLemonade(){
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-                       ui->priceSpinBox->value());
+                       ui->priceSpinBox->value(),
+                       ui->pitchersSpinBox->value());
+
+    ui->startButton->setEnabled(true);
+}
+
+/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
+/// Sets the values of the spinboxes on the UI to the lemonade data.
+/// \brief MainWindow::on_yesterdayButton_clicked
+///
+void MainWindow::on_yesterdayButton_clicked()
+{
+    ui->LemonSpinBox->setValue(lemonade.getLemon());
+    ui->sugarSpinBox->setValue(lemonade.getSugar());
+    ui->iceSpinBox->setValue(lemonade.getIce());
+    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+    ui->pitchersSpinBox->setValue(lemonade.getNumPitchers());
+    updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
 }
@@ -229,6 +256,7 @@ void MainWindow::createLemonade(){
 ///
 void MainWindow::updateData()
 {
+    ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
@@ -295,15 +323,6 @@ void MainWindow::checkAffordablilityOfUpgrades()
     }
 }
 
-///
-/// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
-///
-void MainWindow::redirectKhanAcademy()
-{
-    QMessageBox msgBox;
-    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
-    msgBox.exec();
-}
 
 ///
 /// A method to play music.
@@ -325,12 +344,6 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
-
-    if(game.currentDate == 15)
-    {
-        openEndGameDialog();
-    }
-
 }
 
 void MainWindow::animationForDay()
@@ -341,6 +354,11 @@ void MainWindow::animationForDay()
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
     ui->simulationFrame->setVisible(true);
+    ui->day1Label->setVisible(false);
+    ui->day2Label->setVisible(false);
+    ui->day3Label->setVisible(false);
+    ui->day4Label->setVisible(false);
+    ui->day5Label->setVisible(false);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
     if (game.yesterday().weatherState == 0)
@@ -393,28 +411,87 @@ void MainWindow::animationForDay()
 
 void MainWindow::on_progress_start()
 {
-    std::cout << "hereererere" << std::endl;
+    ui->day1Label->setVisible(true);
+    ui->day2Label->setVisible(true);
+    ui->day3Label->setVisible(true);
+    ui->day4Label->setVisible(true);
+    ui->day5Label->setVisible(true);
     QPixmap calendar;
-    if (game.currentDate <= 5)
+    int currWeek = -99;
+    if (game.currentDate <= 4)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
-        std::cout << "week1" << std::endl;
+        currWeek = 0;
     }
-    else if (game.currentDate > 5 && game.currentDate <= 10)
+    else if (game.currentDate > 4 && game.currentDate <= 9)
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 1;
     }
     else
     {
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
+        currWeek = 2;
     }
+
+    calendarWeather(currWeek);
     ui->simulationPicture->setVisible(false);
-//    ui->dayFrame->setVisible(false);
     ui->calendarLabel->setVisible(true);
+
+    if (game.currentDate == 1)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
+    }
+
 }
+
+void MainWindow::calendarWeather(int currWeek)
+{
+    if(currWeek == -99)
+    {
+        return;
+    }
+    QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
+    QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
+    QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
+    QPixmap tornadoDay(":/img/Images/Weather_Images/Tornado.png");
+    QPixmap snowyDay(":/img/Images/Weather_Images/Snowy.png");
+
+    std::vector<QPixmap> currWeekWeather;
+    for (unsigned int i = 0 ; i < 5 ; i++)
+    {
+        if (game.days[i+currWeek*5].weatherState == 0)
+        {
+            //Rainy weather
+            currWeekWeather.push_back(rainyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 1)
+        {
+            //Snowy weather
+            currWeekWeather.push_back(snowyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 2)
+        {
+            //Cloudy weather
+            currWeekWeather.push_back(cloudyDay);
+            //background = backgroundTemp;
+        } else if (game.days[i+currWeek*5].weatherState == 3)
+        {
+            //Sunny weather
+            currWeekWeather.push_back(sunnyDay);
+            //background = backgroundTemp;
+        }
+    }
+    ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day4Label->setPixmap(currWeekWeather[3].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->day5Label->setPixmap(currWeekWeather[4].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
 
 void MainWindow::loadStartImages()
 {
@@ -431,21 +508,6 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
-}
-
-/// Uses the lemonade data from yesterday if the user wishes not to change their recipe or price.
-/// Sets the values of the spinboxes on the UI to the lemonade data.
-/// \brief MainWindow::on_yesterdayButton_clicked
-///
-void MainWindow::on_yesterdayButton_clicked()
-{
-    ui->LemonSpinBox->setValue(lemonade.getLemon());
-    ui->sugarSpinBox->setValue(lemonade.getSugar());
-    ui->iceSpinBox->setValue(lemonade.getIce());
-    ui->priceSpinBox->setValue(lemonade.getPricePerCup());
-    updateIngredientsFrameCost();
-
-    ui->startButton->setEnabled(true);
 }
 
 /// Below are methods that occur due to a button being clicked in the ui.
@@ -470,6 +532,8 @@ void MainWindow::on_startButton_clicked()
   //  changeNewsText();
 
     ui->startButton->setEnabled(false);
+    ui->CreateLemonadeButton->setEnabled(false);
+    ui->yesterdayButton->setEnabled(false);
 
     emit sigStartSimulation(this->lemonade);
 }
@@ -500,7 +564,7 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
 
 void MainWindow::on_day_change(QString scrollText)
 {
-    this->changeNewsText(scrollText);
+
 }
 
 ///
@@ -640,7 +704,12 @@ void MainWindow::image_scroll()
         ui->costLabel->setVisible(true);
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
+        if(game.currentDate == 15)
+        {
+            openEndGameDialog();
+        }
     }
+
 }
 
 void MainWindow::closeDialogClosed(int i)
@@ -691,31 +760,49 @@ void MainWindow::updateIngredientsFrameCost()
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
-    double lemonsCost = lemons * game.world.priceLemons;
+    double lemonsCost = lemons * game.world.priceLemons();
 
     int sugar = ui->sugarSpinBox->value();
-    double sugarCost = sugar * game.world.priceSugar;
+    double sugarCost = sugar * game.world.priceSugar();
 
     int ice = ui->iceSpinBox->value();
-    double iceCost = ice * game.world.priceIce;
+    double iceCost = ice * game.world.priceIce();
 
-    double totalCost = lemonsCost + sugarCost + iceCost;
+    int numPitchers = ui->pitchersSpinBox->value();
+
+    double totalCost = (lemonsCost + sugarCost + iceCost) * numPitchers;
 
     return totalCost;
 }
 
-void MainWindow::lemonSpinBox_valueChanged()
+void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::iceSpinBox_valueChanged()
+void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::sugarSpinBox_valueChanged()
+void MainWindow::sugarSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
+void MainWindow::pitcherSpinBox_valueChanged(int i)
+{
+    updateIngredientsFrameCost();
+}
+
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}

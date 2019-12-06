@@ -16,14 +16,13 @@ class Lemonade
 {
 
 public:
-    Lemonade(int,int,int,double);
+    Lemonade(int,int,int,double,int);
     Lemonade();
     Lemonade(Lemonade *lemonade);
 
-    /**
-     * Setters and getters.
-     */
-    void setRecipe(int, int, int, double);
+    //Setters and getters.
+    void setRecipe(int, int, int, double, int);
+
     void setRecipe(const LemonadeRecipe recipe);
 
     void setPricePerCup(double pricePerCup);

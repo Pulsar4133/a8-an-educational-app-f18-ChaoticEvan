@@ -21,11 +21,13 @@
         <file>Images/Calendars/lemonomicsCalendarWeek2Tall.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Short.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Tall.png</file>
+        <file>Images/Weather_Images/Snowy.png</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
     </qresource>
     <qresource prefix="/">
+        <file>Images/Weather_Images/Snowy.png</file>
         <file>music/Rick Astley - Never Gonna Give You Up (Video).mp3</file>
         <file>music/The Duck Song.mp3</file>
     </qresource>

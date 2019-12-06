@@ -39,10 +39,10 @@ signals:
     void updateWallet(int upgrade);
     void openEndDialog();
     void showCalendar();
+    void sigAnimationEnded();
 
 public slots:
     void updateWorld();
-    void redirectKhanAcademy();
     void onSimulationComplete();
 
 private slots:
@@ -54,9 +54,10 @@ private slots:
     void closeGame();
     void closeDialogClosed(int i);
 
-    void lemonSpinBox_valueChanged();
-    void iceSpinBox_valueChanged();
-    void sugarSpinBox_valueChanged();
+    void lemonSpinBox_valueChanged(int i);
+    void iceSpinBox_valueChanged(int i);
+    void sugarSpinBox_valueChanged(int i);
+    void pitcherSpinBox_valueChanged(int i);
 
     /**
      * @brief Button clicks.
@@ -76,6 +77,8 @@ private slots:
     void on_welcomeCheck2_clicked(bool checked);
 
     void on_MuteMusic_clicked();
+
+    void on_beginButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -99,6 +102,7 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void calendarWeather(int currWeek);
     void playMusic();
     void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);

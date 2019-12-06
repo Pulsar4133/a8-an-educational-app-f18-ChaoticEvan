@@ -202,17 +202,17 @@ struct World
     /**
      * @brief Current price per unit of lemons.
      */
-    float priceLemons = basePriceLemons * multiplierPriceLemons;
+    float priceLemons()	{ return basePriceLemons * multiplierPriceLemons; }
 
     /**
      * @brief Current price per unit of sugar.
      */
-    float priceSugar = basePriceSugar * multiplierPriceSugar;
+    float priceSugar() { return basePriceSugar * multiplierPriceSugar; }
 
     /**
      * @brief Current price per unit of ice.
      */
-    float priceIce = basePriceIce * multiplierPriceIce;
+    float priceIce() { return basePriceIce * multiplierPriceIce; }
 
     /**
      * @brief The weather enum Stores all the possible types of weather.
