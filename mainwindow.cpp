@@ -323,21 +323,6 @@ void MainWindow::collisionCheck(){
     }
 }
 
-void MainWindow::on_startButton_clicked()
-{
-    jump = true;
-    ui->welcomeFrame->setVisible(false);
-    ui->dayFrame->setVisible(false);
-    ui->progressFrame->setVisible(true);
-    ui->progressFrame->raise();
-  
-    this->createLemonade();
-  
-    changeNewsText("Welcome to Lemonomics! Beware of whales!");
-  
-    emit sigStartSimulation(this->lemonade);
-}
-
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
 /// \brief MainWindow::createLemonade
@@ -581,6 +566,7 @@ void MainWindow::loadStartImages()
 
 void MainWindow::on_startButton_clicked()
 {
+    jump = true;
     ui->welcomeFrame->setVisible(false);
     ui->dayFrame->setVisible(false);
     ui->progressFrame->setVisible(true);
