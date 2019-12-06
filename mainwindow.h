@@ -100,6 +100,7 @@ private:
     void changeNewsText(QString scrollText);
     void animationForDay();
     void playMusic();
+    void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
 
     void openEndGameDialog();

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
+#include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
@@ -61,7 +62,17 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->sugarSpinBox, &QSpinBox::value, this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, &QSpinBox::value, this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, &QSpinBox::value, this, &MainWindow::iceSpinBox_valueChanged);
+
+    // Play begin playing the duck song as soon as the game loads.
     playMusic();
+
+    // Upgrade buttons should be false for the objects the player cannot win.
+    ui ->BuySugar->setEnabled(false);
+    ui ->BuyGrapes->setEnabled(false);
+    ui ->BuyLemons-> setEnabled(false);
+    ui ->BuyUmbrella ->setEnabled(false);
+    ui ->BuyPitcher ->setEnabled(false);
+    ui->BuyInsurance ->setEnabled(false);
 }
 
 ///Deconstructor.
@@ -212,12 +223,76 @@ void MainWindow::createLemonade(){
     ui->startButton->setEnabled(true);
 }
 
+///
+/// A method that updates the data to show on the screen. It also does a check to see if upgrades can be afforded.
+/// \brief MainWindow::updateData
+///
 void MainWindow::updateData()
 {
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    checkAffordablilityOfUpgrades();
+}
+
+///
+/// A method that checks whether or not the user can afford certain upgrades.
+/// \brief MainWindow::checkAffordablilityOfUpgrades
+///
+void MainWindow::checkAffordablilityOfUpgrades()
+{
+    int wallet = game.stand.wallet;
+    if (wallet > 75)
+    {
+        ui->BuyBoomBox -> setEnabled(true);
+    }
+    if (wallet > 50)
+    {
+        ui ->BuyNeonSIgn ->setEnabled(true);
+    }
+    if (wallet > 150)
+    {
+        ui->BuySugar->setEnabled(true);
+        ui->BuyLemons->setEnabled(true);
+    }
+
+    if (wallet > 250)
+    {
+        ui->BuyInsurance->setEnabled(true);
+        ui->BuyPitcher-> setEnabled(true);
+    }
+
+    if (wallet > 2000)
+    {
+        ui->BuyUmbrella->setEnabled(true);
+        ui->BuyGrapes->setEnabled(true);
+    }
+    if (wallet < 2000)
+    {
+        ui->BuyUmbrella->setEnabled(false);
+        ui->BuyGrapes->setEnabled(false);
+    }
+    if (wallet < 150)
+    {
+        ui->BuySugar->setEnabled(false);
+        ui->BuyLemons->setEnabled(false);
+    }
+
+    if (wallet < 250)
+    {
+        ui->BuyInsurance->setEnabled(false);
+        ui->BuyPitcher-> setEnabled(false);
+    }
+    if (wallet < 75)
+    {
+        ui->BuyBoomBox -> setEnabled(false);
+    }
+    if (wallet < 50)
+    {
+        ui ->BuyNeonSIgn ->setEnabled(false);
+    }
 }
 
 ///
@@ -235,7 +310,14 @@ void MainWindow::redirectKhanAcademy()
 /// \brief MainWindow::playMusic
 ///
 void MainWindow::playMusic(){
-    noise ->setMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    // Create music playlist to repeat the song.
+    QMediaPlaylist* playlist= new QMediaPlaylist;
+    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    noise ->setMedia(playlist);
     noise ->play();
 }
 
@@ -421,15 +503,21 @@ void MainWindow::on_day_change(QString scrollText)
     this->changeNewsText(scrollText);
 }
 
+///
+/// Check if the music is playing, if so, mute it. Otherwise, play it again.
+/// \brief MainWindow::on_MuteMusic_clicked
+///
 void MainWindow::on_MuteMusic_clicked()
 {
     if (isMusicPlaying)
     {
+        ui ->MuteMusic->setText("Unmute Music");
         isMusicPlaying = false;
         noise-> stop();
     }
     else
     {
+        ui ->MuteMusic->setText("Mute Music");
         isMusicPlaying = true;
         noise -> play();
     }
@@ -448,44 +536,67 @@ void MainWindow::changeNewsText(QString scrollText)
 void MainWindow::on_BuyUmbrella_clicked()
 {
     emit updateWallet(1);
+    ui ->BuyUmbrella ->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyPitcher_clicked()
 {
     emit updateWallet(7);
+    ui ->BuyPitcher ->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyGrapes_clicked()
 {
     emit updateWallet(5);
+    ui ->BuyGrapes->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyBoomBox_clicked()
 {
     emit updateWallet(4);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+
+    //start RickRolling
+    QMediaPlaylist* playlist= new QMediaPlaylist;
+    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+
     noise -> stop();
-    noise ->setMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    noise ->setMedia(playlist);
     noise ->play();
+    ui->BuyBoomBox->setEnabled(false);
 }
 
 void MainWindow::on_BuySugar_clicked()
 {
     emit updateWallet(2);
+    ui ->BuySugar->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyLemons_clicked()
 {
     emit updateWallet(3);
+    ui ->BuyLemons-> setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyNeonSIgn_clicked()
 {
     emit updateWallet(0);
+    ui ->BuyNeonSIgn ->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::on_BuyInsurance_clicked()
 {
     emit updateWallet(6);
+    ui->BuyInsurance ->setEnabled(false);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::image_scroll()

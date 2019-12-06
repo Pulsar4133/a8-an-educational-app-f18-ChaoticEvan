@@ -151,6 +151,24 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="walletLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>405</y>
+       <width>391</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wallet:$</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
     <property name="enabled">
@@ -555,7 +573,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -851,9 +869,9 @@ you’re about to make! </string>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
+   <zorder>upgradesWidget</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
-   <zorder>upgradesWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
