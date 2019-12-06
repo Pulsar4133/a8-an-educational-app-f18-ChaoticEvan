@@ -381,6 +381,8 @@ void MainWindow::calendarWeather(int currWeek)
     QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
     QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
     QPixmap tornadoDay(":/img/Images/Weather_Images/Tornado.png");
+    QPixmap snowyDay(":/img/Images/Weather_Images/Snowy.png");
+
     std::vector<QPixmap> currWeekWeather;
     for (unsigned int i = 0 ; i < 5 ; i++)
     {
@@ -392,7 +394,7 @@ void MainWindow::calendarWeather(int currWeek)
         } else if (game.days[i+currWeek*5].weatherState == 1)
         {
             //Snowy weather
-            currWeekWeather.push_back(tornadoDay);
+            currWeekWeather.push_back(snowyDay);
             //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 2)
         {

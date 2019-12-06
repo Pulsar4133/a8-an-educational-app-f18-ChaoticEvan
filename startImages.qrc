@@ -21,8 +21,12 @@
         <file>Images/Calendars/lemonomicsCalendarWeek2Tall.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Short.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Tall.png</file>
+        <file>Images/Weather_Images/Snowy.png</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>Images/Weather_Images/Snowy.png</file>
     </qresource>
 </RCC>
