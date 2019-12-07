@@ -116,6 +116,7 @@ private:
     QLabel* iceImage;
     QWidget *lemWin;
     int displayDate;
+    int displayWeek;
 
     /**
      * A variable to store the model in.

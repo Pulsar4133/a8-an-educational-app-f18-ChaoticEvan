@@ -542,14 +542,17 @@ void MainWindow::updateData()
     if (game.currentDate < 5 )
     {
         displayDate = game.currentDate + 2;
+        displayWeek = 1;
     } else if (game.currentDate < 10)
     {
         displayDate = game.currentDate + 4;
+        displayWeek = 2;
     } else if (game.currentDate < 15)
     {
         displayDate = game.currentDate + 6;
+        displayWeek = 3;
     }
-
+    ui->weekLabel->setText("Week: " + QString::number(displayWeek));
     ui->ingDayLabel->setText("Day: " + QString::number(displayDate));
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));

@@ -473,8 +473,22 @@
       </property>
      </widget>
     </widget>
+    <widget class="QLabel" name="weekLabel">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>39</width>
+       <height>11</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
     <zorder>graphsFrame</zorder>
     <zorder>newsFrame</zorder>
+    <zorder>weekLabel</zorder>
    </widget>
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
@@ -1304,7 +1318,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
