@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createLemonBody();
     createSugarCubeBody();
     createIceCubeBody();
+
     // Preloads all .png files
     loadStartImages();
 
@@ -67,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
+    // Connects the ingredients panel spinboxes to update the cost in the ingredients panel.
     QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
@@ -221,7 +223,7 @@ void MainWindow::createIceCubeBody(){
     iceCubeBody->SetActive(false);
 }
 
-///Creates priv member variable lemonBody in box2d.
+/// Creates priv member variable lemonBody in box2d.
 /// lemonBody defines a lemon being dropped in our world.
 /// \brief MainWindow::createLemonBody
 ///
@@ -260,7 +262,7 @@ void MainWindow::createLemonBody(){
     lemonBody->SetActive(false);
 }
 
-///Creates priv member variable groundBody in box2d.
+/// Creates priv member variable groundBody in box2d.
 /// groundBody defines the ground level for our world.
 /// \brief MainWindow::createGroundBody
 ///
@@ -372,9 +374,9 @@ void MainWindow::createLemonade(){
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-
                        ui->priceSpinBox->value(),
                        ui->pitchersSpinBox->value());
+
     ui->startButton->setEnabled(true);
 }
 
@@ -395,7 +397,7 @@ void MainWindow::on_yesterdayButton_clicked()
     ui->startButton->setEnabled(true);
 }
 
-///
+/// Updates the game data for the player
 /// \brief MainWindow::updateData
 ///
 void MainWindow::updateData()
@@ -698,6 +700,10 @@ void MainWindow::loadUpgradeImages()
 ///
 /// Below are methods that occur due to a button being clicked in the ui.
 ///
+
+///
+/// \brief MainWindow::on_startButton_clicked
+///
 void MainWindow::on_startButton_clicked()
 {
     jump = true;
@@ -727,6 +733,10 @@ void MainWindow::on_startButton_clicked()
     emit sigStartSimulation(this->lemonade);
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck4_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck4_clicked(bool checked)
 {
     if (checked)
@@ -735,6 +745,10 @@ void MainWindow::on_welcomeCheck4_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck3_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck3_clicked(bool checked)
 {
     if (checked)
@@ -743,17 +757,16 @@ void MainWindow::on_welcomeCheck3_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck2_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck2_clicked(bool checked)
 {
     if (checked)
     {
         ui->welcomeCheck2->setVisible(false);
     }
-}
-
-void MainWindow::on_day_change(QString scrollText)
-{
-
 }
 
 ///
@@ -905,6 +918,9 @@ void MainWindow::on_BuyInsurance_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+/// Sets up the game when the begin button is clicked.
+/// \brief MainWindow::on_beginButton_clicked
+///
 void MainWindow::on_beginButton_clicked()
 {
     emit showCalendar();
@@ -917,7 +933,9 @@ void MainWindow::on_beginButton_clicked()
     ui->welcomeCheck4->setVisible(false);
 }
 
-
+///
+/// \brief MainWindow::imageScroll
+///
 void MainWindow::imageScroll()
 {
     int x = ui->crowdLabel->x();
@@ -969,17 +987,28 @@ void MainWindow::imageScroll()
 
 }
 
+/// Calls the close game dialog when the end game dialog has been closed.
+/// \brief MainWindow::closeDialogClosed
+/// \param i -- Not used, required to connect slot to the signal.
+///
 void MainWindow::closeDialogClosed(int i)
 {
     closeGame();
 }
 
+/// Closes the game and the end game popup.
+/// \brief MainWindow::closeGame
+///
 void MainWindow::closeGame()
 {
     egPopup.close();
     this->close();
 }
 
+/// Gets all of the information needed for the total player statistics,
+/// adds them to the end game popup, and shows the dialog.
+/// \brief MainWindow::openEndGameDialog
+///
 void MainWindow::openEndGameDialog()
 {
     QString playerStats = "Total Income: ";
@@ -988,6 +1017,7 @@ void MainWindow::openEndGameDialog()
     int sales = 0;
     int daysSoldOut = 0;
     double profit = 0;
+    // Get player stats for the whole game
     for(int i = 0; i < 15; i++)
     {
         income += game.days[i].income;
@@ -998,22 +1028,30 @@ void MainWindow::openEndGameDialog()
             daysSoldOut++;
 
     }
+    // Set the string for all of the stats and add it to the dialog
     playerStats.append(QString::number(income) +
                        "\nTotal Cost: " + QString::number(cost) +
                        "\nTotal Sales: " + QString::number(sales) +
                        "\nDays Sold Out: " + QString::number(daysSoldOut) +
                        "\nTotal Profit/Loss: " + QString::number(profit));
     egd.playerStatsLabel->setText(playerStats);
-
+    // Show the popup
     egPopup.show();
 }
 
+/// Updates the cost label in the ingredients frame.
+/// \brief MainWindow::updateIngredientsFrameCost
+///
 void MainWindow::updateIngredientsFrameCost()
 {
     QString cost = QString::number(uiLemonadeCurrCost());
     ui->ingredientCostLabel->setText("$" + cost);
 }
 
+/// Gets all of the information from the ingredients panel and calculates the total cost.
+/// \brief MainWindow::uiLemonadeCurrCost
+/// \return Total cost of all ingredients and #pitchers for the lemonade
+///
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
@@ -1032,21 +1070,22 @@ double MainWindow::uiLemonadeCurrCost()
     return totalCost;
 }
 
+/// The below 4 slots all will update the cost on the ingredients panel
+/// \brief MainWindow::lemonSpinBox_valueChanged, iceSpinBox_valueChanged, sugarSpinBox_valueChanged, pitcherSpinBox_valueChanged
+/// \param i -- Not used, signal requires slot to have an int param
+///
 void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::sugarSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
