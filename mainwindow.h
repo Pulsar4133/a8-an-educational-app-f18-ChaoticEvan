@@ -41,6 +41,7 @@ signals:
 public slots:
     void updateWorld();
     void onSimulationComplete();
+    void redirectKhanAcademy();
     void updateSugarBody();
     void updateLemonBody();
     void updateIceBody();
@@ -116,6 +117,7 @@ private:
     void createSugarCubeBody();
     void calendarWeather(int currWeek);
     void playMusic();
+    void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
 
     void openEndGameDialog();
