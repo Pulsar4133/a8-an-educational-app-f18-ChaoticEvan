@@ -1280,8 +1280,8 @@ you’re about to make! </string>
    <widget class="QPushButton" name="MuteMusic">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>10</y>
+      <x>950</x>
+      <y>50</y>
       <width>75</width>
       <height>23</height>
      </rect>

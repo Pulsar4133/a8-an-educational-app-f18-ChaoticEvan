@@ -1,6 +1,6 @@
 /**
   * This class is mimicing a "view".
-  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Keegan Spencer, Ryan Williamson, and Theaux Mas.
   */
 
 #include "educationalprompter.h"
@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     createLemonBody();
     createSugarCubeBody();
     createIceCubeBody();
+
     // Preloads all .png files
     loadStartImages();
 
@@ -80,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
+    // Connects the ingredients panel spinboxes to update the cost in the ingredients panel.
     QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
@@ -234,7 +236,7 @@ void MainWindow::createIceCubeBody(){
     iceCubeBody->SetActive(false);
 }
 
-///Creates priv member variable lemonBody in box2d.
+/// Creates priv member variable lemonBody in box2d.
 /// lemonBody defines a lemon being dropped in our world.
 /// \brief MainWindow::createLemonBody
 ///
@@ -273,7 +275,7 @@ void MainWindow::createLemonBody(){
     lemonBody->SetActive(false);
 }
 
-///Creates priv member variable groundBody in box2d.
+/// Creates priv member variable groundBody in box2d.
 /// groundBody defines the ground level for our world.
 /// \brief MainWindow::createGroundBody
 ///
@@ -385,9 +387,9 @@ void MainWindow::createLemonade(){
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-
                        ui->priceSpinBox->value(),
                        ui->pitchersSpinBox->value());
+
     ui->startButton->setEnabled(true);
 }
 
@@ -408,7 +410,7 @@ void MainWindow::on_yesterdayButton_clicked()
     ui->startButton->setEnabled(true);
 }
 
-///
+/// Updates the game data for the player
 /// \brief MainWindow::updateData
 ///
 void MainWindow::updateData()
@@ -520,22 +522,32 @@ void MainWindow::onSimulationComplete()
     this->animationForDay();
     ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
+///
+/// Creates the proper background and crowd size for the daily animation
+/// Starts Crowdtimer
+/// \brief MainWindow::animationForDay
+///
 void MainWindow::animationForDay()
 {
+    //Sets all the calendar information to not visible
     ui->calendarLabel->setVisible(false);
     ui->demandLabel->setVisible(false);
     ui->profitLabel->setVisible(false);
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
-    ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
     ui->day2Label->setVisible(false);
     ui->day3Label->setVisible(false);
     ui->day4Label->setVisible(false);
     ui->day5Label->setVisible(false);
+
+    //Shows the simulation frame
+    ui->simulationFrame->setVisible(true);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
+    //Sets the background QPixmap to the correct weather image
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
     if(game.yesterday().disaster == game.world.TORNADO)
     {
         QPixmap backgroundTemp(":/img/Images/Background Tornado.png");
@@ -561,23 +573,28 @@ void MainWindow::animationForDay()
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
         background = backgroundTemp;
     }
+
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
+    // Set the crowd image to the correct size of crowd
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
     if(game.yesterday().demanded < 44)
     {
+        //Light crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
     }
     else if(game.yesterday().demanded < 74)
     {
+        //Medium crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
     }
     else
     {
+        //Heavy crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
         defaultImage = temp;
     }
@@ -587,9 +604,14 @@ void MainWindow::animationForDay()
     // Crowd begins moving across screen.
     crowdTimer.start();
 }
-
+///
+/// Displays the correct calendar and weather information
+/// Creates the pop up windows on Day 1 and 5
+/// \brief MainWindow::on_progress_start
+///
 void MainWindow::on_progress_start()
 {
+    // Shows the calendar days
     ui->day1Label->setVisible(true);
     ui->day2Label->setVisible(true);
     ui->day3Label->setVisible(true);
@@ -597,20 +619,24 @@ void MainWindow::on_progress_start()
     ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
+    // Displays the correct calendar dates based on the current date of the game
     if (game.currentDate <= 4)
     {
+        // Week 1 Days 1-7
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 0;
     }
     else if (game.currentDate > 4 && game.currentDate <= 9)
     {
+        // Week 2 Days 8-14
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 1;
     }
     else
     {
+        // Week 3 Days 15-21
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 2;
@@ -620,6 +646,7 @@ void MainWindow::on_progress_start()
     ui->simulationPicture->setVisible(false);
     ui->calendarLabel->setVisible(true);
 
+    // Displays the informational pop up windows on Day 1 and 5
     if (game.currentDate == 1)
     {
         EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
@@ -630,13 +657,18 @@ void MainWindow::on_progress_start()
     }
 
 }
-
+///
+/// Sets the day of each calendar to the correct weather forecast
+/// \brief MainWindow::calendarWeather
+/// \param currWeek
+///
 void MainWindow::calendarWeather(int currWeek)
 {
     if(currWeek == -99)
     {
         return;
     }
+    // Load initial images into QPixmaps
     QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
     QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
     QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
@@ -654,24 +686,21 @@ void MainWindow::calendarWeather(int currWeek)
         {
             // Rainy weather.
             currWeekWeather.push_back(rainyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 1)
         {
             // Snowy weather.
             currWeekWeather.push_back(snowyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 2)
         {
             // Cloudy weather.
             currWeekWeather.push_back(cloudyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 3)
         {
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
-            //background = backgroundTemp;
         }
     }
+    // Set each day label to correct item in the vector
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -726,6 +755,10 @@ void MainWindow::loadUpgradeImages()
 ///
 /// Below are methods that occur due to a button being clicked in the ui.
 ///
+
+///
+/// \brief MainWindow::on_startButton_clicked
+///
 void MainWindow::on_startButton_clicked()
 {
     jump = true;
@@ -759,6 +792,10 @@ void MainWindow::on_startButton_clicked()
     emit sigStartSimulation(this->lemonade);
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck4_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck4_clicked(bool checked)
 {
     if (checked)
@@ -767,6 +804,10 @@ void MainWindow::on_welcomeCheck4_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck3_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck3_clicked(bool checked)
 {
     if (checked)
@@ -775,17 +816,16 @@ void MainWindow::on_welcomeCheck3_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck2_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck2_clicked(bool checked)
 {
     if (checked)
     {
         ui->welcomeCheck2->setVisible(false);
     }
-}
-
-void MainWindow::on_day_change(QString scrollText)
-{
-
 }
 
 ///
@@ -941,6 +981,24 @@ void MainWindow::on_BuyInsurance_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+/// Sets up the game when the begin button is clicked.
+/// \brief MainWindow::on_beginButton_clicked
+///
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}
+
+///
+/// \brief MainWindow::imageScroll
+///
 void MainWindow::imageScroll()
 {
     int x = ui->crowdLabel->x();
@@ -1010,17 +1068,28 @@ void MainWindow::imageScroll()
 
 }
 
+/// Calls the close game dialog when the end game dialog has been closed.
+/// \brief MainWindow::closeDialogClosed
+/// \param i -- Not used, required to connect slot to the signal.
+///
 void MainWindow::closeDialogClosed(int i)
 {
     closeGame();
 }
 
+/// Closes the game and the end game popup.
+/// \brief MainWindow::closeGame
+///
 void MainWindow::closeGame()
 {
     egPopup.close();
     this->close();
 }
 
+/// Gets all of the information needed for the total player statistics,
+/// adds them to the end game popup, and shows the dialog.
+/// \brief MainWindow::openEndGameDialog
+///
 void MainWindow::openEndGameDialog()
 {
     QString playerStats = "Total Income: ";
@@ -1029,6 +1098,7 @@ void MainWindow::openEndGameDialog()
     int sales = 0;
     int daysSoldOut = 0;
     double profit = 0;
+    // Get player stats for the whole game
     for(int i = 0; i < 15; i++)
     {
         income += game.days[i].income;
@@ -1039,22 +1109,30 @@ void MainWindow::openEndGameDialog()
             daysSoldOut++;
 
     }
+    // Set the string for all of the stats and add it to the dialog
     playerStats.append(QString::number(income) +
                        "\nTotal Cost: " + QString::number(cost) +
                        "\nTotal Sales: " + QString::number(sales) +
                        "\nDays Sold Out: " + QString::number(daysSoldOut) +
                        "\nTotal Profit/Loss: " + QString::number(profit));
     egd.playerStatsLabel->setText(playerStats);
-
+    // Show the popup
     egPopup.show();
 }
 
+/// Updates the cost label in the ingredients frame.
+/// \brief MainWindow::updateIngredientsFrameCost
+///
 void MainWindow::updateIngredientsFrameCost()
 {
     QString cost = QString::number(uiLemonadeCurrCost());
     ui->ingredientCostLabel->setText("$" + cost);
 }
 
+/// Gets all of the information from the ingredients panel and calculates the total cost.
+/// \brief MainWindow::uiLemonadeCurrCost
+/// \return Total cost of all ingredients and #pitchers for the lemonade
+///
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
@@ -1073,21 +1151,22 @@ double MainWindow::uiLemonadeCurrCost()
     return totalCost;
 }
 
+/// The below 4 slots all will update the cost on the ingredients panel
+/// \brief MainWindow::lemonSpinBox_valueChanged, iceSpinBox_valueChanged, sugarSpinBox_valueChanged, pitcherSpinBox_valueChanged
+/// \param i -- Not used, signal requires slot to have an int param
+///
 void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::sugarSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();

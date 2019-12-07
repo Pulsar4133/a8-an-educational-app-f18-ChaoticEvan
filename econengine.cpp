@@ -259,7 +259,7 @@ void EconEngine::generateDays(Day* days, int numDays)
         if(i == 14){
             setDisasterLevel3();
         }
-        else if(i == 9){ // Tornado disaster.
+        if(i == 9){ // Tornado disaster.
             game.days ->disaster = 1;
         }
         else{ // No Disaster.
