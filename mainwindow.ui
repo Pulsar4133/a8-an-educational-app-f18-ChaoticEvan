@@ -657,19 +657,6 @@ you’re about to make! </string>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="MuteMusic">
-     <property name="geometry">
-      <rect>
-       <x>950</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Mute Music</string>
-     </property>
-    </widget>
     <zorder>welcomeBackground</zorder>
     <zorder>welcomeLabel1</zorder>
     <zorder>welcomeCheck4</zorder>
@@ -677,7 +664,6 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
     <zorder>beginButton</zorder>
-    <zorder>MuteMusic</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
@@ -1291,12 +1277,26 @@ you’re about to make! </string>
      <zorder>InsuranceDescription</zorder>
     </widget>
    </widget>
+   <widget class="QPushButton" name="MuteMusic">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>10</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mute Music</string>
+    </property>
+   </widget>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
    <zorder>upgradesWidget</zorder>
+   <zorder>MuteMusic</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
