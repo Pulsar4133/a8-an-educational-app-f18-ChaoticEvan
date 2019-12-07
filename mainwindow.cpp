@@ -433,7 +433,8 @@ void MainWindow::collisionCheck()
     for (b2ContactEdge* edge = lemonBody->GetContactList(); edge; edge = edge->next)
     {
         // Check if body is in contact with another body.
-        if(edge->contact->IsTouching()){
+        if(edge->contact->IsTouching())
+        {
             lemonImage->setHidden(true);
             lemonBody->SetTransform(b2Vec2(535.0f, 380.0f),0);
             lemonBody->SetLinearVelocity(b2Vec2(0,0));
@@ -645,7 +646,8 @@ void MainWindow::redirectKhanAcademy()
 /// \brief MainWindow::playMusic
 ///
 
-void MainWindow::playMusic(){
+void MainWindow::playMusic()
+{
     // Create music playlist to repeat the song.
     QMediaPlaylist* playlist= new QMediaPlaylist;
     playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
@@ -880,7 +882,7 @@ void MainWindow::loadStartImages()
     ui->ingDayLabel->setVisible(false);
 }
 
-///
+/// Loads the images for upgrades panel for user to buy.
 /// \brief MainWindow::loadUpgradeImages Helper method for loading upgrade images.
 ///
 void MainWindow::loadUpgradeImages()
@@ -906,7 +908,8 @@ void MainWindow::loadUpgradeImages()
 /// Below are methods that occur due to a button being clicked in the ui.
 ///
 
-///
+/// Enables and Disables all necessary buttons upon starting the simulation.
+/// Sets up game and emits simulation to start.
 /// \brief MainWindow::on_startButton_clicked
 ///
 void MainWindow::on_startButton_clicked()
@@ -1134,7 +1137,8 @@ void MainWindow::on_beginButton_clicked()
     ui->welcomeCheck4->setVisible(false);
 }
 
-///
+/// Moves crowd image from left to right in simulation.
+/// Also, adjusts the amount of poeple displayed based on demand.
 /// \brief MainWindow::imageScroll
 ///
 void MainWindow::imageScroll()
@@ -1184,15 +1188,20 @@ void MainWindow::imageScroll()
         {
             openEndGameDialog("");
         }
-        if(game.currentDate == 14){
-            if (game.days[14].disaster == 3){
-                if(!hasBoughtUmbrella){
+        if(game.currentDate == 14)
+        {
+            if (game.days[14].disaster == 3)
+            {
+                if(!hasBoughtUmbrella)
+                {
                     openEndGameDialog("A whale fell on your stand, and because\nyou didn't buy an umbrella, you lose!\n");
                 }
             }
         }
-        if(game.currentDate == 10){
-            if(!hasBoughtInsurance){
+        if(game.currentDate == 10)
+        {
+            if(!hasBoughtInsurance)
+            {
                 openEndGameDialog("A tornado hit your stand, and because\nyou didn't buy any insurance, you lose!\n");
             }
         }
@@ -1343,6 +1352,9 @@ QVector<QString>* MainWindow::getNewsStories(QString filePath)
     return storiesArray;
 }
 
+/// Creates whale animation in simulation.
+/// \brief MainWindow::animationForWhale
+///
 void MainWindow::animationForWhale()
 {
     int x = ui->whaleLabel->x();

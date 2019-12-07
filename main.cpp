@@ -7,14 +7,17 @@
 #include <QApplication>
 #include "educationalprompter.h"
 
-
+/// Creates MainWindow object and displays
+/// \brief main
+/// \param argc
+/// \param argv
+/// \return
+///
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-
-    // EPrompt::displayEduPrompt(EPrompt::P_WELCOME);
 
     return a.exec();
 }
