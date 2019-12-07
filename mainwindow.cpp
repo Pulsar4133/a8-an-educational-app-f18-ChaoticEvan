@@ -1076,7 +1076,7 @@ void MainWindow::imageScroll()
                 }
             }
         }
-        if(game.currentDate == 9){
+        if(game.currentDate == 10){
             if(!hasBoughtInsurance){
                 openEndGameDialog();
             }
