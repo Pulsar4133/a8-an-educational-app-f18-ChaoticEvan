@@ -1,3 +1,9 @@
+/**
+  * This class stores the information for upgrades.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
+#include "educationalprompter.h"
 #include "gamestate.h"
 #include "upgrades.h"
 
@@ -20,6 +26,7 @@ Upgrades::Upgrades()
                     [] (GameState& game) // Effect.
                     {
                         game.stand.marketing += 10;
+                        EPrompt::displayEduPrompt(EPrompt::P_MARKETING);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::WHALE_UMBRELLA] = new Upgrade(
@@ -28,7 +35,9 @@ Upgrades::Upgrades()
                     2000.00,
                     UPGRADE_ENUM::WHALE_UMBRELLA,
                     [] (GameState& game)
-                    {});
+                    {
+                        EPrompt::displayEduPrompt(EPrompt::P_INSURANCE);
+                    });
 
         this->m_upgradeList[UPGRADE_ENUM::SUGAR_DEALER] = new Upgrade(
                     "Sugar Dealer",
@@ -37,8 +46,10 @@ Upgrades::Upgrades()
                     UPGRADE_ENUM::SUGAR_DEALER,
                     [] (GameState& game)
                     {
-                        game.stand.reputation += 20;
+                        game.stand.reputation += 200;
                         game.world.multiplierPriceSugar += 0.50;
+
+                        EPrompt::displayEduPrompt(EPrompt::P_PRODUCT_DIFFERENTIATION);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::ORGANIC_LEMONS] = new Upgrade(
@@ -48,8 +59,11 @@ Upgrades::Upgrades()
                     UPGRADE_ENUM::ORGANIC_LEMONS,
                     [] (GameState& game)
                     {
-                        game.stand.reputation += 20;
+                        game.stand.reputation += 200;
                         game.world.multiplierPriceLemons += 0.50;
+
+                        // Display prompt for Product Differentiation
+                        EPrompt::displayEduPrompt(EPrompt::P_PRODUCT_DIFFERENTIATION);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::BOOM_BOX] = new Upgrade(
@@ -61,6 +75,7 @@ Upgrades::Upgrades()
                     [](GameState& game)
                     {
                         game.stand.reputation += 50;
+                        EPrompt::displayEduPrompt(EPrompt::P_MARKETING);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::GRAPE] = new Upgrade(
@@ -69,7 +84,9 @@ Upgrades::Upgrades()
                     2000.00,
                     UPGRADE_ENUM::GRAPE,
                     [] (GameState& game)
-                    {});
+                    {
+                        EPrompt::displayEduPrompt(EPrompt::P_INSURANCE);
+                    });
 
         this->m_upgradeList[UPGRADE_ENUM::INSURANCE] = new Upgrade(
                     "Insurance",
@@ -81,6 +98,8 @@ Upgrades::Upgrades()
                         game.stand.reputation += 20;
                         game.world.multiplierPriceSugar += 0.50;
                         game.world.multiplierPriceLemons += 0.50;
+
+                        EPrompt::displayEduPrompt(EPrompt::P_INSURANCE);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::BIG_PITCHER] = new Upgrade(

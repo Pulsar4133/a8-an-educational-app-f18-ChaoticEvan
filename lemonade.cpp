@@ -1,3 +1,8 @@
+/**
+  * This class stores the information behind the lemonade object.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
 #include "lemonade.h"
 #include "recipe.h"
 

@@ -1,3 +1,8 @@
+/**
+  * This class is mimicing a class to scroll the text at the top of the screen.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
 #include "scrolltext.h"
 #include <QHBoxLayout>
 #include <QPainter>
@@ -5,7 +10,7 @@
 
 ScrollText::ScrollText(QWidget *parent) : QWidget(parent), scrollPos(0)
 {
-    // Sets variables for input text
+    // Sets variables for actual text.
     staticText.setTextFormat(Qt::PlainText);
     setFixedHeight(fontMetrics().height() + 10);
     // Width of news frame
