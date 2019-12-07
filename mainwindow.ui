@@ -34,8 +34,8 @@
       <rect>
        <x>130</x>
        <y>130</y>
-       <width>306</width>
-       <height>268</height>
+       <width>295</width>
+       <height>192</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -180,6 +180,24 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="walletLabel">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>415</y>
+       <width>221</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wallet: $</string>
      </property>
     </widget>
    </widget>
@@ -485,7 +503,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1600</width>
+      <width>1031</width>
       <height>851</height>
      </rect>
     </property>
@@ -525,7 +543,7 @@ and mysterious phenomenons! Watch out! </string>
       <rect>
        <x>-4</x>
        <y>0</y>
-       <width>1065</width>
+       <width>1601</width>
        <height>851</height>
       </rect>
      </property>
@@ -611,7 +629,7 @@ you’re about to make! </string>
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>260</y>
+       <y>250</y>
        <width>556</width>
        <height>535</height>
       </rect>
@@ -1103,7 +1121,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
