@@ -14,7 +14,6 @@
         <file>Images/Weather_Images/Tornado.png</file>
         <file>Images/Crowd_Levels/Crowd Heavy.png</file>
         <file>Images/Crowd_Levels/Crowd Light.png</file>
-
         <file>Images/lemon.png</file>
         <file>Images/iceCube.png</file>
         <file>Images/sugarCube.png</file>
@@ -26,12 +25,15 @@
         <file>Images/Calendars/lemonomicsCalendarWeek3Short.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Tall.png</file>
         <file>Images/Weather_Images/Snowy.png</file>
+        <file>music/TheDuckSong.mp3</file>
+        <file>music/RickAstley-NeverGonnaGiveYouUp(Video).mp3</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
     </qresource>
     <qresource prefix="/">
         <file>Images/Weather_Images/Snowy.png</file>
-
+        <file>music/RickAstley-NeverGonnaGiveYouUp(Video).mp3</file>
+        <file>music/TheDuckSong.mp3</file>
     </qresource>
 </RCC>

@@ -107,6 +107,10 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void enablePitcherBody(bool);
+    void enableLemonBody(bool);
+    void enableIceBody(bool);
+    void enableSugarBody(bool);
 
     void collisionCheck();
     void createGroundBody();
