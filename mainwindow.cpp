@@ -785,14 +785,6 @@ void MainWindow::changeNewsText(QString scrollText)
 
 void MainWindow::on_BuyUmbrella_clicked()
 {
-    if(game.stand.wallet - 2000.00 < 0)
-    {
-        QMessageBox warningMsg;
-        warningMsg.setText("You can't afford this upgrade.");
-        warningMsg.exec();
-        return;
-    }
-
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->umbrellaImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
@@ -803,14 +795,6 @@ void MainWindow::on_BuyUmbrella_clicked()
 
 void MainWindow::on_BuyPitcher_clicked()
 {
-    if(game.stand.wallet - 250.00 < 0)
-    {
-        QMessageBox warningMsg;
-        warningMsg.setText("You can't afford this upgrade.");
-        warningMsg.exec();
-        return;
-    }
-
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
@@ -820,14 +804,6 @@ void MainWindow::on_BuyPitcher_clicked()
 
 void MainWindow::on_BuyGrapes_clicked()
 {
-    if(game.stand.wallet - 2000.00 < 0)
-    {
-        QMessageBox warningMsg;
-        warningMsg.setText("You can't afford this upgrade.");
-        warningMsg.exec();
-        return;
-    }
-
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
@@ -837,14 +813,6 @@ void MainWindow::on_BuyGrapes_clicked()
 
 void MainWindow::on_BuyBoomBox_clicked()
 {
-    if(game.stand.wallet - 75.00 < 0)
-    {
-        QMessageBox warningMsg;
-        warningMsg.setText("You can't afford this upgrade.");
-        warningMsg.exec();
-        return;
-    }
-
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->boomBoxImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(4);
@@ -864,14 +832,6 @@ void MainWindow::on_BuyBoomBox_clicked()
 
 void MainWindow::on_BuySugar_clicked()
 {
-    if(game.stand.wallet - 2000.00 < 0)
-    {
-        QMessageBox warningMsg;
-        warningMsg.setText("You can't afford this upgrade.");
-        warningMsg.exec();
-        return;
-    }
-
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
