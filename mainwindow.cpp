@@ -669,6 +669,32 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+    loadUpgradeImages();
+}
+
+///
+/// \brief MainWindow::loadUpgradeImages Helper method for loading upgrade images.
+///
+void MainWindow::loadUpgradeImages()
+{
+    QPixmap boomBox(":/img/Images/Upgrades/Boom Box.png");
+    QPixmap grape(":/img/Images/Upgrades/grape.png");
+    QPixmap neonSign(":/img/Images/Upgrades/Neon Sign.png");
+    QPixmap insuranceSign(":/img/Images/Upgrades/Insurance Sign.png");
+    QPixmap orgLemons(":/img/Images/Upgrades/organic lemons.png");
+    QPixmap sugarDealer(":/img/Images/Upgrades/Sugar Dealer.png");
+    QPixmap umbrella(":/img/Images/Upgrades/Umbrella.png");
+    QPixmap pitcher(":/img/Images/ClipArtPitcher.png");
+
+    ui->boomBoxImage->setPixmap(boomBox.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->bigPitcherImage->setPixmap(pitcher.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->grapesImage->setPixmap(grape.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->neonSignImage->setPixmap(neonSign.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->insuranceImage->setPixmap(insuranceSign.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->lemonsImage->setPixmap(orgLemons.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->sugarImage->setPixmap(sugarDealer.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->umbrellaImage->setPixmap(umbrella.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 /// Below are methods that occur due to a button being clicked in the ui.
@@ -761,29 +787,54 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+///
+/// \brief MainWindow::on_BuyUmbrella_clicked When buy umbrella button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyUmbrella_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->umbrellaImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
     emit updateWallet(1);
     ui ->BuyUmbrella ->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyPitcher_clicked When buy pitcher button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyPitcher_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyGrapes_clicked When buy grapes button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyGrapes_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
     ui ->BuyGrapes->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyBoomBox_clicked When buy boom box button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyBoomBox_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->boomBoxImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(4);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 
@@ -799,29 +850,53 @@ void MainWindow::on_BuyBoomBox_clicked()
     ui->BuyBoomBox->setEnabled(false);
 }
 
+///
+/// \brief MainWindow::on_BuySugar_clicked When buy sugar dealer button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuySugar_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
     ui ->BuySugar->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyLemons_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->lemonsImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(3);
     ui ->BuyLemons-> setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyNeonSIgn_clicked When buy neon sign button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyNeonSIgn_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->neonSignImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(0);
     ui ->BuyNeonSIgn ->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyInsurance_clicked When buy insurance button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyInsurance_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->insuranceImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(6);
     ui->BuyInsurance ->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));

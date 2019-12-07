@@ -105,6 +105,7 @@ private:
     bool isMusicPlaying = true;
 
     void loadStartImages();
+    void loadUpgradeImages();
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
