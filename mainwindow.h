@@ -12,12 +12,9 @@
 #include <QMediaPlayer>
 #include <QTimer>
 #include <QWidget>
-<<<<<<< HEAD
 #include "ui_endgamedialog.h"
 #include "endgamedialog.h"
 #include "scrolltext.h"
-=======
->>>>>>> 9b01dea16c625251f100b4cee15d06869774736c
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

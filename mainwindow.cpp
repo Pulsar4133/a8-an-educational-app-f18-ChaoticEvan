@@ -13,15 +13,11 @@
 #include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
-<<<<<<< HEAD
 #include <QTimer>
 #include <QFile>
 #include <QTime>
 #include "ui_endgamedialog.h"
 #include "educationalprompter.h"
-=======
-#include <vector>
->>>>>>> 9b01dea16c625251f100b4cee15d06869774736c
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -1067,7 +1063,6 @@ void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-<<<<<<< HEAD
 
 void MainWindow::on_beginButton_clicked()
 {
@@ -1102,5 +1097,3 @@ QVector<QString>* MainWindow::getNewsStories(QString filePath)
 
     return storiesArray;
 }
-=======
->>>>>>> 9b01dea16c625251f100b4cee15d06869774736c

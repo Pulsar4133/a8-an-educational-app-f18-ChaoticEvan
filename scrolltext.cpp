@@ -10,11 +10,7 @@
 
 ScrollText::ScrollText(QWidget *parent) : QWidget(parent), scrollPos(0)
 {
-<<<<<<< HEAD
     // Sets variables for input text
-=======
-    // Sets variables for actual text.
->>>>>>> 9b01dea16c625251f100b4cee15d06869774736c
     staticText.setTextFormat(Qt::PlainText);
     setFixedHeight(fontMetrics().height() + 10);
     // Width of news frame
@@ -102,4 +98,3 @@ void ScrollText::timer_timeout()
     scrollPos = (scrollPos + 5);
     update();
 }
-
