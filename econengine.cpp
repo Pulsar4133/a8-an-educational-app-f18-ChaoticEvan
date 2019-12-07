@@ -21,6 +21,10 @@
 // Initialize the instance pointer to null.
 EconEngine* EconEngine::m_engineInstance = NULL;
 
+///
+/// \brief EconEngine::instance Create an instance of our engin
+/// \return returns the created instance
+///
 EconEngine* EconEngine::instance()
 {
     // If an engine instance has not been created yet, do so.
@@ -33,6 +37,10 @@ EconEngine* EconEngine::instance()
     return m_engineInstance;
 }
 
+///
+/// \brief EconEngine::gameState gettter for game object
+/// \return our game object
+///
 GameState* EconEngine::gameState()
 {
     return &EconEngine::instance()->game;
