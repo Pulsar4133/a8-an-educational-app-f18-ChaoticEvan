@@ -37,12 +37,6 @@ public:
 signals:
     void sigNewPos(int);
     void sigStartSimulation(Lemonade lemonade);
-
-    /**
-     * A method that updates the wallet label on the display.
-     * @brief updateWallet
-     * @param upgrade
-     */
     void updateWallet(int upgrade);
     void openEndDialog();
     void showCalendar();
@@ -73,9 +67,6 @@ private slots:
     void sugarSpinBox_valueChanged(int i);
     void pitcherSpinBox_valueChanged(int i);
 
-    /**
-     * @brief Button clicks.
-     */
     void on_startButton_clicked();
     void on_yesterdayButton_clicked();
     void on_welcomeCheck4_clicked(bool checked);
@@ -84,9 +75,6 @@ private slots:
     void on_MuteMusic_clicked();
     void on_beginButton_clicked();
 
-    /**
-     * @brief On Upgrades clicked.
-     */
     void on_BuyUmbrella_clicked();
     void on_BuyPitcher_clicked();
     void on_BuyBoomBox_clicked();
@@ -115,25 +103,12 @@ private:
     QWidget *lemWin;
     int displayDate;
 
-    /**
-     * A variable to store the model in.
-     * @brief game
-     */
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
     QTimer whaleTimer;
 
-    /**
-     * A variable to store the music and have control of it depending on what buttons are clicked.
-     * @brief noise
-     */
     QMediaPlayer *noise = new QMediaPlayer();
-
-    /**
-     * Boolean variables to decide whether or not upgrades have been bought.
-     * @brief isMusicPlaying
-     */
     bool isMusicPlaying = true;
     bool hasBoughtUmbrella = false;
     bool hasBoughtGrapes = false;
@@ -147,10 +122,6 @@ private:
     QHBoxLayout* newsLayout;
     ScrollText* news;
 
-    /**
-     *  A method that will begin to play music as soon as the game begins.
-     * @brief playMusic
-     */
     void playMusic();
 
     void loadStartImages();
@@ -170,16 +141,8 @@ private:
     void createIceCubeBody();
     void createSugarCubeBody();
     void calendarWeather(int currWeek);
-
-    /**
-     * A method that checks the affordability of upgrades to ensure
-     * that buttons are only enabled if they can afford them, disabled otherwise.
-     * It also checks to ensure that the player only buys one of each upgrade.
-     * @brief checkAffordablilityOfUpgrades
-     */
     void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
-
     void openEndGameDialog(QString message);
     double uiLemonadeCurrCost();
     void updateIngredientsFrameCost();

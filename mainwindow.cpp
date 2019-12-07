@@ -590,7 +590,6 @@ void MainWindow::updateData()
     checkAffordablilityOfUpgrades();
 }
 
-///
 /// A method that checks the affordability of upgrades to ensure
 /// that buttons are only enabled if they can afford them, disabled otherwise.
 /// It also checks to ensure that the player only buys one of each upgrade.
@@ -682,7 +681,6 @@ void MainWindow::redirectYoutube()
     msgBox.exec();
 }
 
-///
 /// A method to play music.
 /// \brief MainWindow::playMusic
 ///
@@ -709,7 +707,7 @@ void MainWindow::onSimulationComplete()
     this->animationForDay();
     ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
-///
+
 /// Creates the proper background and crowd size for the daily animation
 /// Starts Crowdtimer
 /// \brief MainWindow::animationForDay
@@ -808,7 +806,7 @@ void MainWindow::animationForDay()
         crowdTimer.start();
     }
 }
-///
+
 /// Displays the correct calendar and weather information
 /// Creates the pop up windows on Day 1 and 5
 /// \brief MainWindow::on_progress_start
@@ -864,7 +862,7 @@ void MainWindow::on_progress_start()
 
 
 }
-///
+
 /// Sets the day of each calendar to the correct weather forecast.
 /// \brief MainWindow::calendarWeather
 /// \param currWeek
@@ -1039,7 +1037,6 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
     }
 }
 
-///
 /// Check if the music is playing, if so, mute it. Otherwise, play it again.
 /// \brief MainWindow::on_MuteMusic_clicked
 ///
@@ -1074,7 +1071,6 @@ void MainWindow::changeNewsText(QString scrollText)
 /// BELOW are methods that are button clicks of upgrades.
 ///
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyUmbrella_clicked When buy umbrella button is clicked.
 ///
@@ -1089,7 +1085,6 @@ void MainWindow::on_BuyUmbrella_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyPitcher_clicked When buy pitcher button is clicked.
 ///
@@ -1103,7 +1098,6 @@ void MainWindow::on_BuyPitcher_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyBoomBox_clicked When buy boom box button is clicked.
 ///
@@ -1127,7 +1121,6 @@ void MainWindow::on_BuyBoomBox_clicked()
     ui->BuyBoomBox->setEnabled(false);
 }
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuySugar_clicked When buy sugar dealer button is clicked.
 ///
@@ -1141,7 +1134,6 @@ void MainWindow::on_BuySugar_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked.
 ///
@@ -1155,7 +1147,6 @@ void MainWindow::on_BuyLemons_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
-///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyNeonSIgn_clicked When buy neon sign button is clicked.
 ///
