@@ -1172,18 +1172,11 @@ void MainWindow::pitcherSpinBox_valueChanged(int i)
     updateIngredientsFrameCost();
 }
 
-void MainWindow::on_beginButton_clicked()
-{
-    emit showCalendar();
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
-    ui->welcomeFrame->setVisible(false);
-    ui->welcomeLabel1->setVisible(false);
-    ui->welcomeCheck2->setVisible(false);
-    ui->welcomeCheck3->setVisible(false);
-    ui->welcomeCheck4->setVisible(false);
-}
-
+/// Gets all of the news stories to be displayed.
+/// \brief MainWindow::getNewsStories
+/// \param filePath
+/// \return
+///
 QVector<QString>* MainWindow::getNewsStories(QString filePath)
 {
     QFile storiesFile(filePath);
