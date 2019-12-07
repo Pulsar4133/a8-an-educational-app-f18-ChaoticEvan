@@ -62,7 +62,6 @@ public slots:
     void updateIceBody();
 
 private slots:
-    void on_day_change(QString scrollText);
     void on_progress_start();
     void imageScroll();
     void createLemonade();
@@ -132,6 +131,14 @@ private:
      */
     QMediaPlayer *noise = new QMediaPlayer();
     bool isMusicPlaying = true;
+    bool hasBoughtUmbrella = false;
+    bool hasBoughtGrapes = false;
+    bool hasBoughtBoomBox = false;
+    bool hasBoughtInsurance = false;
+    bool hasBoughtSugar = false;
+    bool hasBoughtLemon = false;
+    bool hasBoughtPitcher = false;
+    bool hasBoughtSign = false;
     QVector<QString>* newsStories;
     QHBoxLayout* newsLayout;
     ScrollText* news;
