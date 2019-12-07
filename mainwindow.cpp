@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     //QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
+    QObject::connect(this, &MainWindow::showCalendar, this, &MainWindow::updateData);
 
     // Update the wallet.
     QObject::connect(this, &MainWindow::updateWallet, model, &EconEngine::onUpgradePurchased);
@@ -413,7 +414,20 @@ void MainWindow::on_yesterdayButton_clicked()
 ///
 void MainWindow::updateData()
 {
-    ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
+    ui->ingDayLabel->setVisible(true);
+    // Increments current date to add weekends
+    if (game.currentDate < 5 )
+    {
+        displayDate = game.currentDate + 2;
+    } else if (game.currentDate < 10)
+    {
+        displayDate = game.currentDate + 4;
+    } else if (game.currentDate < 15)
+    {
+        displayDate = game.currentDate + 6;
+    }
+
+    ui->ingDayLabel->setText("Day: " + QString::number(displayDate));
     ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
@@ -516,7 +530,7 @@ void MainWindow::playMusic(){
 
 void MainWindow::onSimulationComplete()
 {
-    this->updateData();
+    //this->updateData();
     this->animationForDay();
     ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
@@ -724,6 +738,7 @@ void MainWindow::loadStartImages()
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
 
     loadUpgradeImages();
+    ui->ingDayLabel->setVisible(false);
 }
 
 ///
