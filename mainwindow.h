@@ -98,6 +98,7 @@ private slots:
     void on_BuyNeonSIgn_clicked();
     void on_BuyInsurance_clicked();
 
+
 private:
     bool jump = false;
     Ui::MainWindow *ui;
@@ -123,6 +124,7 @@ private:
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
+    QTimer whaleTimer;
 
     /**
      * A variable to store the music and have control of it depending on what buttons are clicked.
@@ -145,6 +147,7 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void animationForWhale();
 
     void collisionCheck();
     void createGroundBody();

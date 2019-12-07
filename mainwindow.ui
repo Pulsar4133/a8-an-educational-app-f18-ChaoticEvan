@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>192</height>
+       <height>230</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -333,6 +333,19 @@
        <y>-42</y>
        <width>300</width>
        <height>600</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="whaleLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-400</y>
+       <width>1050</width>
+       <height>369</height>
       </rect>
      </property>
      <property name="text">
@@ -1121,7 +1134,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
