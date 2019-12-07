@@ -339,6 +339,19 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="whaleLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-400</y>
+       <width>1050</width>
+       <height>369</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
@@ -529,9 +542,9 @@
       </font>
      </property>
      <property name="text">
-      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics 
-concepts in a simplistic, fun way! As the owner of your own lemonade stand, 
-you will deal with supply and demand, a great deal of competition, 
+      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics
+concepts in a simplistic, fun way! As the owner of your own lemonade stand,
+you will deal with supply and demand, a great deal of competition,
 and mysterious phenomenons! Watch out! </string>
      </property>
      <property name="alignment">
@@ -572,8 +585,8 @@ and mysterious phenomenons! Watch out! </string>
       </font>
      </property>
      <property name="text">
-      <string>There will be 3 levels to the game. 
-Saving up for the last part might 
+      <string>There will be 3 levels to the game.
+Saving up for the last part might
 be a good idea! It’s raining whales,
 hallelujah! Your upgrdaes can
 Be found here!</string>
@@ -595,10 +608,10 @@ Be found here!</string>
       </font>
      </property>
      <property name="text">
-      <string>Before each day, you’ll have the chance 
- to determine various factors about 
-your lemonade stand such as the amount 
-of sugar, ice, and lemons,  the price per cup, 
+      <string>Before each day, you’ll have the chance
+ to determine various factors about
+your lemonade stand such as the amount
+of sugar, ice, and lemons,  the price per cup,
 and how decked out your stand is.</string>
      </property>
     </widget>
@@ -618,10 +631,10 @@ and how decked out your stand is.</string>
       </font>
      </property>
      <property name="text">
-      <string>A calendar showing how you as a player 
- has progressed throughout your time 
-on the block will also serve as a nice way 
-of showing off the millions of dollars 
+      <string>A calendar showing how you as a player
+ has progressed throughout your time
+on the block will also serve as a nice way
+of showing off the millions of dollars
 you’re about to make! </string>
      </property>
     </widget>
@@ -727,9 +740,9 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Life might give you a lot more 
- than lemons. Be sure 
- you can bounce whatever 
+       <string>Life might give you a lot more
+ than lemons. Be sure
+ you can bounce whatever
  life gives you out of the sky!</string>
       </property>
      </widget>
@@ -801,8 +814,8 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Create more lemonade with 
- fewer resources! Each pitcher 
+       <string>Create more lemonade with
+ fewer resources! Each pitcher
  will now create 12 cups!
 </string>
       </property>
@@ -875,8 +888,8 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Do you have a 
- customer who really 
+       <string>Do you have a
+ customer who really
  wants grapes?!</string>
       </property>
      </widget>
@@ -948,10 +961,10 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Invest in the sound of 
- music. Gather the 
- kiddos to drink to the 
- sound of some sick 
+       <string>Invest in the sound of
+ music. Gather the
+ kiddos to drink to the
+ sound of some sick
  tunes.</string>
       </property>
      </widget>
@@ -1023,12 +1036,12 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>You call up an old friend 
- from college who can get 
- you some superb, high-quality 
- sugar. He won't tell you 
- where he gets them, and 
- they cost an arm and a leg, 
+       <string>You call up an old friend
+ from college who can get
+ you some superb, high-quality
+ sugar. He won't tell you
+ where he gets them, and
+ they cost an arm and a leg,
  but they're the bees knees!</string>
       </property>
      </widget>
@@ -1100,12 +1113,12 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>You call up an old friend 
- from college who can get 
- you some superb, high-quality 
- lemons. He won't tell you 
- where he gets them, and 
- they cost an arm and a leg, 
+       <string>You call up an old friend
+ from college who can get
+ you some superb, high-quality
+ lemons. He won't tell you
+ where he gets them, and
+ they cost an arm and a leg,
  but they're the bees knees!</string>
       </property>
      </widget>
@@ -1177,9 +1190,9 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Throw a neon sign on 
- that dingy stand to 
- attract some new 
+       <string>Throw a neon sign on
+ that dingy stand to
+ attract some new
  customers!</string>
       </property>
      </widget>
@@ -1251,10 +1264,10 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Want to ensure you 
- don't have to rebuy 
- your decked out 
- lemonade stand? 
+       <string>Want to ensure you
+ don't have to rebuy
+ your decked out
+ lemonade stand?
  Invest in Insurance!</string>
       </property>
      </widget>

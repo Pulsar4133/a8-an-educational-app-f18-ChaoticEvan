@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Image connections.
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::imageScroll);
+    QObject::connect(&whaleTimer, &QTimer::timeout, this, &MainWindow::animationForWhale);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -70,8 +71,9 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Preloads all .png files
     loadStartImages();
 
-    // Time between crowd image being updated
+    // Time between crowd and whale image being updated
     crowdTimer.setInterval(50);
+    whaleTimer.setInterval(50);
 
     // Set beginning text for the game.
     newsLayout = new QHBoxLayout(ui->newsWidget);
@@ -568,7 +570,7 @@ void MainWindow::checkAffordablilityOfUpgrades()
 {
     int wallet = game.stand.wallet;
     if (wallet > 75 && hasBoughtBoomBox == false)
-    {   
+    {
         ui->BuyBoomBox -> setEnabled(true);
     }
     if (wallet > 50 && hasBoughtSign == false)
@@ -733,8 +735,15 @@ void MainWindow::animationForDay()
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     ui->simulationPicture->setVisible(true);
 
-    // Crowd begins moving across screen.
-    crowdTimer.start();
+    // Whale drops on day 14, else crowd moves across screen
+    if (game.world.WHALE == game.yesterday().disaster)
+    {
+        whaleTimer.start();
+    } else
+    {
+        // Crowd begins moving across screen.
+        crowdTimer.start();
+    }
 }
 ///
 /// Displays the correct calendar and weather information
@@ -1338,4 +1347,23 @@ QVector<QString>* MainWindow::getNewsStories(QString filePath)
     }
 
     return storiesArray;
+}
+
+void MainWindow::animationForWhale()
+{
+    int x = ui->whaleLabel->x();
+    int y = ui->whaleLabel->y();
+    int width = ui->whaleLabel->width();
+    int height = ui->whaleLabel->height();
+
+    y += 25;
+
+    ui->whaleLabel->setGeometry(x, y, width, height);
+    QPixmap whale(":/img/Images/Whale.png");
+    ui->whaleLabel->setPixmap(whale);
+
+    if (y > 300)
+    {
+        whaleTimer.stop();
+    }
 }
