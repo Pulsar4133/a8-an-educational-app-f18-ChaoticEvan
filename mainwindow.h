@@ -177,7 +177,7 @@ private:
     void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
 
-    void openEndGameDialog();
+    void openEndGameDialog(QString message);
     double uiLemonadeCurrCost();
     void updateIngredientsFrameCost();
     void updateCupsofLemonadeMade();

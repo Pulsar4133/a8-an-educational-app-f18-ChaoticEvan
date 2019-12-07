@@ -416,7 +416,7 @@
        <x>-1</x>
        <y>0</y>
        <width>1061</width>
-       <height>41</height>
+       <height>100</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -431,7 +431,7 @@
         <x>-1</x>
         <y>-1</y>
         <width>1061</width>
-        <height>51</height>
+        <height>60</height>
        </rect>
       </property>
      </widget>
@@ -1272,7 +1272,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
