@@ -116,11 +116,6 @@ private:
     void generateDays(Day* days, int numDays);
 
     /**
-     * @brief setDisasterLevel3 A method that will generate the disaster that occurs on the 3rd level.
-     */
-    void setDisasterLevel3();
-
-    /**
      * @brief calculateProfit A method to calculate the profit by subracting the cost from income.
      * @param cost
      * @param income

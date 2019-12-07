@@ -91,7 +91,6 @@ private slots:
      */
     void on_BuyUmbrella_clicked();
     void on_BuyPitcher_clicked();
-    void on_BuyGrapes_clicked();
     void on_BuyBoomBox_clicked();
     void on_BuySugar_clicked();
     void on_BuyLemons_clicked();

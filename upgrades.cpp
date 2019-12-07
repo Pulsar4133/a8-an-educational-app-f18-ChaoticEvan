@@ -76,17 +76,7 @@ Upgrades::Upgrades()
                     {
                         game.stand.reputation += 50;
                         EPrompt::displayEduPrompt(EPrompt::P_MARKETING);
-                    });
-
-        this->m_upgradeList[UPGRADE_ENUM::GRAPE] = new Upgrade(
-                    "Grape",
-                    "Do you have a customer who really wants grapes?!",
-                    2000.00,
-                    UPGRADE_ENUM::GRAPE,
-                    [] (GameState& game)
-                    {
-                        EPrompt::displayEduPrompt(EPrompt::P_INSURANCE);
-                    });
+                    });      
 
         this->m_upgradeList[UPGRADE_ENUM::INSURANCE] = new Upgrade(
                     "Insurance",
