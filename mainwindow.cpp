@@ -500,22 +500,32 @@ void MainWindow::onSimulationComplete()
     this->updateData();
     this->animationForDay();
 }
-
+///
+/// Creates the proper background and crowd size for the daily animation
+/// Starts Crowdtimer
+/// \brief MainWindow::animationForDay
+///
 void MainWindow::animationForDay()
 {
+    //Sets all the calendar information to not visible
     ui->calendarLabel->setVisible(false);
     ui->demandLabel->setVisible(false);
     ui->profitLabel->setVisible(false);
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
-    ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
     ui->day2Label->setVisible(false);
     ui->day3Label->setVisible(false);
     ui->day4Label->setVisible(false);
     ui->day5Label->setVisible(false);
+
+    //Shows the simulation frame
+    ui->simulationFrame->setVisible(true);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
+    //Sets the background QPixmap to the correct weather image
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
     if (game.yesterday().weatherState == 0)
     {
         // Rainy weather.
@@ -537,23 +547,28 @@ void MainWindow::animationForDay()
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
         background = backgroundTemp;
     }
+
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
+    // Set the crowd image to the correct size of crowd
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
     if(game.yesterday().demanded < 44)
     {
+        //Light crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
     }
     else if(game.yesterday().demanded < 74)
     {
+        //Medium crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
     }
     else
     {
+        //Heavy crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
         defaultImage = temp;
     }
@@ -563,9 +578,14 @@ void MainWindow::animationForDay()
     // Crowd begins moving across screen.
     crowdTimer.start();
 }
-
+///
+/// Displays the correct calendar and weather information
+/// Creates the pop up windows on Day 1 and 5
+/// \brief MainWindow::on_progress_start
+///
 void MainWindow::on_progress_start()
 {
+    // Shows the calendar days
     ui->day1Label->setVisible(true);
     ui->day2Label->setVisible(true);
     ui->day3Label->setVisible(true);
@@ -573,20 +593,24 @@ void MainWindow::on_progress_start()
     ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
+    // Displays the correct calendar dates based on the current date of the game
     if (game.currentDate <= 4)
     {
+        // Week 1 Days 1-7
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 0;
     }
     else if (game.currentDate > 4 && game.currentDate <= 9)
     {
+        // Week 2 Days 8-14
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 1;
     }
     else
     {
+        // Week 3 Days 15-21
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 2;
@@ -596,6 +620,7 @@ void MainWindow::on_progress_start()
     ui->simulationPicture->setVisible(false);
     ui->calendarLabel->setVisible(true);
 
+    // Displays the informational pop up windows on Day 1 and 5
     if (game.currentDate == 1)
     {
         EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
@@ -606,13 +631,18 @@ void MainWindow::on_progress_start()
     }
 
 }
-
+///
+/// Sets the day of each calendar to the correct weather forecast
+/// \brief MainWindow::calendarWeather
+/// \param currWeek
+///
 void MainWindow::calendarWeather(int currWeek)
 {
     if(currWeek == -99)
     {
         return;
     }
+    // Load initial images into QPixmaps
     QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
     QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
     QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
@@ -626,24 +656,21 @@ void MainWindow::calendarWeather(int currWeek)
         {
             // Rainy weather.
             currWeekWeather.push_back(rainyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 1)
         {
             // Snowy weather.
             currWeekWeather.push_back(snowyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 2)
         {
             // Cloudy weather.
             currWeekWeather.push_back(cloudyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 3)
         {
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
-            //background = backgroundTemp;
         }
     }
+    // Set each day label to correct item in the vector
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
