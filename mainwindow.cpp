@@ -661,7 +661,7 @@ void MainWindow::onSimulationComplete()
 {
     //this->updateData();
     this->animationForDay();
-    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 ///
 /// Creates the proper background and crowd size for the daily animation
@@ -1023,7 +1023,7 @@ void MainWindow::on_BuyUmbrella_clicked()
     emit updateWallet(1);
     ui ->BuyUmbrella ->setEnabled(false);
     hasBoughtUmbrella = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
 ///
@@ -1037,7 +1037,7 @@ void MainWindow::on_BuyPitcher_clicked()
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
     hasBoughtPitcher = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
 ///
@@ -1049,7 +1049,7 @@ void MainWindow::on_BuyBoomBox_clicked()
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
     ui->boomBoxImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(4);
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 
     // Start RickRolling.
     QMediaPlaylist* playlist= new QMediaPlaylist;
@@ -1075,7 +1075,7 @@ void MainWindow::on_BuySugar_clicked()
     emit updateWallet(2);
     ui ->BuySugar->setEnabled(false);
     hasBoughtSugar = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 ///
 /// Change image, wallet, and change backend.
@@ -1088,7 +1088,7 @@ void MainWindow::on_BuyLemons_clicked()
     emit updateWallet(3);
     ui ->BuyLemons-> setEnabled(false);
     hasBoughtLemon = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
 ///
@@ -1102,7 +1102,7 @@ void MainWindow::on_BuyNeonSIgn_clicked()
     emit updateWallet(0);
     ui ->BuyNeonSIgn ->setEnabled(false);
     hasBoughtSign = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
 ///
@@ -1116,7 +1116,7 @@ void MainWindow::on_BuyInsurance_clicked()
     emit updateWallet(6);
     ui->BuyInsurance ->setEnabled(false);
     hasBoughtInsurance = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
 
 /// Sets up the game when the begin button is clicked.

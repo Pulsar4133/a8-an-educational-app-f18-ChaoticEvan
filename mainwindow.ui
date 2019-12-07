@@ -224,7 +224,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Wallet: $100</string>
+      <string>Wallet: $100.00</string>
      </property>
     </widget>
     <widget class="QPushButton" name="MuteMusic">
