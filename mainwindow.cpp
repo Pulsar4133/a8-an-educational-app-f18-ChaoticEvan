@@ -425,6 +425,32 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+    loadUpgradeImages();
+}
+
+///
+/// \brief MainWindow::loadUpgradeImages Helper method for loading upgrade images.
+///
+void MainWindow::loadUpgradeImages()
+{
+    QPixmap boomBox(":/img/Images/Upgrades/Boom Box.png");
+    QPixmap grape(":/img/Images/Upgrades/grape.png");
+    QPixmap neonSign(":/img/Images/Upgrades/Neon Sign.png");
+    QPixmap insuranceSign(":/img/Images/Upgrades/Insurance Sign.png");
+    QPixmap orgLemons(":/img/Images/Upgrades/organic lemons.png");
+    QPixmap sugarDealer(":/img/Images/Upgrades/Sugar Dealer.png");
+    QPixmap umbrella(":/img/Images/Upgrades/Umbrella.png");
+    QPixmap pitcher(":/img/Images/ClipArtPitcher.png");
+
+    ui->boomBoxImage->setPixmap(boomBox.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->bigPitcherImage->setPixmap(pitcher.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->grapesImage->setPixmap(grape.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->neonSignImage->setPixmap(neonSign.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->insuranceImage->setPixmap(insuranceSign.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->lemonsImage->setPixmap(orgLemons.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->sugarImage->setPixmap(sugarDealer.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->umbrellaImage->setPixmap(umbrella.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 /// Below are methods that occur due to a button being clicked in the ui.

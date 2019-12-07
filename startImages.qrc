@@ -22,6 +22,13 @@
         <file>Images/Calendars/lemonomicsCalendarWeek3Short.png</file>
         <file>Images/Calendars/lemonomicsCalendarWeek3Tall.png</file>
         <file>Images/Weather_Images/Snowy.png</file>
+        <file>Images/Upgrades/Boom Box.png</file>
+        <file>Images/Upgrades/grape.png</file>
+        <file>Images/Upgrades/Insurance Sign.png</file>
+        <file>Images/Upgrades/organic lemons.png</file>
+        <file>Images/Upgrades/Sugar Dealer.png</file>
+        <file>Images/Upgrades/Umbrella.png</file>
+        <file>Images/Upgrades/Neon Sign.png</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
