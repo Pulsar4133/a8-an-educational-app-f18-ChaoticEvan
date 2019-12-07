@@ -62,7 +62,6 @@ public slots:
     void updateIceBody();
 
 private slots:
-    void on_day_change(QString scrollText);
     void on_progress_start();
     void imageScroll();
     void createLemonade();
