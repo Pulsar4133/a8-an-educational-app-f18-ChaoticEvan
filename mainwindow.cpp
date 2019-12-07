@@ -25,6 +25,11 @@
 #define WIDTH 25
 #define HEIGHT 40
 
+/// MainWindow constructor makes connections for slots & signals and does initial setup of UI.
+/// \brief MainWindow::MainWindow
+/// \param parent
+/// \param model
+///
 MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -113,14 +118,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->BuyInsurance ->setEnabled(false);
 }
 
-    ///Deconstructor.
+    /// Deconstructor.
     MainWindow::~MainWindow()
     {
         delete ui;
     }
 
 
-    /// Applies linear impulse to move ice body in a arc from lemonade stand into pitcher
+    /// Applies linear impulse to move ice body in a arc from lemonade stand into pitcher.
     /// \brief MainWindow::updateIceBody
     ///
     void MainWindow::updateIceBody()
@@ -130,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
         iceCubeBody->ApplyLinearImpulse( b2Vec2(impulseIce,-impulseIce*2), iceCubeBody->GetWorldCenter(),true );
     }
 
-    /// Applies linear impulse to move sugar body in a arc from lemonade stand into pitcher
+    /// Applies linear impulse to move sugar body in a arc from lemonade stand into pitcher.
     /// \brief MainWindow::updateSugarBody
     ///
     void MainWindow::updateSugarBody()
@@ -141,14 +146,14 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
         sugarCubeBody->ApplyLinearImpulse( b2Vec2(impulseSugar,-impulseSugar*2), sugarCubeBody->GetWorldCenter(),true);
 
     }
-    /// Applies linear impulse to move lemon body in a arc from lemonade stand into pitcher
+    /// Applies linear impulse to move lemon body in a arc from lemonade stand into pitcher.
     /// \brief MainWindow::updateLemonBody
     ///
     void MainWindow::updateLemonBody()
     {
         // Disable jump so all bodies in the world will only move one time per day.
         jump = false;
-        // Activate body which enables body to have forces acted upon it
+        // Activate body which enables body to have forces acted upon it.
 
         float impulseLemon = lemonBody->GetMass() * 10;
         lemonBody->ApplyLinearImpulse( b2Vec2(impulseLemon,-impulseLemon*2), lemonBody->GetWorldCenter(),true );
@@ -243,7 +248,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
             // Activates lemonBody to allow forces to act upon it.
             lemonBody->SetActive(true);
             // Updates velocity of the lemonBody.
-
             updateLemonBody();
         }
 
@@ -263,6 +267,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
             collisionCheck();
         }
 
+        // Continousally calls updateWorld
         QTimer::singleShot(5,this,&MainWindow::updateWorld);
     }
     /// Creates sugarCubeBody and initializes sugarImage QLabel with a sugar cube png.
@@ -270,7 +275,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ///
     void MainWindow::createSugarCubeBody()
     {
-        // Defines body type
+        // Defines body type.
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(535.0f, 380.0f);
@@ -376,7 +381,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     }
 
     /// Creates groundBody which defines the ground level of the world for bodies.
-    /// pitcherBody sits on the groundBody.
     /// \brief MainWindow::createGroundBody
     ///
     void MainWindow::createGroundBody()
@@ -644,7 +648,7 @@ void MainWindow::checkAffordablilityOfUpgrades()
     }
 }
 
-///
+/// Gives the opportunity for a user to click redirected link to learn more about microeconomics.
 /// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
 ///
 void MainWindow::redirectKhanAcademy()
@@ -672,6 +676,9 @@ void MainWindow::playMusic()
     noise ->play();
 }
 
+/// Updates game upon completion of a day/simulation.
+/// \brief MainWindow::onSimulationComplete
+///
 void MainWindow::onSimulationComplete()
 {
     //this->updateData();
@@ -786,7 +793,7 @@ void MainWindow::on_progress_start()
 {
      enablePitcherBody(false);
   
-    // Shows the calendar days
+    // Shows the calendar days.
     ui->day1Label->setVisible(true);
     ui->day2Label->setVisible(true);
     ui->day3Label->setVisible(true);
@@ -794,24 +801,24 @@ void MainWindow::on_progress_start()
     ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
-    // Displays the correct calendar dates based on the current date of the game
+    // Displays the correct calendar dates based on the current date of the game.
     if (game.currentDate <= 4)
     {
-        // Week 1 Days 1-7
+        // Week 1 Days 1-7.
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 0;
     }
     else if (game.currentDate > 4 && game.currentDate <= 9)
     {
-        // Week 2 Days 8-14
+        // Week 2 Days 8-14.
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 1;
     }
     else
     {
-        // Week 3 Days 15-21
+        // Week 3 Days 15-21.
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 2;
@@ -821,7 +828,7 @@ void MainWindow::on_progress_start()
     ui->simulationPicture->setVisible(false);
     ui->calendarLabel->setVisible(true);
 
-    // Displays the informational pop up windows on Day 1 and 5
+    // Displays the informational pop up windows on Day 1 and 5.
     if (game.currentDate == 1)
     {
         EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
@@ -834,7 +841,7 @@ void MainWindow::on_progress_start()
 
 }
 ///
-/// Sets the day of each calendar to the correct weather forecast
+/// Sets the day of each calendar to the correct weather forecast.
 /// \brief MainWindow::calendarWeather
 /// \param currWeek
 ///
@@ -844,7 +851,7 @@ void MainWindow::calendarWeather(int currWeek)
     {
         return;
     }
-    // Load initial images into QPixmaps
+    // Load initial images into QPixmaps.
     QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
     QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
     QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
@@ -876,7 +883,7 @@ void MainWindow::calendarWeather(int currWeek)
             currWeekWeather.push_back(sunnyDay);
         }
     }
-    // Set each day label to correct item in the vector
+    // Set each day label to correct item in the vector.
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -884,7 +891,9 @@ void MainWindow::calendarWeather(int currWeek)
     ui->day5Label->setPixmap(currWeekWeather[4].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-
+/// Enables and sets default starting images for game.
+/// \brief MainWindow::loadStartImages
+///
 void MainWindow::loadStartImages()
 {
     // QLabel rectangle dimensions, and start x/y coordinate for 1920x1080p images.
@@ -957,7 +966,7 @@ void MainWindow::on_startButton_clicked()
             return;
         }
 
-    // Sets new story semi-randomly via current time in miliseconds
+    // Sets new story semi-randomly via current time in miliseconds.
     QTime now = QTime::currentTime();
     int storyIndex = now.msec() % newsStories->size();
     QString story = newsStories->at(storyIndex);
@@ -1026,6 +1035,10 @@ void MainWindow::on_MuteMusic_clicked()
     }
 }
 
+/// Sets newsScroll text.
+/// \brief MainWindow::changeNewsText
+/// \param scrollText
+///
 void MainWindow::changeNewsText(QString scrollText)
 {
     // ScrollText method to change text being painted
@@ -1103,6 +1116,7 @@ void MainWindow::on_BuySugar_clicked()
     hasBoughtSugar = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 }
+
 ///
 /// Change image, wallet, and change backend.
 /// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked.
