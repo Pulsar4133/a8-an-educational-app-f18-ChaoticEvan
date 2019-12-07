@@ -783,6 +783,10 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+///
+/// \brief MainWindow::on_BuyUmbrella_clicked When buy umbrella button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyUmbrella_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -793,6 +797,10 @@ void MainWindow::on_BuyUmbrella_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyPitcher_clicked When buy pitcher button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyPitcher_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -802,6 +810,10 @@ void MainWindow::on_BuyPitcher_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyGrapes_clicked When buy grapes button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyGrapes_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -811,6 +823,10 @@ void MainWindow::on_BuyGrapes_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyBoomBox_clicked When buy boom box button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyBoomBox_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -830,6 +846,10 @@ void MainWindow::on_BuyBoomBox_clicked()
     ui->BuyBoomBox->setEnabled(false);
 }
 
+///
+/// \brief MainWindow::on_BuySugar_clicked When buy sugar dealer button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuySugar_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -839,6 +859,10 @@ void MainWindow::on_BuySugar_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyLemons_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -848,6 +872,10 @@ void MainWindow::on_BuyLemons_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyNeonSIgn_clicked When buy neon sign button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyNeonSIgn_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
@@ -857,6 +885,10 @@ void MainWindow::on_BuyNeonSIgn_clicked()
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// \brief MainWindow::on_BuyInsurance_clicked When buy insurance button is clicked
+/// change image and change backend
+///
 void MainWindow::on_BuyInsurance_clicked()
 {
     QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
