@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>323</width>
-       <height>261</height>
+       <height>267</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -429,6 +429,9 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <property name="midLineWidth">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="newsWidget" native="true">
       <property name="geometry">
        <rect>
@@ -734,7 +737,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -1276,7 +1279,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
