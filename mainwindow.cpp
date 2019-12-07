@@ -18,6 +18,7 @@
 #include <QTime>
 #include "ui_endgamedialog.h"
 #include "educationalprompter.h"
+#include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -634,7 +635,11 @@ void MainWindow::calendarWeather(int currWeek)
     std::vector<QPixmap> currWeekWeather;
     for (unsigned int i = 0 ; i < 5 ; i++)
     {
-        if (game.days[i+currWeek*5].weatherState == 0)
+        if (game.days[i+currWeek*5].disaster == 1)
+        {
+            //Tornado weather.
+            currWeekWeather.push_back(tornadoDay);
+        } else if (game.days[i+currWeek*5].weatherState == 0)
         {
             // Rainy weather.
             currWeekWeather.push_back(rainyDay);
@@ -916,19 +921,6 @@ void MainWindow::on_BuyInsurance_clicked()
     ui->BuyInsurance ->setEnabled(false);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
-void MainWindow::on_beginButton_clicked()
-{
-    emit showCalendar();
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
-    ui->welcomeFrame->setVisible(false);
-    ui->welcomeLabel1->setVisible(false);
-    ui->welcomeCheck2->setVisible(false);
-    ui->welcomeCheck3->setVisible(false);
-    ui->welcomeCheck4->setVisible(false);
-}
-
 
 void MainWindow::imageScroll()
 {
