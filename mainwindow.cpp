@@ -87,18 +87,19 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
     QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
 
+    ui->yesterdayButton->setEnabled(false);
     ui->startButton->setEnabled(false);
 
     // Play begin playing the duck song as soon as the game loads.
     playMusic();
 
     // Upgrade buttons should be false for the objects the player cannot win.
-        ui ->BuySugar->setEnabled(false);
-        ui ->BuyGrapes->setEnabled(false);
-        ui ->BuyLemons-> setEnabled(false);
-        ui ->BuyUmbrella ->setEnabled(false);
-        ui ->BuyPitcher ->setEnabled(false);
-        ui->BuyInsurance ->setEnabled(false);
+    ui ->BuySugar->setEnabled(false);
+    ui ->BuyGrapes->setEnabled(false);
+    ui ->BuyLemons-> setEnabled(false);
+    ui ->BuyUmbrella ->setEnabled(false);
+    ui ->BuyPitcher ->setEnabled(false);
+    ui->BuyInsurance ->setEnabled(false);
 }
 
 ///Deconstructor.
@@ -399,6 +400,22 @@ void MainWindow::createLemonade(){
 ///
 void MainWindow::on_yesterdayButton_clicked()
 {
+    if(ui->pitchersSpinBox->value() == 0)
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("You will probably need at least 1 pitcher of lemonade!");
+        addIngMsg.exec();
+        return;
+    }
+
+    if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
+    {
+        QMessageBox addIngMsg;
+        addIngMsg.setText("This isn't a water stand!\nMake some lemonade!");
+        addIngMsg.exec();
+        return;
+    }
+
     ui->LemonSpinBox->setValue(lemonade.getLemon());
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
@@ -988,7 +1005,7 @@ void MainWindow::on_beginButton_clicked()
 {
     emit showCalendar();
     ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(false);
     ui->welcomeFrame->setVisible(false);
     ui->welcomeLabel1->setVisible(false);
     ui->welcomeCheck2->setVisible(false);
@@ -1172,6 +1189,11 @@ void MainWindow::pitcherSpinBox_valueChanged(int i)
     updateIngredientsFrameCost();
 }
 
+/// Gets all of the news stories to be displayed.
+/// \brief MainWindow::getNewsStories
+/// \param filePath
+/// \return
+///
 QVector<QString>* MainWindow::getNewsStories(QString filePath)
 {
     QFile storiesFile(filePath);
