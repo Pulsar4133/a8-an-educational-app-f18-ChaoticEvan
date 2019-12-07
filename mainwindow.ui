@@ -689,7 +689,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -724,6 +724,27 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>$2000</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="UmbrellaDescription">
+      <property name="geometry">
+       <rect>
+        <x>316</x>
+        <y>22</y>
+        <width>211</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Life might give you a lot more 
+ than lemons. Be sure 
+ you can bounce whatever 
+ life gives you out of the sky!</string>
       </property>
      </widget>
     </widget>
@@ -762,6 +783,27 @@ you’re about to make! </string>
        <string>$250</string>
       </property>
      </widget>
+     <widget class="QLabel" name="PitcherDescription">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>20</y>
+        <width>211</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Create more lemonade with 
+ fewer resources! Each pitcher 
+ will now create 12 cups!
+</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="GrapesUpgrade">
      <attribute name="title">
@@ -796,6 +838,26 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>$2000</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="GrapeDescription">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>40</y>
+        <width>151</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Do you have a 
+ customer who really 
+ wants grapes?!</string>
       </property>
      </widget>
     </widget>
@@ -834,6 +896,27 @@ you’re about to make! </string>
        <string>$75</string>
       </property>
      </widget>
+     <widget class="QLabel" name="BoomBoxDescprtion">
+      <property name="geometry">
+       <rect>
+        <x>296</x>
+        <y>12</y>
+        <width>211</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Invest in the sound of 
+ music. Gather the kiddos 
+ to drink to the sound 
+ of some sick tunes.</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="SugarDealerUpgrade">
      <attribute name="title">
@@ -868,6 +951,30 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>$150</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="SugarDescription">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>20</y>
+        <width>221</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>You call up an old friend 
+ from college who can get 
+ you some superb, high-quality 
+ sugar. He won't tell you 
+ where he gets them, and 
+ they cost an arm and a leg, 
+ but they're the bees knees!</string>
       </property>
      </widget>
     </widget>
@@ -906,6 +1013,30 @@ you’re about to make! </string>
        <string>$150</string>
       </property>
      </widget>
+     <widget class="QLabel" name="LemonsDescprtion">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>20</y>
+        <width>221</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>You call up an old friend 
+ from college who can get 
+ you some superb, high-quality 
+ lemons. He won't tell you 
+ where he gets them, and 
+ they cost an arm and a leg, 
+ but they're the bees knees!</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="NeonSignUpgrade">
      <attribute name="title">
@@ -940,6 +1071,26 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>$50</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="NeonSIgnDescription">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>22</y>
+        <width>311</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Throw a neon sign on 
+ that dingy stand to attract 
+ some new customers!</string>
       </property>
      </widget>
     </widget>
@@ -978,8 +1129,30 @@ you’re about to make! </string>
        <string>$250</string>
       </property>
      </widget>
+     <widget class="QLabel" name="InsuranceDescription">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>50</y>
+        <width>201</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Want to ensure you don't 
+ have to rebuy your decked 
+ out lemonade stand? 
+ Invest in Insurance!</string>
+      </property>
+     </widget>
      <zorder>InsurancePrice</zorder>
      <zorder>BuyInsurance</zorder>
+     <zorder>InsuranceDescription</zorder>
     </widget>
    </widget>
    <zorder>progressFrame</zorder>
