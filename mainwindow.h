@@ -44,6 +44,7 @@ signals:
 public slots:
     void updateWorld();
     void onSimulationComplete();
+    void redirectKhanAcademy();
 
 private slots:
     void on_day_change(QString scrollText);
@@ -104,6 +105,7 @@ private:
     void animationForDay();
     void calendarWeather(int currWeek);
     void playMusic();
+    void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
 
     void openEndGameDialog();

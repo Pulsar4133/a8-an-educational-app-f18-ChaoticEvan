@@ -182,6 +182,24 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QLabel" name="walletLabel">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>415</y>
+       <width>221</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wallet: $</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="simulationFrame">
     <property name="enabled">
@@ -485,7 +503,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1600</width>
+      <width>1031</width>
       <height>851</height>
      </rect>
     </property>
@@ -525,7 +543,7 @@ and mysterious phenomenons! Watch out! </string>
       <rect>
        <x>-4</x>
        <y>0</y>
-       <width>1065</width>
+       <width>1601</width>
        <height>851</height>
       </rect>
      </property>
@@ -977,7 +995,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
