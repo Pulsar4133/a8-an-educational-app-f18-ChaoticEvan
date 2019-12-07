@@ -296,38 +296,8 @@ void MainWindow::createSugarCubeBody()
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.1f;
     fixtureDef.restitution = 0.1f;
+}
 
-    void MainWindow::createSugarCubeBody(){
-        b2BodyDef bodyDef;
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.position.Set(510.0f, 425.0f);
-        sugarCubeBody = world.CreateBody(&bodyDef);
-
-        sugarImage->setFixedSize(55, 55);
-        sugarImage->setParent(ui->simulationFrame);
-        QPixmap sugarPix(":/img/Images/sugarCube.png");
-        int w = sugarImage->width();
-        int h = sugarImage->height();
-
-        sugarImage->setPixmap(sugarPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-        sugarImage->raise();
-        sugarImage->setHidden(true);
-
-        // Define box shape for dynamic body.
-        b2PolygonShape dynamicBox;
-        dynamicBox.SetAsBox(20, 20);
-
-        // Define the dynamic body fixture.
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &dynamicBox;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.1f;
-        fixtureDef.restitution = 0.1f;
-
-        // Add the shape to the body.
-        sugarCubeBody->CreateFixture(&fixtureDef);
-        sugarCubeBody->SetActive(false);
-    }
 
 /// Creates iceCubeBody and initializes iceImage QLabel with a ice cube png.
 /// \brief MainWindow::createIceCubeBody
@@ -578,7 +548,7 @@ void MainWindow::on_yesterdayButton_clicked()
 void MainWindow::updateData()
 {
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
-    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 
     ui->incomeDisplay->setText(QString::number(game.yesterday().income));
     ui->costDisplay->setText(QString::number(game.yesterday().cost));
@@ -706,6 +676,7 @@ void MainWindow::animationForDay()
     ui->salesDisplay->setVisible(false);
     ui->costDisplay->setVisible(false);
     ui->incomeDisplay->setVisible(false);
+    ui->soldOutLabel->setVisible(false);
 
     ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
