@@ -6,15 +6,15 @@
 #include "endgamedialog.h"
 #include "lemonade.h"
 #include "ui_endgamedialog.h"
+#include "ui_endgamedialog.h"
+#include "endgamedialog.h"
+#include "scrolltext.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMediaPlayer>
 #include <QTimer>
 #include <QWidget>
-#include "ui_endgamedialog.h"
-#include "endgamedialog.h"
-#include "scrolltext.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -65,6 +65,7 @@ private slots:
     void on_progress_start();
     void imageScroll();
     void createLemonade();
+    void updateData();
 
     void closeGame();
     void closeDialogClosed(int i);
@@ -114,6 +115,7 @@ private:
     QLabel* sugarImage;
     QLabel* iceImage;
     QWidget *lemWin;
+    int displayDate;
 
     /**
      * A variable to store the model in.
@@ -149,7 +151,6 @@ private:
 
     void loadStartImages();
     void loadUpgradeImages();
-    void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
 
