@@ -246,6 +246,10 @@
       <string>Mute Music</string>
      </property>
     </widget>
+    <zorder>layoutWidget</zorder>
+    <zorder>walletLabel</zorder>
+    <zorder>MuteMusic</zorder>
+    <zorder>ingDayLabel</zorder>
    </widget>
    <widget class="QFrame" name="simulationFrame">
     <property name="enabled">
@@ -1412,7 +1416,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

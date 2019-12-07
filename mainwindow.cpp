@@ -548,9 +548,26 @@ void MainWindow::on_yesterdayButton_clicked()
 ///
 void MainWindow::updateData()
 {
+    ui->ingDayLabel->setVisible(true);
+    // Increments current date to add weekends
+    if (game.currentDate < 5 )
+    {
+        displayDate = game.currentDate + 2;
+    } else if (game.currentDate < 10)
+    {
+        displayDate = game.currentDate + 4;
+    } else if (game.currentDate < 15)
+    {
+        displayDate = game.currentDate + 6;
+    }
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
     ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 
+    ui->ingDayLabel->setText("Day: " + QString::number(displayDate));
+    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
+    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
+    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
+    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
     ui->incomeDisplay->setText(QString::number(game.yesterday().income));
     ui->costDisplay->setText(QString::number(game.yesterday().cost));
     ui->profitDisplay->setText(QString::number(game.yesterday().profit));
