@@ -40,7 +40,11 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
+    // Connections to outside redirect from menu bar.
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
+    QObject::connect(ui->actionUofU_Business_Program, &QAction::triggered, this, &MainWindow::redirectUofU);
+    QObject::connect(ui->actionVideo_Tutorial, &QAction::triggered, this, &MainWindow::redirectYoutube);
+
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
@@ -654,7 +658,27 @@ void MainWindow::checkAffordablilityOfUpgrades()
 void MainWindow::redirectKhanAcademy()
 {
     QMessageBox msgBox;
-    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a>");
+    msgBox.exec();
+}
+
+/// Gives the opportunity for users to learn more about Business at the University of Utah.
+/// \brief MainWindow::redirectKhanAcademy
+///
+void MainWindow::redirectUofU()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
+    msgBox.exec();
+}
+
+/// Redirect to Youtube Tutorial as to how to play the game.
+/// \brief MainWindow::redirectKhanAcademy
+///
+void MainWindow::redirectYoutube()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://youtu.be/wMYyAY4ZB00'>Tutorial</a>");
     msgBox.exec();
 }
 

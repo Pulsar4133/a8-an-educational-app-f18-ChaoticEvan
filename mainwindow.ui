@@ -1416,27 +1416,33 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuLearn_More">
     <property name="title">
      <string>Learn More</string>
     </property>
     <addaction name="actionMicroeconomics_Rule"/>
+    <addaction name="actionUofU_Business_Program"/>
+    <addaction name="actionVideo_Tutorial"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuLearn_More"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionMicroeconomics_Rule">
    <property name="text">
     <string>Microeconomics Rule</string>
+   </property>
+  </action>
+  <action name="actionUofU_Business_Program">
+   <property name="text">
+    <string>UofU Business Program</string>
+   </property>
+  </action>
+  <action name="actionVideo_Tutorial">
+   <property name="text">
+    <string>Video Tutorial</string>
    </property>
   </action>
  </widget>
