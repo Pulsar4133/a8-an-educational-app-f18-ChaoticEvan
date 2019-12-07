@@ -402,6 +402,9 @@ void MainWindow::on_yesterdayButton_clicked()
 
 }
 
+///
+/// \brief MainWindow::updateData
+///
 void MainWindow::updateData()
 {
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
