@@ -53,7 +53,7 @@ GameState* EconEngine::gameState()
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
     // Set the future weather for all days in the game.
-    this->generateDays(game.days, game.gameLength);
+    this->generateDays(game.days);
 
     game.perfectLemonade = LemonadeRecipe();
     game.perfectLemonade.lemons = PERFECT_LEMONS;
