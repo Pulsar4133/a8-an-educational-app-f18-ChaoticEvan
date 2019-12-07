@@ -1,18 +1,19 @@
-#include "Box2D/Box2D.h"
+/**
+  * This class is mimicing a "view".
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
+#include "educationalprompter.h"
 #include "mainwindow.h"
-#include "ui_endgamedialog.h"
 #include "ui_mainwindow.h"
 #include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
-#include <vector>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
-#include <QTimer>
-#include "ui_endgamedialog.h"
-#include "educationalprompter.h"
+#include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // These are UI connections.
     QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    //QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
 
@@ -43,11 +44,18 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
-    QObject::connect(ui->CreateLemonadeButton, &QPushButton::pressed, this, &MainWindow::createLemonade);
-    layout = new QHBoxLayout();
+    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
+
+    lemonImage = new QLabel();
+    sugarImage = new QLabel();
+    iceImage = new QLabel();
     createGroundBody();
-    createLemonBody();
     createPitcherBody();
+    createLemonBody();
+    createSugarCubeBody();
+    createIceCubeBody();
+    // Preloads all .png files
+    loadStartImages();
 
     // Time between crowd image being updated
     crowdTimer.setInterval(50);
@@ -84,24 +92,133 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::updateIceBody(){
+    iceCubeBody->SetActive(true);
+    float impulseIce = iceCubeBody->GetMass() * 10;
+
+    iceCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseIce*4), iceCubeBody->GetWorldCenter(),true );
+    iceCubeBody->ApplyLinearImpulse(b2Vec2(impulseIce,0),iceCubeBody->GetWorldCenter(),true);
+}
+
+void MainWindow::updateSugarBody(){
+
+    sugarCubeBody->SetActive(true);
+    float impulseSugar = sugarCubeBody->GetMass() * 10;
+
+    sugarCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseSugar*4), sugarCubeBody->GetWorldCenter(),true);
+    sugarCubeBody->ApplyLinearImpulse(b2Vec2(impulseSugar,0),sugarCubeBody->GetWorldCenter(),true);
+}
+
+void MainWindow::updateLemonBody(){
+    lemonBody->SetActive(true);
+    float impulseLemon = lemonBody->GetMass() * 10;
+
+    lemonBody->ApplyLinearImpulse( -b2Vec2(0,impulseLemon*2), lemonBody->GetWorldCenter(),true );
+    lemonBody->ApplyLinearImpulse(b2Vec2(impulseLemon/2,0),lemonBody->GetWorldCenter(),true);
+}
+
 ///Performs a simulation step for box2d world.
 /// Updating the position & velocity of all bodies in the world.
 /// \brief MainWindow::updateWorld
 ///
 void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 4, 1);
-    // Get position of bodies to update QLabel image positions
+    world.Step(1.0f/30.f, 8, 8);
+    if(jump){
+        // If body isn't active don't show image.
+        if(!lemonBody->IsActive()){
+            lemonImage->setHidden(false);
+        }
+        if(!sugarCubeBody->IsActive()){
+            sugarImage->setHidden(false);
+        }
+        if(!iceCubeBody->IsActive()){
+           iceImage->setHidden(false);
+        }
+        updateLemonBody();
+        jump = false;
+    }
+
     b2Vec2 position = lemonBody->GetPosition();
-    b2Vec2 pitchPos = pitcherBody->GetPosition();
-  
-    // Move images with bodies to visually test.
-    // Height & width is fixed so updating the two will not change the Qlabel.
     lemonImage->setGeometry(position.x, position.y, 0, 0);
+    b2Vec2 sugarPos = sugarCubeBody->GetPosition();
+    sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
+    b2Vec2 icePos = iceCubeBody->GetPosition();
+    iceImage->setGeometry(icePos.x,icePos.y,0,0);
+    b2Vec2 pitchPos = pitcherBody->GetPosition();
     pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
 
     // Check for collision of bodies.
-    collisionCheck();
-    QTimer::singleShot(15,this,&MainWindow::updateWorld);
+    if(iceCubeBody != nullptr || lemonBody != nullptr || sugarCubeBody != nullptr){
+        collisionCheck();
+    }
+
+    QTimer::singleShot(5,this,&MainWindow::updateWorld);
+}
+
+void MainWindow::createSugarCubeBody(){
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(510.0f, 425.0f);
+    sugarCubeBody = world.CreateBody(&bodyDef);
+
+    sugarImage->setFixedSize(55, 55);
+    sugarImage->setParent(ui->simulationFrame);
+    QPixmap sugarPix(":/img/Images/sugarCube.png");
+    int w = sugarImage->width();
+    int h = sugarImage->height();
+
+    sugarImage->setPixmap(sugarPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    sugarImage->raise();
+    sugarImage->setHidden(true);
+
+    // Define box shape for dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(20, 20);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
+
+    // Add the shape to the body.
+    sugarCubeBody->CreateFixture(&fixtureDef);
+    sugarCubeBody->SetActive(false);
+}
+
+void MainWindow::createIceCubeBody(){
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(510.0f, 425.0f);
+    iceCubeBody = world.CreateBody(&bodyDef);
+
+    // Qlabel created purely for visually testing lemonBody.
+
+    iceImage->setFixedSize(25, 25);
+    iceImage->setParent(ui->simulationFrame);
+    QPixmap icePix(":/img/Images/iceCube.png");
+    int w = iceImage->width();
+    int h = iceImage->height();
+
+    iceImage->setPixmap(icePix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    iceImage->raise();
+    iceImage->setHidden(true);
+
+    // Define box shape for dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(10, 10);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
+
+    // Add the shape to the body.
+    iceCubeBody->CreateFixture(&fixtureDef);
+    iceCubeBody->SetActive(false);
 }
 
 ///Creates priv member variable lemonBody in box2d.
@@ -111,23 +228,25 @@ void MainWindow::updateWorld(){
 void MainWindow::createLemonBody(){
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(375.0f, 0.0f);
+    bodyDef.position.Set(510.0f, 425.0f);
     lemonBody = world.CreateBody(&bodyDef);
 
+
     // Qlabel created purely for visually testing lemonBody.
-    lemonImage = new QLabel();
-    lemonImage->setFixedSize(50, 50);
-    QPixmap lemonPix("/home/ryan/lemon.png");
+
+    lemonImage->setFixedSize(35, 35);
+    lemonImage->setParent(ui->simulationFrame);
+    QPixmap lemonPix(":/img/Images/lemon.png");
+
     int w = lemonImage->width();
     int h = lemonImage->height();
-    layout->addWidget(lemonImage);
-    lemWin = new QWidget();
-    lemWin->setLayout(layout);
+
     lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    lemonImage->raise();
 
     // Define box shape for dynamic body.
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(WIDTH/2, HEIGHT/2);
+    dynamicBox.SetAsBox(10, 10);
 
     // Define the dynamic body fixture.
     b2FixtureDef fixtureDef;
@@ -138,9 +257,7 @@ void MainWindow::createLemonBody(){
 
     // Add the shape to the body.
     lemonBody->CreateFixture(&fixtureDef);
-
-    // Preloads all .png files.
-    loadStartImages();
+    lemonBody->SetActive(false);
 }
 
 ///Creates priv member variable groundBody in box2d.
@@ -148,20 +265,18 @@ void MainWindow::createLemonBody(){
 /// \brief MainWindow::createGroundBody
 ///
 void MainWindow::createGroundBody(){
-
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(40.0f, 300.0f);
+    groundBodyDef.position.Set(40.0f, 475.0f);
     groundBodyDef.type = b2_staticBody;
     groundBody = world.CreateBody(&groundBodyDef);
 
     // Define the ground box shape.
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(375.0f, 2.0f);
+    groundBox.SetAsBox(500.0f, 2.0f);
 
     // Add the ground fixture to the ground body.
     groundBody->CreateFixture(&groundBox, 1.0f);
-
 }
 
 ///Creates priv member variable pitcherBody in box2d.
@@ -171,21 +286,23 @@ void MainWindow::createGroundBody(){
 void MainWindow::createPitcherBody(){
     b2BodyDef statTestBodyDef;
     statTestBodyDef.type = b2_staticBody;
-    statTestBodyDef.position.Set(375.0f, 300.0f);
+    statTestBodyDef.position.Set(575.0f, 415.0f);
     pitcherBody = world.CreateBody(&statTestBodyDef);
 
     // Qlabel created purely for visually testing pitcherBody.
     pitcherImage = new QLabel();
-    pitcherImage->setFixedSize(100, 100);
-    QPixmap groundPix("/home/ryan/Pitcher.png");
+    pitcherImage->setFixedSize(90, 90);
+    pitcherImage->setParent(ui->simulationFrame);
+    QPixmap groundPix(":/img/Images/ClipArtPitcher.png");
     int gw = pitcherImage->width();
     int gh = pitcherImage->height();
-    layout->addWidget(pitcherImage);
+
     pitcherImage->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    pitcherImage->raise();
 
     // Define the pitcher box shape.
     b2PolygonShape testBox;
-    testBox.SetAsBox(WIDTH/2, HEIGHT/2);
+    testBox.SetAsBox(WIDTH/2, HEIGHT/10);
 
     pitcherBody->CreateFixture(&testBox,1.0f);
 }
@@ -199,11 +316,37 @@ void MainWindow::collisionCheck(){
     for (b2ContactEdge* edge = lemonBody->GetContactList(); edge; edge = edge->next){
         // Check if body is in contact with another body.
         if(edge->contact->IsTouching()){
-            lemonImage->setPixmap(QPixmap());
-             world.DestroyBody(lemonBody);
+            lemonImage->setHidden(true);
+             //world.DestroyBody(lemonBody);
+            lemonBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            lemonBody->SetActive(false);
+             iceImage->setHidden(false);
+             updateIceBody();
+        }
+    }
+    for (b2ContactEdge* edge2 = iceCubeBody->GetContactList(); edge2; edge2 = edge2->next){
+        // Check if body is in contact with another body.
+        if(edge2->contact->IsTouching()){
+            iceImage->setHidden(true);
+            //iceImage->setPixmap(QPixmap());
+            // world.DestroyBody(iceCubeBody);
+            iceCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            iceCubeBody->SetActive(false);
+             sugarImage->setHidden(false);
+             updateSugarBody();
+        }
+    }
+    for (b2ContactEdge* edge3 = sugarCubeBody->GetContactList(); edge3; edge3 = edge3->next){
+        // Check if body is in contact with another body.
+        if(edge3->contact->IsTouching()){
+            sugarImage->setHidden(true);
+            //world.DestroyBody(sugarCubeBody);
+            sugarCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            sugarCubeBody->SetActive(false);
         }
     }
 }
+
 
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
@@ -217,6 +360,7 @@ void MainWindow::createLemonade(){
         addIngMsg.exec();
         return;
     }
+
     if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
     {
         QMessageBox addIngMsg;
@@ -228,9 +372,9 @@ void MainWindow::createLemonade(){
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
+
                        ui->priceSpinBox->value(),
                        ui->pitchersSpinBox->value());
-
     ui->startButton->setEnabled(true);
 }
 
@@ -244,12 +388,16 @@ void MainWindow::on_yesterdayButton_clicked()
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+
     ui->pitchersSpinBox->setValue(lemonade.getNumPitchers());
     updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
 }
 
+///
+/// \brief MainWindow::updateData
+///
 void MainWindow::updateData()
 {
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
@@ -261,7 +409,9 @@ void MainWindow::updateData()
 }
 
 ///
-/// A method that checks whether or not the user can afford certain upgrades.
+/// A method that checks the affordability of upgrades to ensure
+/// that buttons are only enabled if they can afford them, disabled otherwise.
+/// It also checks to ensure that the player only buys one of each upgrade.
 /// \brief MainWindow::checkAffordablilityOfUpgrades
 ///
 void MainWindow::checkAffordablilityOfUpgrades()
@@ -455,6 +605,10 @@ void MainWindow::on_progress_start()
 
     if (game.currentDate == 1)
     {
+        EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
+    }
+    else if (game.currentDate == 5)
+    {
         EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
     }
 
@@ -477,22 +631,22 @@ void MainWindow::calendarWeather(int currWeek)
     {
         if (game.days[i+currWeek*5].weatherState == 0)
         {
-            //Rainy weather
+            // Rainy weather.
             currWeekWeather.push_back(rainyDay);
             //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 1)
         {
-            //Snowy weather
+            // Snowy weather.
             currWeekWeather.push_back(snowyDay);
             //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 2)
         {
-            //Cloudy weather
+            // Cloudy weather.
             currWeekWeather.push_back(cloudyDay);
             //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 3)
         {
-            //Sunny weather
+            // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
             //background = backgroundTemp;
         }
@@ -524,16 +678,46 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+    loadUpgradeImages();
 }
 
-/// Below are methods that occur due to a button being clicked in the ui.
+///
+/// \brief MainWindow::loadUpgradeImages Helper method for loading upgrade images.
+///
+void MainWindow::loadUpgradeImages()
+{
+    QPixmap boomBox(":/img/Images/Upgrades/Boom Box.png");
+    QPixmap grape(":/img/Images/Upgrades/grape.png");
+    QPixmap neonSign(":/img/Images/Upgrades/Neon Sign.png");
+    QPixmap insuranceSign(":/img/Images/Upgrades/Insurance Sign.png");
+    QPixmap orgLemons(":/img/Images/Upgrades/organic lemons.png");
+    QPixmap sugarDealer(":/img/Images/Upgrades/Sugar Dealer.png");
+    QPixmap umbrella(":/img/Images/Upgrades/Umbrella.png");
+    QPixmap pitcher(":/img/Images/ClipArtPitcher.png");
 
+    ui->boomBoxImage->setPixmap(boomBox.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->bigPitcherImage->setPixmap(pitcher.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->grapesImage->setPixmap(grape.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->neonSignImage->setPixmap(neonSign.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->insuranceImage->setPixmap(insuranceSign.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->lemonsImage->setPixmap(orgLemons.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->sugarImage->setPixmap(sugarDealer.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->umbrellaImage->setPixmap(umbrella.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+///
+/// Below are methods that occur due to a button being clicked in the ui.
+///
 void MainWindow::on_startButton_clicked()
 {
+    jump = true;
     ui->welcomeFrame->setVisible(false);
     ui->dayFrame->setVisible(false);
     ui->progressFrame->setVisible(true);
     ui->progressFrame->raise();
+   //QTimer::singleShot(5,this,&MainWindow::updateWorld);
+    updateWorld();
 
     if(game.currentDate != 0)
         if(lemonade.getLemon() == 0 && lemonade.getIce() == 0 && lemonade.getSugar() == 0)
@@ -613,36 +797,66 @@ void MainWindow::changeNewsText(QString scrollText)
     news->setText(scrollText);
 }
 
+
+///
+/// BELOW are methods that are button clicks of upgrades.
+///
+
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyUmbrella_clicked When buy umbrella button is clicked.
+///
 void MainWindow::on_BuyUmbrella_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->umbrellaImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
     emit updateWallet(1);
     ui ->BuyUmbrella ->setEnabled(false);
     hasBoughtUmbrella = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyPitcher_clicked When buy pitcher button is clicked.
+///
 void MainWindow::on_BuyPitcher_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
     hasBoughtPitcher = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyGrapes_clicked When buy grapes button is clicked.
+///
 void MainWindow::on_BuyGrapes_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
     ui ->BuyGrapes->setEnabled(false);
     hasBoughtGrapes = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyBoomBox_clicked When buy boom box button is clicked.
+///
 void MainWindow::on_BuyBoomBox_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->boomBoxImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(4);
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 
-    //start RickRolling
+    // Start RickRolling.
     QMediaPlaylist* playlist= new QMediaPlaylist;
     playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
     playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
@@ -655,39 +869,75 @@ void MainWindow::on_BuyBoomBox_clicked()
     ui->BuyBoomBox->setEnabled(false);
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuySugar_clicked When buy sugar dealer button is clicked.
+///
 void MainWindow::on_BuySugar_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
     ui ->BuySugar->setEnabled(false);
     hasBoughtSugar = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked.
+///
 void MainWindow::on_BuyLemons_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->lemonsImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(3);
     ui ->BuyLemons-> setEnabled(false);
     hasBoughtLemon = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyNeonSIgn_clicked When buy neon sign button is clicked.
+///
 void MainWindow::on_BuyNeonSIgn_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->neonSignImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(0);
     ui ->BuyNeonSIgn ->setEnabled(false);
     hasBoughtSign = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyInsurance_clicked When buy insurance button is clicked.
+///
 void MainWindow::on_BuyInsurance_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->insuranceImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(6);
     ui->BuyInsurance ->setEnabled(false);
     hasBoughtInsurance = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
-void MainWindow::image_scroll()
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}
+
+
+void MainWindow::imageScroll()
 {
     int x = ui->crowdLabel->x();
     int y = ui->crowdLabel->y();
@@ -837,16 +1087,4 @@ void MainWindow::sugarSpinBox_valueChanged(int i)
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
-}
-
-void MainWindow::on_beginButton_clicked()
-{
-    emit showCalendar();
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
-    ui->welcomeFrame->setVisible(false);
-    ui->welcomeLabel1->setVisible(false);
-    ui->welcomeCheck2->setVisible(false);
-    ui->welcomeCheck3->setVisible(false);
-    ui->welcomeCheck4->setVisible(false);
 }

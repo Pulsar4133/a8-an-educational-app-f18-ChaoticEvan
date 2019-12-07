@@ -34,8 +34,8 @@
       <rect>
        <x>130</x>
        <y>130</y>
-       <width>306</width>
-       <height>268</height>
+       <width>295</width>
+       <height>192</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -492,7 +492,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>Start Day</string>
     </property>
    </widget>
    <widget class="QFrame" name="welcomeFrame">
@@ -629,7 +629,7 @@ you’re about to make! </string>
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>260</y>
+       <y>250</y>
        <width>556</width>
        <height>535</height>
       </rect>
@@ -689,7 +689,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -747,6 +747,22 @@ you’re about to make! </string>
  life gives you out of the sky!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="umbrellaImage">
+      <property name="geometry">
+       <rect>
+        <x>125</x>
+        <y>0</y>
+        <width>270</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>umbrellaImage</zorder>
+     <zorder>BuyUmbrella</zorder>
+     <zorder>umbrellaPrice</zorder>
     </widget>
     <widget class="QWidget" name="BigPitcherUpgrade">
      <attribute name="title">
@@ -804,6 +820,22 @@ you’re about to make! </string>
 </string>
       </property>
      </widget>
+     <widget class="QLabel" name="bigPitcherImage">
+      <property name="geometry">
+       <rect>
+        <x>25</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>bigPitcherImage</zorder>
+     <zorder>BuyPitcher</zorder>
+     <zorder>PricePitcher</zorder>
     </widget>
     <widget class="QWidget" name="GrapesUpgrade">
      <attribute name="title">
@@ -860,6 +892,22 @@ you’re about to make! </string>
  wants grapes?!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="grapesImage">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>grapesImage</zorder>
+     <zorder>BuyGrapes</zorder>
+     <zorder>GrapesPrice</zorder>
     </widget>
     <widget class="QWidget" name="BoomBoxUpgrade">
      <attribute name="title">
@@ -917,6 +965,22 @@ you’re about to make! </string>
  of some sick tunes.</string>
       </property>
      </widget>
+     <widget class="QLabel" name="boomBoxImage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>boomBoxImage</zorder>
+     <zorder>BuyBoomBox</zorder>
+     <zorder>PriceBoomBox</zorder>
     </widget>
     <widget class="QWidget" name="SugarDealerUpgrade">
      <attribute name="title">
@@ -977,6 +1041,22 @@ you’re about to make! </string>
  but they're the bees knees!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="sugarImage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>sugarImage</zorder>
+     <zorder>BuySugar</zorder>
+     <zorder>PriceSugar</zorder>
     </widget>
     <widget class="QWidget" name="OrganicLemonUpgrade">
      <attribute name="title">
@@ -1037,6 +1117,22 @@ you’re about to make! </string>
  but they're the bees knees!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="lemonsImage">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>lemonsImage</zorder>
+     <zorder>BuyLemons</zorder>
+     <zorder>LemonPrice</zorder>
     </widget>
     <widget class="QWidget" name="NeonSignUpgrade">
      <attribute name="title">
@@ -1093,6 +1189,22 @@ you’re about to make! </string>
  some new customers!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="neonSignImage">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>0</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>neonSignImage</zorder>
+     <zorder>BuyNeonSIgn</zorder>
+     <zorder>NeonSIgnPrice</zorder>
     </widget>
     <widget class="QWidget" name="InsuranceUpgrade">
      <attribute name="title">
@@ -1150,6 +1262,20 @@ you’re about to make! </string>
  Invest in Insurance!</string>
       </property>
      </widget>
+     <widget class="QLabel" name="insuranceImage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>25</y>
+        <width>535</width>
+        <height>300</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>insuranceImage</zorder>
      <zorder>InsurancePrice</zorder>
      <zorder>BuyInsurance</zorder>
      <zorder>InsuranceDescription</zorder>
