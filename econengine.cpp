@@ -284,24 +284,11 @@ void EconEngine::generateDays(Day* days, int numDays)
         }
     }
     // Generate day 14.
-    setDisasterLevel3();
+    // Whale Disaster.
+    game.days[14].disaster = 3;
     return;
 }
 
-void EconEngine::setDisasterLevel3(){
-    // Even or odd case.
-    int random = std::rand() % 2;
-    switch (random){
-    case 0:
-        // Duck Disaster.
-        game.days[14].disaster = 2;
-        break;
-    case 1:
-        // Whale Disaster.
-        game.days[14].disaster = 3;
-        break;
-    }
-}
 
 float EconEngine::totalCostOfLemonade()
 {

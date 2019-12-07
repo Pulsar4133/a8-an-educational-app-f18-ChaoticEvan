@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>198</height>
+       <height>211</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -688,7 +688,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -837,79 +837,6 @@ you’re about to make! </string>
      <zorder>bigPitcherImage</zorder>
      <zorder>BuyPitcher</zorder>
      <zorder>PricePitcher</zorder>
-    </widget>
-    <widget class="QWidget" name="GrapesUpgrade">
-     <attribute name="title">
-      <string>Grapes</string>
-     </attribute>
-     <widget class="QPushButton" name="BuyGrapes">
-      <property name="geometry">
-       <rect>
-        <x>390</x>
-        <y>220</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Buy Grapes</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="GrapesPrice">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>121</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>$2000</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="GrapeDescription">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>40</y>
-        <width>151</width>
-        <height>111</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Do you have a
- customer who really
- wants grapes?!</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="grapesImage">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>0</y>
-        <width>535</width>
-        <height>300</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <zorder>GrapeDescription</zorder>
-     <zorder>grapesImage</zorder>
-     <zorder>BuyGrapes</zorder>
-     <zorder>GrapesPrice</zorder>
     </widget>
     <widget class="QWidget" name="BoomBoxUpgrade">
      <attribute name="title">
@@ -1317,7 +1244,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

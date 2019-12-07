@@ -104,7 +104,6 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Upgrade buttons should be false for the objects the player cannot win.
     ui ->BuySugar->setEnabled(false);
-    ui ->BuyGrapes->setEnabled(false);
     ui ->BuyLemons-> setEnabled(false);
     ui ->BuyUmbrella ->setEnabled(false);
     ui ->BuyPitcher ->setEnabled(false);
@@ -597,19 +596,14 @@ void MainWindow::checkAffordablilityOfUpgrades()
     {
         ui->BuyUmbrella->setEnabled(true);
     }
-    if (wallet > 2000 && hasBoughtGrapes == false)
-    {
-        ui->BuyGrapes->setEnabled(true);
-    }
     if (wallet < 2000)
     {
         ui->BuyUmbrella->setEnabled(false);
-        ui->BuyGrapes->setEnabled(false);
     }
     if (wallet < 150)
     {
         ui->BuySugar->setEnabled(false);
-        ui->BuyLemons->setEnabled(false);
+        ui->BuyLemons->setEnabled(false);        
     }
 
     if (wallet < 250)
@@ -883,7 +877,6 @@ void MainWindow::loadStartImages()
 void MainWindow::loadUpgradeImages()
 {
     QPixmap boomBox(":/img/Images/Upgrades/Boom Box.png");
-    QPixmap grape(":/img/Images/Upgrades/grape.png");
     QPixmap neonSign(":/img/Images/Upgrades/Neon Sign.png");
     QPixmap insuranceSign(":/img/Images/Upgrades/Insurance Sign.png");
     QPixmap orgLemons(":/img/Images/Upgrades/organic lemons.png");
@@ -893,7 +886,6 @@ void MainWindow::loadUpgradeImages()
 
     ui->boomBoxImage->setPixmap(boomBox.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->bigPitcherImage->setPixmap(pitcher.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->grapesImage->setPixmap(grape.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->neonSignImage->setPixmap(neonSign.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->insuranceImage->setPixmap(insuranceSign.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->lemonsImage->setPixmap(orgLemons.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -1036,20 +1028,6 @@ void MainWindow::on_BuyPitcher_clicked()
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
     hasBoughtPitcher = true;
-    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
-}
-
-///
-/// Change image, wallet, and change backend.
-/// \brief MainWindow::on_BuyGrapes_clicked When buy grapes button is clicked.
-///
-void MainWindow::on_BuyGrapes_clicked()
-{
-    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
-    ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    emit updateWallet(5);
-    ui ->BuyGrapes->setEnabled(false);
-    hasBoughtGrapes = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -1198,13 +1176,7 @@ void MainWindow::imageScroll()
             openEndGameDialog();
         }
         if(game.currentDate == 14){
-            int disaster = game.days[14].disaster;
-            if (disaster == 2){
-                if(!hasBoughtGrapes){
-                    openEndGameDialog();
-                }
-            }
-            else if (disaster == 3){
+            if (game.days[14].disaster == 3){
                 if(!hasBoughtUmbrella){
                     openEndGameDialog();
                 }
