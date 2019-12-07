@@ -249,21 +249,18 @@ float EconEngine::determinePriceWeight()
 
 void EconEngine::generateDays(Day* days, int numDays)
 {
-    for (int i = 0; i < numDays; i++)
+    for (int i = 0; i < 14; i++)
     {
         // Skip day if it has already been simulated.
         if (days[i].complete)
         {
             continue;
         }
-        if(i == 14){
-            setDisasterLevel3();
-        }
-        else if(i == 9){ // Tornado disaster.
-            game.days ->disaster = 1;
+        if(i == 9){ // Tornado disaster.
+            game.days[9].disaster = 1;
         }
         else{ // No Disaster.
-            game.days -> disaster = 0;
+            game.days[i].disaster = 0;
         }
 
         // Set the first week to sunny. Otherwise, randomize weather.
@@ -295,22 +292,12 @@ void EconEngine::generateDays(Day* days, int numDays)
             }
         }
     }
+    // Generate day 14.
+    // Whale Disaster.
+    game.days[14].disaster = 3;
     return;
 }
 
-void EconEngine::setDisasterLevel3(){
-    int random = 2 + ( std::rand() % ( 3 - 2 + 1 ) );
-    switch (random){
-    case 1:
-        // Duck Disaster.
-        game.days->disaster = 2;
-        break;
-    case 2:
-        // Whale Disaster.
-        game.days->disaster = 3;
-        break;
-    }
-}
 
 float EconEngine::totalCostOfLemonade()
 {

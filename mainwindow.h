@@ -6,15 +6,15 @@
 #include "endgamedialog.h"
 #include "lemonade.h"
 #include "ui_endgamedialog.h"
+#include "ui_endgamedialog.h"
+#include "endgamedialog.h"
+#include "scrolltext.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMediaPlayer>
 #include <QTimer>
 #include <QWidget>
-#include "ui_endgamedialog.h"
-#include "endgamedialog.h"
-#include "scrolltext.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -62,10 +62,10 @@ public slots:
     void updateIceBody();
 
 private slots:
-    void on_day_change(QString scrollText);
     void on_progress_start();
     void imageScroll();
     void createLemonade();
+    void updateData();
 
     void closeGame();
     void closeDialogClosed(int i);
@@ -91,12 +91,12 @@ private slots:
      */
     void on_BuyUmbrella_clicked();
     void on_BuyPitcher_clicked();
-    void on_BuyGrapes_clicked();
     void on_BuyBoomBox_clicked();
     void on_BuySugar_clicked();
     void on_BuyLemons_clicked();
     void on_BuyNeonSIgn_clicked();
     void on_BuyInsurance_clicked();
+
 
 private:
     bool jump = false;
@@ -115,6 +115,7 @@ private:
     QLabel* sugarImage;
     QLabel* iceImage;
     QWidget *lemWin;
+    int displayDate;
 
     /**
      * A variable to store the model in.
@@ -123,6 +124,7 @@ private:
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
     QTimer crowdTimer;
+    QTimer whaleTimer;
 
     /**
      * A variable to store the music and have control of it depending on what buttons are clicked.
@@ -130,6 +132,14 @@ private:
      */
     QMediaPlayer *noise = new QMediaPlayer();
     bool isMusicPlaying = true;
+    bool hasBoughtUmbrella = false;
+    bool hasBoughtGrapes = false;
+    bool hasBoughtBoomBox = false;
+    bool hasBoughtInsurance = false;
+    bool hasBoughtSugar = false;
+    bool hasBoughtLemon = false;
+    bool hasBoughtPitcher = false;
+    bool hasBoughtSign = false;
     QVector<QString>* newsStories;
     QHBoxLayout* newsLayout;
     ScrollText* news;
@@ -142,9 +152,13 @@ private:
 
     void loadStartImages();
     void loadUpgradeImages();
-    void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+    void animationForWhale();
+    void enablePitcherBody(bool);
+    void enableLemonBody(bool);
+    void enableIceBody(bool);
+    void enableSugarBody(bool);
 
     void collisionCheck();
     void createGroundBody();
@@ -163,8 +177,9 @@ private:
     void checkAffordablilityOfUpgrades();
     QVector<QString>* getNewsStories(QString filePath);
 
-    void openEndGameDialog();
+    void openEndGameDialog(QString message);
     double uiLemonadeCurrCost();
     void updateIngredientsFrameCost();
+    void updateCupsofLemonadeMade();
 };
 #endif // MAINWINDOW_H

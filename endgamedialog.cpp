@@ -6,6 +6,10 @@
 #include "endgamedialog.h"
 #include "ui_endgamedialog.h"
 
+/// Constructor
+/// \brief endgamedialog::endgamedialog
+/// \param parent
+///
 endgamedialog::endgamedialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::endgamedialog)
@@ -13,6 +17,9 @@ endgamedialog::endgamedialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/// ~Destructor
+/// \brief endgamedialog::~endgamedialog
+///
 endgamedialog::~endgamedialog()
 {
     delete ui;

@@ -34,8 +34,8 @@
       <rect>
        <x>130</x>
        <y>130</y>
-       <width>295</width>
-       <height>230</height>
+       <width>323</width>
+       <height>267</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -98,16 +98,20 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="priceSpinBox"/>
+       <widget class="QDoubleSpinBox" name="priceSpinBox">
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+       </widget>
       </item>
-      <item row="7" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="dayCostLabel">
         <property name="text">
          <string>Cost</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="8" column="1">
        <widget class="QTextEdit" name="ingredientCostLabel">
         <property name="enabled">
          <bool>false</bool>
@@ -123,7 +127,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="10" column="1">
        <widget class="QPushButton" name="yesterdayButton">
         <property name="maximumSize">
          <size>
@@ -136,7 +140,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="10" column="0">
        <widget class="QPushButton" name="CreateLemonadeButton">
         <property name="minimumSize">
          <size>
@@ -158,6 +162,29 @@
       </item>
       <item row="4" column="1">
        <widget class="QSpinBox" name="pitchersSpinBox"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="totalLemonadeCups">
+        <property name="text">
+         <string>Cups of Lemonade</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QTextEdit" name="cupsOfLemonadeText">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>0</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -197,7 +224,26 @@
       </font>
      </property>
      <property name="text">
-      <string>Wallet: $</string>
+      <string>Wallet: $100.00</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="MuteMusic">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Mute Music</string>
      </property>
     </widget>
    </widget>
@@ -339,6 +385,19 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="whaleLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-400</y>
+       <width>1050</width>
+       <height>369</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="progressFrame">
     <property name="geometry">
@@ -361,7 +420,7 @@
        <x>-1</x>
        <y>0</y>
        <width>1061</width>
-       <height>41</height>
+       <height>100</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -370,13 +429,16 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <property name="midLineWidth">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="newsWidget" native="true">
       <property name="geometry">
        <rect>
         <x>-1</x>
         <y>-1</y>
         <width>1061</width>
-        <height>51</height>
+        <height>60</height>
        </rect>
       </property>
      </widget>
@@ -636,7 +698,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1031</width>
+      <width>1060</width>
       <height>851</height>
      </rect>
     </property>
@@ -662,9 +724,9 @@
       </font>
      </property>
      <property name="text">
-      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics 
-concepts in a simplistic, fun way! As the owner of your own lemonade stand, 
-you will deal with supply and demand, a great deal of competition, 
+      <string>Lemonomics is a ruthless, money filled game that helps teach microeconomics
+concepts in a simplistic, fun way! As the owner of your own lemonade stand,
+you will deal with supply and demand, a great deal of competition,
 and mysterious phenomenons! Watch out! </string>
      </property>
      <property name="alignment">
@@ -674,10 +736,10 @@ and mysterious phenomenons! Watch out! </string>
     <widget class="QLabel" name="welcomeBackground">
      <property name="geometry">
       <rect>
-       <x>-10</x>
+       <x>0</x>
        <y>0</y>
-       <width>1831</width>
-       <height>991</height>
+       <width>1800</width>
+       <height>900</height>
       </rect>
      </property>
      <property name="font">
@@ -705,8 +767,8 @@ and mysterious phenomenons! Watch out! </string>
       </font>
      </property>
      <property name="text">
-      <string>There will be 3 levels to the game. 
-Saving up for the last part might 
+      <string>There will be 3 levels to the game.
+Saving up for the last part might
 be a good idea! It’s raining whales,
 hallelujah! Your upgrdaes can
 Be found here!</string>
@@ -728,10 +790,10 @@ Be found here!</string>
       </font>
      </property>
      <property name="text">
-      <string>Before each day, you’ll have the chance 
- to determine various factors about 
-your lemonade stand such as the amount 
-of sugar, ice, and lemons,  the price per cup, 
+      <string>Before each day, you’ll have the chance
+ to determine various factors about
+your lemonade stand such as the amount
+of sugar, ice, and lemons,  the price per cup,
 and how decked out your stand is.</string>
      </property>
     </widget>
@@ -751,10 +813,10 @@ and how decked out your stand is.</string>
       </font>
      </property>
      <property name="text">
-      <string>A calendar showing how you as a player 
- has progressed throughout your time 
-on the block will also serve as a nice way 
-of showing off the millions of dollars 
+      <string>A calendar showing how you as a player
+ has progressed throughout your time
+on the block will also serve as a nice way
+of showing off the millions of dollars
 you’re about to make! </string>
      </property>
     </widget>
@@ -790,19 +852,6 @@ you’re about to make! </string>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="MuteMusic">
-     <property name="geometry">
-      <rect>
-       <x>950</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Mute Music</string>
-     </property>
-    </widget>
     <zorder>welcomeBackground</zorder>
     <zorder>welcomeLabel1</zorder>
     <zorder>welcomeCheck4</zorder>
@@ -810,7 +859,6 @@ you’re about to make! </string>
     <zorder>welcomeCheck2</zorder>
     <zorder>welcomeLogo</zorder>
     <zorder>beginButton</zorder>
-    <zorder>MuteMusic</zorder>
    </widget>
    <widget class="QTabWidget" name="upgradesWidget">
     <property name="geometry">
@@ -822,7 +870,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -859,6 +907,27 @@ you’re about to make! </string>
        <string>$2000</string>
       </property>
      </widget>
+     <widget class="QLabel" name="UmbrellaDescription">
+      <property name="geometry">
+       <rect>
+        <x>316</x>
+        <y>22</y>
+        <width>211</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Life might give you a lot more
+ than lemons. Be sure
+ you can bounce whatever
+ life gives you out of the sky!</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="umbrellaImage">
       <property name="geometry">
        <rect>
@@ -872,6 +941,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>UmbrellaDescription</zorder>
      <zorder>umbrellaImage</zorder>
      <zorder>BuyUmbrella</zorder>
      <zorder>umbrellaPrice</zorder>
@@ -911,6 +981,27 @@ you’re about to make! </string>
        <string>$250</string>
       </property>
      </widget>
+     <widget class="QLabel" name="PitcherDescription">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>20</y>
+        <width>211</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Create more lemonade with
+ fewer resources! Each pitcher
+ will now create 12 cups!
+</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="bigPitcherImage">
       <property name="geometry">
        <rect>
@@ -924,61 +1015,10 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>PitcherDescription</zorder>
      <zorder>bigPitcherImage</zorder>
      <zorder>BuyPitcher</zorder>
      <zorder>PricePitcher</zorder>
-    </widget>
-    <widget class="QWidget" name="GrapesUpgrade">
-     <attribute name="title">
-      <string>Grapes</string>
-     </attribute>
-     <widget class="QPushButton" name="BuyGrapes">
-      <property name="geometry">
-       <rect>
-        <x>390</x>
-        <y>220</y>
-        <width>101</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Buy Grapes</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="GrapesPrice">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>121</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>$2000</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="grapesImage">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>0</y>
-        <width>535</width>
-        <height>300</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <zorder>grapesImage</zorder>
-     <zorder>BuyGrapes</zorder>
-     <zorder>GrapesPrice</zorder>
     </widget>
     <widget class="QWidget" name="BoomBoxUpgrade">
      <attribute name="title">
@@ -1015,11 +1055,33 @@ you’re about to make! </string>
        <string>$75</string>
       </property>
      </widget>
+     <widget class="QLabel" name="BoomBoxDescprtion">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>30</y>
+        <width>191</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Invest in the sound of
+ music. Gather the
+ kiddos to drink to the
+ sound of some sick
+ tunes.</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="boomBoxImage">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>10</y>
         <width>535</width>
         <height>300</height>
        </rect>
@@ -1031,6 +1093,7 @@ you’re about to make! </string>
      <zorder>boomBoxImage</zorder>
      <zorder>BuyBoomBox</zorder>
      <zorder>PriceBoomBox</zorder>
+     <zorder>BoomBoxDescprtion</zorder>
     </widget>
     <widget class="QWidget" name="SugarDealerUpgrade">
      <attribute name="title">
@@ -1067,6 +1130,30 @@ you’re about to make! </string>
        <string>$150</string>
       </property>
      </widget>
+     <widget class="QLabel" name="SugarDescription">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>20</y>
+        <width>221</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>You call up an old friend
+ from college who can get
+ you some superb, high-quality
+ sugar. He won't tell you
+ where he gets them, and
+ they cost an arm and a leg,
+ but they're the bees knees!</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="sugarImage">
       <property name="geometry">
        <rect>
@@ -1080,6 +1167,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>SugarDescription</zorder>
      <zorder>sugarImage</zorder>
      <zorder>BuySugar</zorder>
      <zorder>PriceSugar</zorder>
@@ -1119,6 +1207,30 @@ you’re about to make! </string>
        <string>$150</string>
       </property>
      </widget>
+     <widget class="QLabel" name="LemonsDescprtion">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>20</y>
+        <width>221</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>You call up an old friend
+ from college who can get
+ you some superb, high-quality
+ lemons. He won't tell you
+ where he gets them, and
+ they cost an arm and a leg,
+ but they're the bees knees!</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="lemonsImage">
       <property name="geometry">
        <rect>
@@ -1132,6 +1244,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>LemonsDescprtion</zorder>
      <zorder>lemonsImage</zorder>
      <zorder>BuyLemons</zorder>
      <zorder>LemonPrice</zorder>
@@ -1171,6 +1284,27 @@ you’re about to make! </string>
        <string>$50</string>
       </property>
      </widget>
+     <widget class="QLabel" name="NeonSIgnDescription">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>40</y>
+        <width>311</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Throw a neon sign on
+ that dingy stand to
+ attract some new
+ customers!</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="neonSignImage">
       <property name="geometry">
        <rect>
@@ -1187,6 +1321,7 @@ you’re about to make! </string>
      <zorder>neonSignImage</zorder>
      <zorder>BuyNeonSIgn</zorder>
      <zorder>NeonSIgnPrice</zorder>
+     <zorder>NeonSIgnDescription</zorder>
     </widget>
     <widget class="QWidget" name="InsuranceUpgrade">
      <attribute name="title">
@@ -1223,6 +1358,28 @@ you’re about to make! </string>
        <string>$250</string>
       </property>
      </widget>
+     <widget class="QLabel" name="InsuranceDescription">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>60</y>
+        <width>201</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Want to ensure you
+ don't have to rebuy
+ your decked out
+ lemonade stand?
+ Invest in Insurance!</string>
+      </property>
+     </widget>
      <widget class="QLabel" name="insuranceImage">
       <property name="geometry">
        <rect>
@@ -1239,6 +1396,7 @@ you’re about to make! </string>
      <zorder>insuranceImage</zorder>
      <zorder>InsurancePrice</zorder>
      <zorder>BuyInsurance</zorder>
+     <zorder>InsuranceDescription</zorder>
     </widget>
    </widget>
    <zorder>progressFrame</zorder>
