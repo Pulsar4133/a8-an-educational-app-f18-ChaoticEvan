@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::showCalendar, this, &MainWindow::on_progress_start);
 
     // Image connections.
-    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::imageScroll);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
