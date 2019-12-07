@@ -100,6 +100,8 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->yesterdayButton->setEnabled(false);
     ui->startButton->setEnabled(false);
 
+    updateData();
+
     // Play begin playing the duck song as soon as the game loads.
     playMusic();
 
@@ -111,11 +113,12 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->BuyInsurance ->setEnabled(false);
 }
 
-///Deconstructor.
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+    ///Deconstructor.
+    MainWindow::~MainWindow()
+    {
+        delete ui;
+    }
+
 
 /// Applies linear impulse to move ice body in a arc from lemonade stand into pitcher
 /// \brief MainWindow::updateIceBody
@@ -293,11 +296,8 @@ void MainWindow::createSugarCubeBody()
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.1f;
     fixtureDef.restitution = 0.1f;
-
-    // Add the shape to the body.
-    sugarCubeBody->CreateFixture(&fixtureDef);
-    sugarCubeBody->SetActive(false);
 }
+
 
 /// Creates iceCubeBody and initializes iceImage QLabel with a ice cube png.
 /// \brief MainWindow::createIceCubeBody
@@ -548,24 +548,17 @@ void MainWindow::on_yesterdayButton_clicked()
 ///
 void MainWindow::updateData()
 {
-    ui->ingDayLabel->setVisible(true);
-    // Increments current date to add weekends
-    if (game.currentDate < 5 )
-    {
-        displayDate = game.currentDate + 2;
-    } else if (game.currentDate < 10)
-    {
-        displayDate = game.currentDate + 4;
-    } else if (game.currentDate < 15)
-    {
-        displayDate = game.currentDate + 6;
-    }
+    ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet, 'f', 2));
 
-    ui->ingDayLabel->setText("Day: " + QString::number(displayDate));
-    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
-    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
-    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
-    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
+    ui->incomeDisplay->setText(QString::number(game.yesterday().income));
+    ui->costDisplay->setText(QString::number(game.yesterday().cost));
+    ui->profitDisplay->setText(QString::number(game.yesterday().profit));
+
+    ui->demandDisplay->setText(QString::number(game.yesterday().demanded));
+    ui->salesDisplay->setText(QString::number(game.yesterday().sales));
+
+    ui->soldOutLabel->setVisible(game.yesterday().soldOut);
     checkAffordablilityOfUpgrades();
 }
 
@@ -678,6 +671,16 @@ void MainWindow::animationForDay()
     ui->profitLabel->setVisible(false);
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
+    ui->incomeLabel->setVisible(false);
+
+    ui->demandDisplay->setVisible(false);
+    ui->profitDisplay->setVisible(false);
+    ui->salesDisplay->setVisible(false);
+    ui->costDisplay->setVisible(false);
+    ui->incomeDisplay->setVisible(false);
+    ui->soldOutLabel->setVisible(false);
+
+    ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
     ui->day2Label->setVisible(false);
     ui->day3Label->setVisible(false);
@@ -1176,10 +1179,19 @@ void MainWindow::imageScroll()
         crowdTimer.stop();
         ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
         emit showCalendar();
+
         ui->demandLabel->setVisible(true);
         ui->profitLabel->setVisible(true);
         ui->salesLabel->setVisible(true);
         ui->costLabel->setVisible(true);
+        ui->incomeLabel->setVisible(true);
+
+        ui->demandDisplay->setVisible(true);
+        ui->profitDisplay->setVisible(true);
+        ui->salesDisplay->setVisible(true);
+        ui->costDisplay->setVisible(true);
+        ui->incomeDisplay->setVisible(true);
+
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
 

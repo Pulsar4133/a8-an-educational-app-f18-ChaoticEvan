@@ -270,25 +270,34 @@ void EconEngine::generateDays(Day* days, int numDays)
         else{ // No Disaster.
             game.days[i].disaster = 0;
         }
-        int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
-        game.days[i].weatherState = random;
-        switch(random){
-        case 0:
-            // Rainy weather.
-            days[i].temperature = 55;
-            break;
-        case 1:
-            // Snowy weather.
-            days[i].temperature = 25;
-            break;
-        case 2:
-            // Cloudy weather.
-            days[i].temperature = 65;
-            break;
-        case 3:
-            // Sunny weather.
-            days[i].temperature = 72;
-            break;
+
+        // Set the first week to sunny. Otherwise, randomize weather.
+        if (i < 5)
+        {
+            game.days[i].temperature = 72;
+        }
+        else
+        {
+            int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
+            game.days[i].weatherState = random;
+            switch(random){
+            case 0:
+                // Rainy weather.
+                days[i].temperature = 55;
+                break;
+            case 1:
+                // Snowy weather.
+                days[i].temperature = 25;
+                break;
+            case 2:
+                // Cloudy weather.
+                days[i].temperature = 65;
+                break;
+            case 3:
+                // Sunny weather.
+                days[i].temperature = 72;
+                break;
+            }
         }
     }
     // Generate day 14.

@@ -449,7 +449,7 @@
        <x>0</x>
        <y>420</y>
        <width>1061</width>
-       <height>161</height>
+       <height>351</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -461,9 +461,9 @@
      <widget class="QLabel" name="profitLabel">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>50</y>
-        <width>221</width>
+        <x>10</x>
+        <y>270</y>
+        <width>71</width>
         <height>31</height>
        </rect>
       </property>
@@ -480,9 +480,9 @@
      <widget class="QLabel" name="salesLabel">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>90</y>
-        <width>261</width>
+        <x>10</x>
+        <y>50</y>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
@@ -499,9 +499,9 @@
      <widget class="QLabel" name="demandLabel">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>261</width>
+        <x>10</x>
+        <y>10</y>
+        <width>111</width>
         <height>41</height>
        </rect>
       </property>
@@ -518,9 +518,9 @@
      <widget class="QLabel" name="costLabel">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>130</y>
-        <width>221</width>
+        <x>10</x>
+        <y>230</y>
+        <width>71</width>
         <height>31</height>
        </rect>
       </property>
@@ -532,6 +532,139 @@
       </property>
       <property name="text">
        <string>Cost:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="demandDisplay">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>10</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>%i cups</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="salesDisplay">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>50</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>%i cups</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="soldOutLabel">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>90</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Sold Out!</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="profitDisplay">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>270</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$%.2f</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="costDisplay">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>230</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$%.2f</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="incomeLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>190</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Income:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="incomeDisplay">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>190</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Manjari</family>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>$%.2f</string>
       </property>
      </widget>
     </widget>
@@ -1267,11 +1400,11 @@ you’re about to make! </string>
     </widget>
    </widget>
    <zorder>progressFrame</zorder>
-   <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
-   <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
    <zorder>upgradesWidget</zorder>
+   <zorder>simulationFrame</zorder>
+   <zorder>welcomeFrame</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
