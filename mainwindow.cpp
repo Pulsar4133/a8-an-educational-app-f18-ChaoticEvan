@@ -7,6 +7,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scrolltext.h"
+#include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -16,8 +18,6 @@
 #include <QTimer>
 #include <QFile>
 #include <QTime>
-#include "ui_endgamedialog.h"
-#include "educationalprompter.h"
 #include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
@@ -536,22 +536,26 @@ void MainWindow::animationForDay()
     ui->day5Label->setVisible(false);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
-    if (game.yesterday().weatherState == 0)
+    if(game.yesterday().disaster == game.world.TORNADO)
+    {
+        QPixmap backgroundTemp(":/img/Images/Background Tornado.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == game.world.RAINY)
     {
         // Rainy weather.
         QPixmap backgroundTemp(":/img/Images/Background Rain.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 1)
+    } else if (game.yesterday().weatherState == game.world.SNOWY)
     {
         // Snowy weather.
         QPixmap backgroundTemp(":/img/Images/Background Snow.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 2)
+    } else if (game.yesterday().weatherState == game.world.CLOUDY)
     {
         // Cloudy weather.
         QPixmap backgroundTemp(":/img/Images/Background Overcast.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 3)
+    } else if (game.yesterday().weatherState == game.world.SUNNY)
     {
         // Sunny weather.
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
@@ -666,10 +670,6 @@ void MainWindow::calendarWeather(int currWeek)
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
             //background = backgroundTemp;
-        }
-        if (game.days[i+currWeek*5].disaster == 1){
-            //Tornado
-            currWeekWeather.push_back(tornadoDay);
         }
     }
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
