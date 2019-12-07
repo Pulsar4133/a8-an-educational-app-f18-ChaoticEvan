@@ -11,14 +11,24 @@
 bool EPrompt::initialized = false;
 PromptData EPrompt::PROMPTS[EPrompt::NUM_ENUMS] = {};
 
-void EPrompt::displayEduPrompt(int promptID)
+void EPrompt::displayEduPrompt(int promptID, bool force)
 {
+
+
+    PromptData& prompt = EPrompt::getPromptData(promptID);
+
+    // If the prompt has already been displayed before and the user has not
+    if (prompt.displayed && !force)
+    {
+        return;
+    }
 
     // Create MessageBox
     QMessageBox msgBox;
-    msgBox.setText		     ("<h2>" + EPrompt::getPromptData(promptID).header + "</h2>");
-    msgBox.setInformativeText(EPrompt::getPromptData(promptID).message);
-    msgBox.setWindowTitle    (EPrompt::getPromptData(promptID).title);
+
+    msgBox.setText		     ("<h2>" + prompt.header + "</h2>");
+    msgBox.setInformativeText(prompt.message);
+    msgBox.setWindowTitle    (prompt.title);
 
     QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ApplyRole);
     QPushButton* infoButton    = msgBox.addButton("Learn more!", QMessageBox::HelpRole);
@@ -34,6 +44,8 @@ void EPrompt::displayEduPrompt(int promptID)
                     );
         QDesktopServices::openUrl(infoUrl);
     }
+
+    prompt.displayed = true;
 
 }
 
@@ -69,7 +81,7 @@ void EPrompt::initPrompts()
     INIT_PROMPT(P_PRICE_EFFECT) PromptData(
                 "Quantity and Price Effects",
 
-                "Congratulations on finishing your first day!",
+                "Congratulations on finishing your first week!",
 
                 "To keep running a successful business, pay close attention to your <b>price</b> "
                 "and <b>quantity sold</b>."
@@ -88,9 +100,80 @@ void EPrompt::initPrompts()
                 "https://pressbooks.bccampus.ca/uvicecon103/chapter/4-4-elasticity-and-revenue/"
                 );
 
+    INIT_PROMPT(P_MARKETING) PromptData(
+
+                "Marketing",
+
+                "It's time to make a name for yourself!",
+
+                "Marketing is one way to stimulate demand. Attracting customers to your business"
+                " and creating a desire for your product increases demand. This can lead to more"
+                " sales and revenue!"
+
+                "<br><br>"
+
+                "You have to be careful, though. Marketing is an <b>investment</b>. You want to make sure your marketing money increases"
+                " your demand enough to make your money back!",
+
+                "https://www.investopedia.com/terms/m/marketing.asp"
+
+                );
+
+    INIT_PROMPT(P_INSURANCE) PromptData(
+
+                "Insurance",
+
+                "Take this - it's dangerous to go uninsured!",
+
+                "Even when things are going great, disaster can strike. To make a business last, "
+                "you need to protect against the worst-case scenarios. This could mean:"
+
+                "<ul>"
+                "<li> Diversifying your product line </li>"
+                "<li> Putting money in savings </li>"
+                "<li> Literally buying insurance </li>"
+                "</ul>",
+
+                "https://bizfluent.com/facts-7181454-difference-between-d-o-e-o-insurance.html"
+
+                );
+
+    INIT_PROMPT(P_REVENUE_COST_PROFIT) PromptData(
+
+                "Revenue, Cost, and Profit",
+
+                "Mo' Money, Mo' Profit",
+
+                "The goal of a business is to provide a good or service, and get paid for it. "
+                "The amount of money it takes to provide your good or service is called <b>cost</b>"
+                ", and the amount that you're paid is called <b>revenue</b>. Your revenue, minus "
+                "your costs, is called <b>profit</b>."
+
+                "<br><br>"
+
+                "Businesses usually try to maximize their profits.",
+
+                "https://www.economicshelp.org/blog/3201/economics/profit-maximisation/"
+
+                );
+
+    INIT_PROMPT(P_PRODUCT_DIFFERENTIATION) PromptData(
+
+                "Product Differentiation",
+
+                "Don't be yourself - be different!",
+
+                "There's only a few ways to make lemonade. What makes you different from your competitors? "
+                "In any business, it's important to <b>differentiate</b> yourself from your competitors by "
+                "making your product or service unique in some way - like going organic!",
+
+                "https://www.investopedia.com/terms/p/product_differentiation.asp"
+
+                );
+
 }
 
-const PromptData& EPrompt::getPromptData(int promptID)
+PromptData& EPrompt::getPromptData(int promptID)
 {
     if (!EPrompt::initialized)
     {

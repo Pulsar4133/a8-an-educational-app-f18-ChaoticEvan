@@ -11,7 +11,7 @@
 #define BASE_RECIPE_BONUS 50
 #define REPUTATION_POINTS_PER_SALE 0.3
 #define MAX_DEMAND 300
-#define MIN_DEMAND 1
+#define MIN_DEMAND 0
 #define PERFECT_LEMONS 6
 #define PERFECT_SUGAR  4
 #define PERFECT_PRICE 1.5
@@ -178,11 +178,11 @@ int EconEngine::calculateDemand()
     float priceMult = this->determinePriceWeight();
 
     result = baseDemand;
+    int sumReputation = int(game.stand.reputation  * game.weights.reputation);
 
     result = (baseDemand
-           + game.stand.marketing  * game.weights.marketing
-           + game.stand.reputation * game.weights.reputation)
-           * priceMult;
+            + sumReputation)
+            * priceMult;
 
     if (result > MAX_DEMAND)
     {
@@ -197,7 +197,7 @@ int EconEngine::calculateDemand()
              << "\t"
              << game.stand.reputation
              << "\t"
-             << game.stand.marketing
+             << sumReputation
              << "\t"
              << priceMult
              << "\t"

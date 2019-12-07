@@ -12,6 +12,11 @@ struct PromptData
     QString infoLink;
     QString thumbnailPath;
 
+    /**
+     * @brief displayed indicated whether the program has already been displayed before.
+     */
+    bool displayed = false;
+
     PromptData(
                 QString _title = "Default Prompt",
                 QString _header = "Look, ma! I'm a prompt!",
@@ -32,7 +37,7 @@ class EPrompt
 
 public:
 
-    static void displayEduPrompt(int promptId);
+    static void displayEduPrompt(int promptId, bool force = false);
     static void redirectToURL(QString url);
 
     enum PROMPT_IDS
@@ -41,7 +46,7 @@ public:
         P_DEMAND,
         P_REVENUE_COST_PROFIT,
         P_PRODUCT_DIFFERENTIATION,
-        P_DIVERSIFICATION,
+        P_INSURANCE,
         P_MARKETING,
         P_PRICE_EFFECT,
 
@@ -52,7 +57,7 @@ public:
     static PromptData PROMPTS[PROMPT_IDS::NUM_ENUMS];
     static bool       initialized;
     static void       initPrompts();
-    static const PromptData& getPromptData(int promptID);
+    static PromptData& getPromptData(int promptID);
 
 };
 
