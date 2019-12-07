@@ -1,6 +1,8 @@
 /**
   * This class is mimicing a "model".
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
   */
+
 #include "econengine.h"
 #include <math.h>
 #include "upgrades.h"
@@ -106,7 +108,7 @@ void EconEngine::onUpgradePurchased(int upgradeId)
 void EconEngine::runSimulation()
 {
 
-    // Perfect lemonade: One ice cube per 5 degrees over 70 degrees
+    // Perfect lemonade: One ice cube per 5 degrees over 70 degrees.
     game.perfectLemonade.ice = (game.today().temperature - 70) / 5;
     if (game.perfectLemonade.ice < 0)
     {
@@ -154,11 +156,11 @@ float EconEngine::calculateProfit(float cost, float income)
 
 int EconEngine::calculateDemand()
 {
-    int result = 0; //Default have it max demand (without upgrades).
+    int result = 0; // Default have it max demand (without upgrades).
 
     int temp = game.today().temperature;
 
-    //Switched based off of the temperature.
+    // Switched based off of the temperature.
     int baseDemand = 0;
     switch(temp){
     case 55:
@@ -257,29 +259,29 @@ void EconEngine::generateDays(Day* days, int numDays)
         if(i == 14){
             setDisasterLevel3();
         }
-        else if(i == 9){ //Tornado disaster.
+        else if(i == 9){ // Tornado disaster.
             game.days ->disaster = 1;
         }
-        else{ //No Disaster
+        else{ // No Disaster.
             game.days -> disaster = 0;
         }
         int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
         game.days[i].weatherState = random;
         switch(random){
         case 0:
-            //Rainy weather.
+            // Rainy weather.
             days[i].temperature = 55;
             break;
         case 1:
-            //Snowy weather.
+            // Snowy weather.
             days[i].temperature = 25;
             break;
         case 2:
-            //Cloudy weather.
+            // Cloudy weather.
             days[i].temperature = 65;
             break;
         case 3:
-            //Sunny weather.
+            // Sunny weather.
             days[i].temperature = 72;
             break;
         }
@@ -291,11 +293,11 @@ void EconEngine::setDisasterLevel3(){
     int random = 2 + ( std::rand() % ( 3 - 2 + 1 ) );
     switch (random){
     case 1:
-        //Duck Disaster
+        // Duck Disaster.
         game.days->disaster = 2;
         break;
     case 2:
-        //Whale Disaster
+        // Whale Disaster.
         game.days->disaster = 3;
         break;
     }
@@ -309,7 +311,7 @@ float EconEngine::totalCostOfLemonade()
 
     float totalCostOfIngredients = costOfIce + costOfSugar + costOfLemons;
 
-    //Calculate cost in relation to number of pitchers.
+    // Calculate cost in relation to number of pitchers.
     totalCostOfIngredients = game.today().lemonade.pitchers * totalCostOfIngredients;
     return totalCostOfIngredients;
 }

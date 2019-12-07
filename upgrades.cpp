@@ -1,6 +1,11 @@
+/**
+  * This class stores the information for upgrades.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
+#include "educationalprompter.h"
 #include "gamestate.h"
 #include "upgrades.h"
-#include "educationalprompter.h"
 
 /*
  * PROCESS FOR CREATING UPGRADES:

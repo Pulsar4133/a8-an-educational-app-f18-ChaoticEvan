@@ -1,9 +1,14 @@
+/**
+  * This class shows the educational aspects of this game.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  */
+
 #include "educationalprompter.h"
+#include <QDebug>
+#include <QDesktopServices>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QDesktopServices>
 #include <QUrl>
-#include <QDebug>
 
 #define INIT_PROMPT(id) EPrompt::PROMPTS[EPrompt::id] =
 
@@ -13,17 +18,15 @@ PromptData EPrompt::PROMPTS[EPrompt::NUM_ENUMS] = {};
 
 void EPrompt::displayEduPrompt(int promptID, bool force)
 {
-
-
     PromptData& prompt = EPrompt::getPromptData(promptID);
 
-    // If the prompt has already been displayed before and the user has not
+    // If the prompt has already been displayed before and the user has not.
     if (prompt.displayed && !force)
     {
         return;
     }
 
-    // Create MessageBox
+    // Create MessageBox.
     QMessageBox msgBox;
 
     msgBox.setText		     ("<h2>" + prompt.header + "</h2>");
@@ -33,10 +36,10 @@ void EPrompt::displayEduPrompt(int promptID, bool force)
     QPushButton* continueButton = msgBox.addButton("Continue", QMessageBox::ApplyRole);
     QPushButton* infoButton    = msgBox.addButton("Learn more!", QMessageBox::HelpRole);
 
-    // Execuite MessageBox
+    // Execuite MessageBox.
     msgBox.exec();
 
-    // Conditional Button
+    // Conditional Button.
     if (msgBox.clickedButton() == infoButton)
     {
         QUrl infoUrl(
@@ -51,11 +54,11 @@ void EPrompt::displayEduPrompt(int promptID, bool force)
 
 void EPrompt::initPrompts()
 {
-    // Set initialized to true
+    // Set initialized to true.
     EPrompt::initialized = true;
     qDebug() << "Prompts Initialized" << endl;
 
-    // Initialize all prompts
+    // Initialize all prompts.
     INIT_PROMPT(P_WELCOME) PromptData(
                 "Welcome to Lemonomics!",
 

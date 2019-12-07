@@ -37,7 +37,8 @@ class Upgrades
 {
 
 private:
-    /** TODO
+    /**
+     * A list to store an enumerable of all of the upgrades.
      * @brief m_upgradeList
      */
     Upgrade* m_upgradeList[UPGRADE_ENUM::NUM_UPGRADES];
