@@ -26,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     ui->setupUi(this);
     egd.setupUi(&egPopup);
 
+
     // These are UI connections.
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
-    QTimer::singleShot(30,this,&MainWindow::updateWorld);
+    //QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
     QObject::connect(model, &EconEngine::sigSimulationComplete, this, &MainWindow::onSimulationComplete);
 
@@ -41,11 +42,19 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
-    QObject::connect(ui->CreateLemonadeButton, &QPushButton::pressed, this, &MainWindow::createLemonade);
-    layout = new QHBoxLayout();
+
+    QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
+
+    lemonImage = new QLabel();
+    sugarImage = new QLabel();
+    iceImage = new QLabel();
     createGroundBody();
-    createLemonBody();
     createPitcherBody();
+    createLemonBody();
+    createSugarCubeBody();
+    createIceCubeBody();
+    // Preloads all .png files
+    loadStartImages();
 
     // Time between crowd image being updated
     crowdTimer.setInterval(50);
@@ -72,24 +81,133 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::updateIceBody(){
+    iceCubeBody->SetActive(true);
+    float impulseIce = iceCubeBody->GetMass() * 10;
+
+    iceCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseIce*4), iceCubeBody->GetWorldCenter(),true );
+    iceCubeBody->ApplyLinearImpulse(b2Vec2(impulseIce,0),iceCubeBody->GetWorldCenter(),true);
+}
+void MainWindow::updateSugarBody(){
+
+    sugarCubeBody->SetActive(true);
+    float impulseSugar = sugarCubeBody->GetMass() * 10;
+
+    sugarCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseSugar*4), sugarCubeBody->GetWorldCenter(),true);
+    sugarCubeBody->ApplyLinearImpulse(b2Vec2(impulseSugar,0),sugarCubeBody->GetWorldCenter(),true);
+
+}
+void MainWindow::updateLemonBody(){
+    lemonBody->SetActive(true);
+    float impulseLemon = lemonBody->GetMass() * 10;
+
+    lemonBody->ApplyLinearImpulse( -b2Vec2(0,impulseLemon*2), lemonBody->GetWorldCenter(),true );
+    lemonBody->ApplyLinearImpulse(b2Vec2(impulseLemon/2,0),lemonBody->GetWorldCenter(),true);
+
+}
 ///Performs a simulation step for box2d world.
 /// Updating the position & velocity of all bodies in the world.
 /// \brief MainWindow::updateWorld
 ///
 void MainWindow::updateWorld(){
-    world.Step(1.0f/60.f, 4, 1);
-    // Get position of bodies to update QLabel image positions
+    world.Step(1.0f/30.f, 8, 8);
+    if(jump){
+        //if body isn't active don't show image
+        if(!lemonBody->IsActive()){
+            lemonImage->setHidden(false);
+        }
+        if(!sugarCubeBody->IsActive()){
+            sugarImage->setHidden(false);
+        }
+        if(!iceCubeBody->IsActive()){
+           iceImage->setHidden(false);
+        }
+        updateLemonBody();
+        jump = false;
+    }
+
     b2Vec2 position = lemonBody->GetPosition();
-    b2Vec2 pitchPos = pitcherBody->GetPosition();
-  
-    // Move images with bodies to visually test.
-    // Height & width is fixed so updating the two will not change the Qlabel.
     lemonImage->setGeometry(position.x, position.y, 0, 0);
+    b2Vec2 sugarPos = sugarCubeBody->GetPosition();
+    sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
+    b2Vec2 icePos = iceCubeBody->GetPosition();
+    iceImage->setGeometry(icePos.x,icePos.y,0,0);
+    b2Vec2 pitchPos = pitcherBody->GetPosition();
     pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
 
-    // Check for collision of bodies.
-    collisionCheck();
-    QTimer::singleShot(15,this,&MainWindow::updateWorld);
+    //check for collision of bodies
+    if(iceCubeBody != nullptr || lemonBody != nullptr || sugarCubeBody != nullptr){
+        collisionCheck();
+    }
+
+    QTimer::singleShot(5,this,&MainWindow::updateWorld);
+}
+void MainWindow::createSugarCubeBody(){
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(510.0f, 425.0f);
+    sugarCubeBody = world.CreateBody(&bodyDef);
+
+    sugarImage->setFixedSize(55, 55);
+    sugarImage->setParent(ui->simulationFrame);
+    QPixmap sugarPix(":/img/Images/sugarCube.png");
+    int w = sugarImage->width();
+    int h = sugarImage->height();
+
+    sugarImage->setPixmap(sugarPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    sugarImage->raise();
+    sugarImage->setHidden(true);
+
+    // Define box shape for dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(20, 20);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
+
+    // Add the shape to the body.
+    sugarCubeBody->CreateFixture(&fixtureDef);
+    sugarCubeBody->SetActive(false);
+
+}
+
+void MainWindow::createIceCubeBody(){
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(510.0f, 425.0f);
+    iceCubeBody = world.CreateBody(&bodyDef);
+
+    //Qlabel created purely for visually testing lemonBody.
+
+    iceImage->setFixedSize(25, 25);
+    iceImage->setParent(ui->simulationFrame);
+    QPixmap icePix(":/img/Images/iceCube.png");
+    int w = iceImage->width();
+    int h = iceImage->height();
+
+    iceImage->setPixmap(icePix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    iceImage->raise();
+    iceImage->setHidden(true);
+
+    // Define box shape for dynamic body.
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(10, 10);
+
+    // Define the dynamic body fixture.
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
+
+    // Add the shape to the body.
+    iceCubeBody->CreateFixture(&fixtureDef);
+    iceCubeBody->SetActive(false);
+
 }
 
 ///Creates priv member variable lemonBody in box2d.
@@ -99,23 +217,25 @@ void MainWindow::updateWorld(){
 void MainWindow::createLemonBody(){
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(375.0f, 0.0f);
+    bodyDef.position.Set(510.0f, 425.0f);
     lemonBody = world.CreateBody(&bodyDef);
 
-    // Qlabel created purely for visually testing lemonBody.
-    lemonImage = new QLabel();
-    lemonImage->setFixedSize(50, 50);
-    QPixmap lemonPix("/home/ryan/lemon.png");
+
+    //Qlabel created purely for visually testing lemonBody.
+
+    lemonImage->setFixedSize(35, 35);
+    lemonImage->setParent(ui->simulationFrame);
+    QPixmap lemonPix(":/img/Images/lemon.png");
+
     int w = lemonImage->width();
     int h = lemonImage->height();
-    layout->addWidget(lemonImage);
-    lemWin = new QWidget();
-    lemWin->setLayout(layout);
+
     lemonImage->setPixmap(lemonPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    lemonImage->raise();
 
     // Define box shape for dynamic body.
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(WIDTH/2, HEIGHT/2);
+    dynamicBox.SetAsBox(10, 10);
 
     // Define the dynamic body fixture.
     b2FixtureDef fixtureDef;
@@ -126,9 +246,8 @@ void MainWindow::createLemonBody(){
 
     // Add the shape to the body.
     lemonBody->CreateFixture(&fixtureDef);
+    lemonBody->SetActive(false);
 
-    // Preloads all .png files.
-    loadStartImages();
 }
 
 ///Creates priv member variable groundBody in box2d.
@@ -139,13 +258,13 @@ void MainWindow::createGroundBody(){
 
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(40.0f, 300.0f);
+    groundBodyDef.position.Set(40.0f, 475.0f);
     groundBodyDef.type = b2_staticBody;
     groundBody = world.CreateBody(&groundBodyDef);
 
     // Define the ground box shape.
     b2PolygonShape groundBox;
-    groundBox.SetAsBox(375.0f, 2.0f);
+    groundBox.SetAsBox(500.0f, 2.0f);
 
     // Add the ground fixture to the ground body.
     groundBody->CreateFixture(&groundBox, 1.0f);
@@ -159,21 +278,23 @@ void MainWindow::createGroundBody(){
 void MainWindow::createPitcherBody(){
     b2BodyDef statTestBodyDef;
     statTestBodyDef.type = b2_staticBody;
-    statTestBodyDef.position.Set(375.0f, 300.0f);
+    statTestBodyDef.position.Set(575.0f, 415.0f);
     pitcherBody = world.CreateBody(&statTestBodyDef);
 
     // Qlabel created purely for visually testing pitcherBody.
     pitcherImage = new QLabel();
-    pitcherImage->setFixedSize(100, 100);
-    QPixmap groundPix("/home/ryan/Pitcher.png");
+    pitcherImage->setFixedSize(90, 90);
+    pitcherImage->setParent(ui->simulationFrame);
+    QPixmap groundPix(":/img/Images/ClipArtPitcher.png");
     int gw = pitcherImage->width();
     int gh = pitcherImage->height();
-    layout->addWidget(pitcherImage);
+
     pitcherImage->setPixmap(groundPix.scaled(gw, gh, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    pitcherImage->raise();
 
     // Define the pitcher box shape.
     b2PolygonShape testBox;
-    testBox.SetAsBox(WIDTH/2, HEIGHT/2);
+    testBox.SetAsBox(WIDTH/2, HEIGHT/10);
 
     pitcherBody->CreateFixture(&testBox,1.0f);
 }
@@ -187,16 +308,43 @@ void MainWindow::collisionCheck(){
     for (b2ContactEdge* edge = lemonBody->GetContactList(); edge; edge = edge->next){
         // Check if body is in contact with another body.
         if(edge->contact->IsTouching()){
-            lemonImage->setPixmap(QPixmap());
-             world.DestroyBody(lemonBody);
+            lemonImage->setHidden(true);
+             //world.DestroyBody(lemonBody);
+            lemonBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            lemonBody->SetActive(false);
+             iceImage->setHidden(false);
+             updateIceBody();
+        }
+    }
+    for (b2ContactEdge* edge2 = iceCubeBody->GetContactList(); edge2; edge2 = edge2->next){
+        //check if body is in contact with another body
+        if(edge2->contact->IsTouching()){
+            iceImage->setHidden(true);
+            //iceImage->setPixmap(QPixmap());
+            // world.DestroyBody(iceCubeBody);
+            iceCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            iceCubeBody->SetActive(false);
+             sugarImage->setHidden(false);
+             updateSugarBody();
+        }
+    }
+    for (b2ContactEdge* edge3 = sugarCubeBody->GetContactList(); edge3; edge3 = edge3->next){
+        //check if body is in contact with another body
+        if(edge3->contact->IsTouching()){
+            sugarImage->setHidden(true);
+            //world.DestroyBody(sugarCubeBody);
+            sugarCubeBody->SetTransform(b2Vec2(510.0f, 425.0f),0);
+            sugarCubeBody->SetActive(false);
         }
     }
 }
+
 
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
 /// \brief MainWindow::createLemonade
 ///
+
 void MainWindow::createLemonade(){
     if(ui->pitchersSpinBox->value() == 0)
     {
@@ -205,6 +353,7 @@ void MainWindow::createLemonade(){
         addIngMsg.exec();
         return;
     }
+
     if((ui->LemonSpinBox->value() == 0) && (ui->sugarSpinBox->value() == 0) && (ui->iceSpinBox->value() == 0))
     {
         QMessageBox addIngMsg;
@@ -213,12 +362,13 @@ void MainWindow::createLemonade(){
         return;
     }
 
+
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
+
                        ui->priceSpinBox->value(),
                        ui->pitchersSpinBox->value());
-
     ui->startButton->setEnabled(true);
 }
 
@@ -232,10 +382,12 @@ void MainWindow::on_yesterdayButton_clicked()
     ui->sugarSpinBox->setValue(lemonade.getSugar());
     ui->iceSpinBox->setValue(lemonade.getIce());
     ui->priceSpinBox->setValue(lemonade.getPricePerCup());
+
     ui->pitchersSpinBox->setValue(lemonade.getNumPitchers());
     updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
+
 }
 
 void MainWindow::updateData()
@@ -431,10 +583,13 @@ void MainWindow::loadStartImages()
 
 void MainWindow::on_startButton_clicked()
 {
+    jump = true;
     ui->welcomeFrame->setVisible(false);
     ui->dayFrame->setVisible(false);
     ui->progressFrame->setVisible(true);
     ui->progressFrame->raise();
+   //QTimer::singleShot(5,this,&MainWindow::updateWorld);
+    updateWorld();
 
     if(game.currentDate != 0)
         if(lemonade.getLemon() == 0 && lemonade.getIce() == 0 && lemonade.getSugar() == 0)
