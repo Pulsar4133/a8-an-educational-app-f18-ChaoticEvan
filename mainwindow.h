@@ -12,6 +12,10 @@
 #include <QMediaPlayer>
 #include <QTimer>
 #include <QWidget>
+#include "ui_endgamedialog.h"
+#include "endgamedialog.h"
+#include "scrolltext.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -126,6 +130,9 @@ private:
      */
     QMediaPlayer *noise = new QMediaPlayer();
     bool isMusicPlaying = true;
+    QVector<QString>* newsStories;
+    QHBoxLayout* newsLayout;
+    ScrollText* news;
 
     /**
      *  A method that will begin to play music as soon as the game begins.
