@@ -7,6 +7,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scrolltext.h"
+#include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -16,8 +18,6 @@
 #include <QTimer>
 #include <QFile>
 #include <QTime>
-#include "ui_endgamedialog.h"
-#include "educationalprompter.h"
 #include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
@@ -680,22 +680,26 @@ void MainWindow::animationForDay()
     //Sets the background QPixmap to the correct weather image
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
-    if (game.yesterday().weatherState == 0)
+    if(game.yesterday().disaster == game.world.TORNADO)
+    {
+        QPixmap backgroundTemp(":/img/Images/Background Tornado.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == game.world.RAINY)
     {
         // Rainy weather.
         QPixmap backgroundTemp(":/img/Images/Background Rain.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 1)
+    } else if (game.yesterday().weatherState == game.world.SNOWY)
     {
         // Snowy weather.
         QPixmap backgroundTemp(":/img/Images/Background Snow.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 2)
+    } else if (game.yesterday().weatherState == game.world.CLOUDY)
     {
         // Cloudy weather.
         QPixmap backgroundTemp(":/img/Images/Background Overcast.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 3)
+    } else if (game.yesterday().weatherState == game.world.SUNNY)
     {
         // Sunny weather.
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
@@ -836,10 +840,6 @@ void MainWindow::calendarWeather(int currWeek)
         {
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
-        }
-        if (game.days[i+currWeek*5].disaster == 1){
-            //Tornado
-            currWeekWeather.push_back(tornadoDay);
         }
     }
     // Set each day label to correct item in the vector
@@ -1182,7 +1182,7 @@ void MainWindow::imageScroll()
                 }
             }
         }
-        if(game.currentDate == 9){
+        if(game.currentDate == 10){
             if(!hasBoughtInsurance){
                 openEndGameDialog();
             }
