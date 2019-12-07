@@ -562,7 +562,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1031</width>
+      <width>1060</width>
       <height>851</height>
      </rect>
     </property>
@@ -600,10 +600,10 @@ and mysterious phenomenons! Watch out! </string>
     <widget class="QLabel" name="welcomeBackground">
      <property name="geometry">
       <rect>
-       <x>-4</x>
+       <x>0</x>
        <y>0</y>
-       <width>1601</width>
-       <height>851</height>
+       <width>1800</width>
+       <height>900</height>
       </rect>
      </property>
      <property name="font">
