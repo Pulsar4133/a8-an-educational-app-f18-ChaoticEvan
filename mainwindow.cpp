@@ -10,6 +10,7 @@
 #include "ui_endgamedialog.h"
 #include "educationalprompter.h"
 #include <iostream>
+#include <QString>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlaylist>
@@ -475,6 +476,14 @@ void MainWindow::collisionCheck()
 ///
 void MainWindow::createLemonade()
 {
+    if(game.stand.wallet - uiLemonadeCurrCost() < 0)
+    {
+        QMessageBox poorIngMsg;
+        poorIngMsg.setText("You can't afford to make this recipe!");
+        poorIngMsg.exec();
+        return;
+    }
+
     if(ui->pitchersSpinBox->value() == 0)
     {
         QMessageBox addIngMsg;
