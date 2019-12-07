@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>198</height>
+       <height>230</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -198,6 +198,25 @@
      </property>
      <property name="text">
       <string>Wallet: $100</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="MuteMusic">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>111</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Mute Music</string>
      </property>
     </widget>
    </widget>
@@ -675,7 +694,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -1277,26 +1296,12 @@ you’re about to make! </string>
      <zorder>InsuranceDescription</zorder>
     </widget>
    </widget>
-   <widget class="QPushButton" name="MuteMusic">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>50</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Mute Music</string>
-    </property>
-   </widget>
    <zorder>progressFrame</zorder>
    <zorder>simulationFrame</zorder>
    <zorder>ingredientsFrame</zorder>
    <zorder>welcomeFrame</zorder>
    <zorder>startButton</zorder>
    <zorder>upgradesWidget</zorder>
-   <zorder>MuteMusic</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1304,7 +1309,7 @@ you’re about to make! </string>
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
