@@ -486,9 +486,9 @@ void MainWindow::redirectKhanAcademy()
 void MainWindow::playMusic(){
     // Create music playlist to repeat the song.
     QMediaPlaylist* playlist= new QMediaPlaylist;
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
     noise ->setMedia(playlist);
@@ -844,9 +844,9 @@ void MainWindow::on_BuyBoomBox_clicked()
 
     // Start RickRolling.
     QMediaPlaylist* playlist= new QMediaPlaylist;
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
 
     noise -> stop();
     noise ->setMedia(playlist);

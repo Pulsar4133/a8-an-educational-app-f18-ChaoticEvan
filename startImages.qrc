@@ -39,7 +39,7 @@
     </qresource>
     <qresource prefix="/">
         <file>Images/Weather_Images/Snowy.png</file>
-        <file>music/RickAstley-NeverGonnaGiveYouUp(Video).mp3</file>
-        <file>music/TheDuckSong.mp3</file>
+        <file>music/ducksong.mp3</file>
+        <file>music/rickroll.mp3</file>
     </qresource>
 </RCC>
