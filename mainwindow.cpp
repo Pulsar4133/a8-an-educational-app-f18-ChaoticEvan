@@ -13,6 +13,11 @@
 #include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
+#include <QTimer>
+#include <QFile>
+#include <QTime>
+#include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 #include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
@@ -61,7 +66,15 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     crowdTimer.setInterval(50);
 
     // Set beginning text for the game.
+    newsLayout = new QHBoxLayout(ui->newsWidget);
+    news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    newsLayout->addWidget(news);
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
+    // QVector of all news stories
+    newsStories = MainWindow::getNewsStories(":/txt/textResources/newsStories.txt");
+
 
     // End screen pop up.
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
@@ -405,7 +418,6 @@ void MainWindow::updateData()
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
-    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
     checkAffordablilityOfUpgrades();
 }
 
@@ -418,29 +430,36 @@ void MainWindow::updateData()
 void MainWindow::checkAffordablilityOfUpgrades()
 {
     int wallet = game.stand.wallet;
-    if (wallet > 75)
-    {
+    if (wallet > 75 && hasBoughtBoomBox == false)
+    {   
         ui->BuyBoomBox -> setEnabled(true);
     }
-    if (wallet > 50)
+    if (wallet > 50 && hasBoughtSign == false)
     {
         ui ->BuyNeonSIgn ->setEnabled(true);
     }
-    if (wallet > 150)
+    if (wallet > 150 && hasBoughtLemon == false)
     {
-        ui->BuySugar->setEnabled(true);
         ui->BuyLemons->setEnabled(true);
     }
-
-    if (wallet > 250)
+    if (wallet > 150 && hasBoughtSugar == false)
+    {
+        ui->BuySugar->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtInsurance ==false)
     {
         ui->BuyInsurance->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtPitcher == false)
+    {
         ui->BuyPitcher-> setEnabled(true);
     }
-
-    if (wallet > 2000)
+    if (wallet > 2000&& hasBoughtUmbrella == false)
     {
         ui->BuyUmbrella->setEnabled(true);
+    }
+    if (wallet > 2000 && hasBoughtGrapes == false)
+    {
         ui->BuyGrapes->setEnabled(true);
     }
     if (wallet < 2000)
@@ -486,9 +505,9 @@ void MainWindow::redirectKhanAcademy()
 void MainWindow::playMusic(){
     // Create music playlist to repeat the song.
     QMediaPlaylist* playlist= new QMediaPlaylist;
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
-    playlist->addMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
     noise ->setMedia(playlist);
@@ -499,6 +518,7 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 ///
 /// Creates the proper background and crowd size for the daily animation
@@ -652,7 +672,11 @@ void MainWindow::calendarWeather(int currWeek)
     std::vector<QPixmap> currWeekWeather;
     for (unsigned int i = 0 ; i < 5 ; i++)
     {
-        if (game.days[i+currWeek*5].weatherState == 0)
+        if (game.days[i+currWeek*5].disaster == 1)
+        {
+            //Tornado weather.
+            currWeekWeather.push_back(tornadoDay);
+        } else if (game.days[i+currWeek*5].weatherState == 0)
         {
             // Rainy weather.
             currWeekWeather.push_back(rainyDay);
@@ -668,6 +692,10 @@ void MainWindow::calendarWeather(int currWeek)
         {
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
+        }
+        if (game.days[i+currWeek*5].disaster == 1){
+            //Tornado
+            currWeekWeather.push_back(tornadoDay);
         }
     }
     // Set each day label to correct item in the vector
@@ -745,7 +773,11 @@ void MainWindow::on_startButton_clicked()
             return;
         }
 
-  //  changeNewsText();
+    // Sets new story semi-randomly via current time in miliseconds
+    QTime now = QTime::currentTime();
+    int storyIndex = now.msec() % newsStories->size();
+    QString story = newsStories->at(storyIndex);
+    changeNewsText(story);
 
     ui->startButton->setEnabled(false);
     ui->CreateLemonadeButton->setEnabled(false);
@@ -805,11 +837,7 @@ void MainWindow::on_MuteMusic_clicked()
 
 void MainWindow::changeNewsText(QString scrollText)
 {
-    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
-    ScrollText* news = new ScrollText(ui->newsWidget);
-    QFont font("manjari", 20);
-    news->setFont(font);
-    layout->addWidget(news);
+    // ScrollText method to change text being painted
     news->setText(scrollText);
 }
 
@@ -829,6 +857,7 @@ void MainWindow::on_BuyUmbrella_clicked()
 
     emit updateWallet(1);
     ui ->BuyUmbrella ->setEnabled(false);
+    hasBoughtUmbrella = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -842,6 +871,7 @@ void MainWindow::on_BuyPitcher_clicked()
     ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
+    hasBoughtPitcher = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -855,6 +885,7 @@ void MainWindow::on_BuyGrapes_clicked()
     ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
     ui ->BuyGrapes->setEnabled(false);
+    hasBoughtGrapes = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -871,13 +902,14 @@ void MainWindow::on_BuyBoomBox_clicked()
 
     // Start RickRolling.
     QMediaPlaylist* playlist= new QMediaPlaylist;
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
-    playlist -> addMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
 
     noise -> stop();
     noise ->setMedia(playlist);
     noise ->play();
+    hasBoughtBoomBox = true;
     ui->BuyBoomBox->setEnabled(false);
 }
 
@@ -891,6 +923,7 @@ void MainWindow::on_BuySugar_clicked()
     ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
     ui ->BuySugar->setEnabled(false);
+    hasBoughtSugar = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 ///
@@ -903,6 +936,7 @@ void MainWindow::on_BuyLemons_clicked()
     ui->lemonsImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(3);
     ui ->BuyLemons-> setEnabled(false);
+    hasBoughtLemon = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -916,6 +950,7 @@ void MainWindow::on_BuyNeonSIgn_clicked()
     ui->neonSignImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(0);
     ui ->BuyNeonSIgn ->setEnabled(false);
+    hasBoughtSign = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -929,21 +964,9 @@ void MainWindow::on_BuyInsurance_clicked()
     ui->insuranceImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(6);
     ui->BuyInsurance ->setEnabled(false);
+    hasBoughtInsurance = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
-void MainWindow::on_beginButton_clicked()
-{
-    emit showCalendar();
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
-    ui->welcomeFrame->setVisible(false);
-    ui->welcomeLabel1->setVisible(false);
-    ui->welcomeCheck2->setVisible(false);
-    ui->welcomeCheck3->setVisible(false);
-    ui->welcomeCheck4->setVisible(false);
-}
-
 
 void MainWindow::imageScroll()
 {
@@ -991,6 +1014,24 @@ void MainWindow::imageScroll()
         if(game.currentDate == 15)
         {
             openEndGameDialog();
+        }
+        if(game.currentDate == 14){
+            int disaster = game.days[14].disaster;
+            if (disaster == 2){
+                if(!hasBoughtGrapes){
+                    openEndGameDialog();
+                }
+            }
+            else if (disaster == 3){
+                if(!hasBoughtUmbrella){
+                    openEndGameDialog();
+                }
+            }
+        }
+        if(game.currentDate == 9){
+            if(!hasBoughtInsurance){
+                openEndGameDialog();
+            }
         }
     }
 
@@ -1077,4 +1118,38 @@ void MainWindow::sugarSpinBox_valueChanged(int i)
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
+}
+
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}
+
+QVector<QString>* MainWindow::getNewsStories(QString filePath)
+{
+    QFile storiesFile(filePath);
+    QVector<QString>* storiesArray = new QVector<QString>;
+
+    // Makes sure stories file can be opened
+    if(!storiesFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", storiesFile.errorString());
+    }
+
+    QTextStream input(&storiesFile);
+
+    // While there are still stories in the file
+    while(!input.atEnd())
+    {
+        QString story = input.readLine();
+        storiesArray->append(story);
+    }
+
+    return storiesArray;
 }
