@@ -81,7 +81,7 @@ void EPrompt::initPrompts()
     INIT_PROMPT(P_PRICE_EFFECT) PromptData(
                 "Quantity and Price Effects",
 
-                "Congratulations on finishing your first day!",
+                "Congratulations on finishing your first week!",
 
                 "To keep running a successful business, pay close attention to your <b>price</b> "
                 "and <b>quantity sold</b>."

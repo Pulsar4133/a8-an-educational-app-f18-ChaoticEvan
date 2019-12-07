@@ -360,11 +360,11 @@ void MainWindow::on_progress_start()
 
     if (game.currentDate == 1)
     {
-        EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
-    }
-    else if (game.currentDate == 2)
-    {
         EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
+    }
+    else if (game.currentDate == 5)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
     }
 
 }

@@ -93,6 +93,8 @@ Upgrades::Upgrades()
                         game.stand.reputation += 20;
                         game.world.multiplierPriceSugar += 0.50;
                         game.world.multiplierPriceLemons += 0.50;
+
+                        EPrompt::displayEduPrompt(EPrompt::P_INSURANCE);
                     });
 
         this->m_upgradeList[UPGRADE_ENUM::BIG_PITCHER] = new Upgrade(
