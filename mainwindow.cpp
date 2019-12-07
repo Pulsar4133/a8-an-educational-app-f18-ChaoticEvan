@@ -418,7 +418,6 @@ void MainWindow::updateData()
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
-    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
     checkAffordablilityOfUpgrades();
 }
 
@@ -431,29 +430,36 @@ void MainWindow::updateData()
 void MainWindow::checkAffordablilityOfUpgrades()
 {
     int wallet = game.stand.wallet;
-    if (wallet > 75)
-    {
+    if (wallet > 75 && hasBoughtBoomBox == false)
+    {   
         ui->BuyBoomBox -> setEnabled(true);
     }
-    if (wallet > 50)
+    if (wallet > 50 && hasBoughtSign == false)
     {
         ui ->BuyNeonSIgn ->setEnabled(true);
     }
-    if (wallet > 150)
+    if (wallet > 150 && hasBoughtLemon == false)
     {
-        ui->BuySugar->setEnabled(true);
         ui->BuyLemons->setEnabled(true);
     }
-
-    if (wallet > 250)
+    if (wallet > 150 && hasBoughtSugar == false)
+    {
+        ui->BuySugar->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtInsurance ==false)
     {
         ui->BuyInsurance->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtPitcher == false)
+    {
         ui->BuyPitcher-> setEnabled(true);
     }
-
-    if (wallet > 2000)
+    if (wallet > 2000&& hasBoughtUmbrella == false)
     {
         ui->BuyUmbrella->setEnabled(true);
+    }
+    if (wallet > 2000 && hasBoughtGrapes == false)
+    {
         ui->BuyGrapes->setEnabled(true);
     }
     if (wallet < 2000)
@@ -512,6 +518,7 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
 void MainWindow::animationForDay()
@@ -659,6 +666,10 @@ void MainWindow::calendarWeather(int currWeek)
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
             //background = backgroundTemp;
+        }
+        if (game.days[i+currWeek*5].disaster == 1){
+            //Tornado
+            currWeekWeather.push_back(tornadoDay);
         }
     }
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -819,6 +830,7 @@ void MainWindow::on_BuyUmbrella_clicked()
 
     emit updateWallet(1);
     ui ->BuyUmbrella ->setEnabled(false);
+    hasBoughtUmbrella = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -832,6 +844,7 @@ void MainWindow::on_BuyPitcher_clicked()
     ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
     ui ->BuyPitcher ->setEnabled(false);
+    hasBoughtPitcher = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -845,6 +858,7 @@ void MainWindow::on_BuyGrapes_clicked()
     ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
     ui ->BuyGrapes->setEnabled(false);
+    hasBoughtGrapes = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -868,6 +882,7 @@ void MainWindow::on_BuyBoomBox_clicked()
     noise -> stop();
     noise ->setMedia(playlist);
     noise ->play();
+    hasBoughtBoomBox = true;
     ui->BuyBoomBox->setEnabled(false);
 }
 
@@ -881,6 +896,7 @@ void MainWindow::on_BuySugar_clicked()
     ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
     ui ->BuySugar->setEnabled(false);
+    hasBoughtSugar = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 ///
@@ -893,6 +909,7 @@ void MainWindow::on_BuyLemons_clicked()
     ui->lemonsImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(3);
     ui ->BuyLemons-> setEnabled(false);
+    hasBoughtLemon = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -906,6 +923,7 @@ void MainWindow::on_BuyNeonSIgn_clicked()
     ui->neonSignImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(0);
     ui ->BuyNeonSIgn ->setEnabled(false);
+    hasBoughtSign = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -919,6 +937,7 @@ void MainWindow::on_BuyInsurance_clicked()
     ui->insuranceImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(6);
     ui->BuyInsurance ->setEnabled(false);
+    hasBoughtInsurance = true;
     ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
@@ -968,6 +987,24 @@ void MainWindow::imageScroll()
         if(game.currentDate == 15)
         {
             openEndGameDialog();
+        }
+        if(game.currentDate == 14){
+            int disaster = game.days[14].disaster;
+            if (disaster == 2){
+                if(!hasBoughtGrapes){
+                    openEndGameDialog();
+                }
+            }
+            else if (disaster == 3){
+                if(!hasBoughtUmbrella){
+                    openEndGameDialog();
+                }
+            }
+        }
+        if(game.currentDate == 9){
+            if(!hasBoughtInsurance){
+                openEndGameDialog();
+            }
         }
     }
 
