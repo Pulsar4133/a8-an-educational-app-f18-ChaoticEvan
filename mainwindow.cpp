@@ -7,6 +7,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "scrolltext.h"
+#include "ui_endgamedialog.h"
+#include "educationalprompter.h"
 #include <iostream>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
@@ -16,8 +18,6 @@
 #include <QTimer>
 #include <QFile>
 #include <QTime>
-#include "ui_endgamedialog.h"
-#include "educationalprompter.h"
 #include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     // Image connections.
     QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::imageScroll);
+    QObject::connect(&whaleTimer, &QTimer::timeout, this, &MainWindow::animationForWhale);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
@@ -70,8 +71,9 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     // Preloads all .png files
     loadStartImages();
 
-    // Time between crowd image being updated
+    // Time between crowd and whale image being updated
     crowdTimer.setInterval(50);
+    whaleTimer.setInterval(50);
 
     // Set beginning text for the game.
     newsLayout = new QHBoxLayout(ui->newsWidget);
@@ -568,7 +570,7 @@ void MainWindow::checkAffordablilityOfUpgrades()
 {
     int wallet = game.stand.wallet;
     if (wallet > 75 && hasBoughtBoomBox == false)
-    {   
+    {
         ui->BuyBoomBox -> setEnabled(true);
     }
     if (wallet > 50 && hasBoughtSign == false)
@@ -684,22 +686,26 @@ void MainWindow::animationForDay()
     //Sets the background QPixmap to the correct weather image
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
-    if (game.yesterday().weatherState == 0)
+    if(game.yesterday().disaster == game.world.TORNADO)
+    {
+        QPixmap backgroundTemp(":/img/Images/Background Tornado.png");
+        background = backgroundTemp;
+    } else if (game.yesterday().weatherState == game.world.RAINY)
     {
         // Rainy weather.
         QPixmap backgroundTemp(":/img/Images/Background Rain.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 1)
+    } else if (game.yesterday().weatherState == game.world.SNOWY)
     {
         // Snowy weather.
         QPixmap backgroundTemp(":/img/Images/Background Snow.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 2)
+    } else if (game.yesterday().weatherState == game.world.CLOUDY)
     {
         // Cloudy weather.
         QPixmap backgroundTemp(":/img/Images/Background Overcast.png");
         background = backgroundTemp;
-    } else if (game.yesterday().weatherState == 3)
+    } else if (game.yesterday().weatherState == game.world.SUNNY)
     {
         // Sunny weather.
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
@@ -733,8 +739,15 @@ void MainWindow::animationForDay()
     ui->crowdLabel->setPixmap(defaultImage.copy(dimensions));
     ui->simulationPicture->setVisible(true);
 
-    // Crowd begins moving across screen.
-    crowdTimer.start();
+    // Whale drops on day 14, else crowd moves across screen
+    if (game.world.WHALE == game.yesterday().disaster)
+    {
+        whaleTimer.start();
+    } else
+    {
+        // Crowd begins moving across screen.
+        crowdTimer.start();
+    }
 }
 ///
 /// Displays the correct calendar and weather information
@@ -833,10 +846,6 @@ void MainWindow::calendarWeather(int currWeek)
         {
             // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
-        }
-        if (game.days[i+currWeek*5].disaster == 1){
-            //Tornado
-            currWeekWeather.push_back(tornadoDay);
         }
     }
     // Set each day label to correct item in the vector
@@ -1201,7 +1210,7 @@ void MainWindow::imageScroll()
                 }
             }
         }
-        if(game.currentDate == 9){
+        if(game.currentDate == 10){
             if(!hasBoughtInsurance){
                 openEndGameDialog();
             }
@@ -1338,4 +1347,23 @@ QVector<QString>* MainWindow::getNewsStories(QString filePath)
     }
 
     return storiesArray;
+}
+
+void MainWindow::animationForWhale()
+{
+    int x = ui->whaleLabel->x();
+    int y = ui->whaleLabel->y();
+    int width = ui->whaleLabel->width();
+    int height = ui->whaleLabel->height();
+
+    y += 25;
+
+    ui->whaleLabel->setGeometry(x, y, width, height);
+    QPixmap whale(":/img/Images/Whale.png");
+    ui->whaleLabel->setPixmap(whale);
+
+    if (y > 300)
+    {
+        whaleTimer.stop();
+    }
 }
