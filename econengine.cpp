@@ -273,7 +273,7 @@ void EconEngine::generateDays(Day* days, int numDays)
         }
         else
         {
-        int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
+            int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
             game.days[i].weatherState = random;
             switch(random){
             case 0:

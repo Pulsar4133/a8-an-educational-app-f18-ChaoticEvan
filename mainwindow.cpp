@@ -87,56 +87,58 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
 
     ui->startButton->setEnabled(false);
 
+    updateData();
+
     // Play begin playing the duck song as soon as the game loads.
     playMusic();
 
-    // Upgrade buttons should be false for the objects the player cannot win.
+        // Upgrade buttons should be false for the objects the player cannot win.
         ui ->BuySugar->setEnabled(false);
         ui ->BuyGrapes->setEnabled(false);
         ui ->BuyLemons-> setEnabled(false);
         ui ->BuyUmbrella ->setEnabled(false);
         ui ->BuyPitcher ->setEnabled(false);
         ui->BuyInsurance ->setEnabled(false);
-}
+    }
 
-///Deconstructor.
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+    ///Deconstructor.
+    MainWindow::~MainWindow()
+    {
+        delete ui;
+    }
 
-void MainWindow::updateIceBody(){
-    iceCubeBody->SetActive(true);
-    float impulseIce = iceCubeBody->GetMass() * 10;
+    void MainWindow::updateIceBody(){
+        iceCubeBody->SetActive(true);
+        float impulseIce = iceCubeBody->GetMass() * 10;
 
-    iceCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseIce*4), iceCubeBody->GetWorldCenter(),true );
-    iceCubeBody->ApplyLinearImpulse(b2Vec2(impulseIce,0),iceCubeBody->GetWorldCenter(),true);
-}
+        iceCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseIce*4), iceCubeBody->GetWorldCenter(),true );
+        iceCubeBody->ApplyLinearImpulse(b2Vec2(impulseIce,0),iceCubeBody->GetWorldCenter(),true);
+    }
 
-void MainWindow::updateSugarBody(){
+    void MainWindow::updateSugarBody(){
 
-    sugarCubeBody->SetActive(true);
-    float impulseSugar = sugarCubeBody->GetMass() * 10;
+        sugarCubeBody->SetActive(true);
+        float impulseSugar = sugarCubeBody->GetMass() * 10;
 
-    sugarCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseSugar*4), sugarCubeBody->GetWorldCenter(),true);
-    sugarCubeBody->ApplyLinearImpulse(b2Vec2(impulseSugar,0),sugarCubeBody->GetWorldCenter(),true);
-}
+        sugarCubeBody->ApplyLinearImpulse( -b2Vec2(0,impulseSugar*4), sugarCubeBody->GetWorldCenter(),true);
+        sugarCubeBody->ApplyLinearImpulse(b2Vec2(impulseSugar,0),sugarCubeBody->GetWorldCenter(),true);
+    }
 
-void MainWindow::updateLemonBody(){
-    lemonBody->SetActive(true);
-    float impulseLemon = lemonBody->GetMass() * 10;
+    void MainWindow::updateLemonBody(){
+        lemonBody->SetActive(true);
+        float impulseLemon = lemonBody->GetMass() * 10;
 
-    lemonBody->ApplyLinearImpulse( -b2Vec2(0,impulseLemon*2), lemonBody->GetWorldCenter(),true );
-    lemonBody->ApplyLinearImpulse(b2Vec2(impulseLemon/2,0),lemonBody->GetWorldCenter(),true);
-}
+        lemonBody->ApplyLinearImpulse( -b2Vec2(0,impulseLemon*2), lemonBody->GetWorldCenter(),true );
+        lemonBody->ApplyLinearImpulse(b2Vec2(impulseLemon/2,0),lemonBody->GetWorldCenter(),true);
+    }
 
-///Performs a simulation step for box2d world.
-/// Updating the position & velocity of all bodies in the world.
-/// \brief MainWindow::updateWorld
-///
-void MainWindow::updateWorld(){
-    world.Step(1.0f/30.f, 8, 8);
-    if(jump){
+    ///Performs a simulation step for box2d world.
+    /// Updating the position & velocity of all bodies in the world.
+    /// \brief MainWindow::updateWorld
+    ///
+    void MainWindow::updateWorld(){
+        world.Step(1.0f/30.f, 8, 8);
+        if(jump){
         // If body isn't active don't show image.
         if(!lemonBody->IsActive()){
             lemonImage->setHidden(false);
@@ -149,64 +151,64 @@ void MainWindow::updateWorld(){
         }
         updateLemonBody();
         jump = false;
-    }
+        }
 
-    b2Vec2 position = lemonBody->GetPosition();
-    lemonImage->setGeometry(position.x, position.y, 0, 0);
-    b2Vec2 sugarPos = sugarCubeBody->GetPosition();
-    sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
-    b2Vec2 icePos = iceCubeBody->GetPosition();
-    iceImage->setGeometry(icePos.x,icePos.y,0,0);
-    b2Vec2 pitchPos = pitcherBody->GetPosition();
-    pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
+        b2Vec2 position = lemonBody->GetPosition();
+        lemonImage->setGeometry(position.x, position.y, 0, 0);
+        b2Vec2 sugarPos = sugarCubeBody->GetPosition();
+        sugarImage->setGeometry(sugarPos.x,sugarPos.y,0,0);
+        b2Vec2 icePos = iceCubeBody->GetPosition();
+        iceImage->setGeometry(icePos.x,icePos.y,0,0);
+        b2Vec2 pitchPos = pitcherBody->GetPosition();
+        pitcherImage->setGeometry(pitchPos.x,pitchPos.y,0,0);
 
-    // Check for collision of bodies.
-    if(iceCubeBody != nullptr || lemonBody != nullptr || sugarCubeBody != nullptr){
+        // Check for collision of bodies.
+        if(iceCubeBody != nullptr || lemonBody != nullptr || sugarCubeBody != nullptr){
         collisionCheck();
+        }
+
+        QTimer::singleShot(5,this,&MainWindow::updateWorld);
     }
 
-    QTimer::singleShot(5,this,&MainWindow::updateWorld);
-}
+    void MainWindow::createSugarCubeBody(){
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(510.0f, 425.0f);
+        sugarCubeBody = world.CreateBody(&bodyDef);
 
-void MainWindow::createSugarCubeBody(){
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(510.0f, 425.0f);
-    sugarCubeBody = world.CreateBody(&bodyDef);
+        sugarImage->setFixedSize(55, 55);
+        sugarImage->setParent(ui->simulationFrame);
+        QPixmap sugarPix(":/img/Images/sugarCube.png");
+        int w = sugarImage->width();
+        int h = sugarImage->height();
 
-    sugarImage->setFixedSize(55, 55);
-    sugarImage->setParent(ui->simulationFrame);
-    QPixmap sugarPix(":/img/Images/sugarCube.png");
-    int w = sugarImage->width();
-    int h = sugarImage->height();
+        sugarImage->setPixmap(sugarPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+        sugarImage->raise();
+        sugarImage->setHidden(true);
 
-    sugarImage->setPixmap(sugarPix.scaled(w,h,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-    sugarImage->raise();
-    sugarImage->setHidden(true);
+        // Define box shape for dynamic body.
+        b2PolygonShape dynamicBox;
+        dynamicBox.SetAsBox(20, 20);
 
-    // Define box shape for dynamic body.
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(20, 20);
+        // Define the dynamic body fixture.
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &dynamicBox;
+        fixtureDef.density = 1.0f;
+        fixtureDef.friction = 0.1f;
+        fixtureDef.restitution = 0.1f;
 
-    // Define the dynamic body fixture.
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.1f;
-    fixtureDef.restitution = 0.1f;
+        // Add the shape to the body.
+        sugarCubeBody->CreateFixture(&fixtureDef);
+        sugarCubeBody->SetActive(false);
+    }
 
-    // Add the shape to the body.
-    sugarCubeBody->CreateFixture(&fixtureDef);
-    sugarCubeBody->SetActive(false);
-}
+    void MainWindow::createIceCubeBody(){
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_dynamicBody;
+        bodyDef.position.Set(510.0f, 425.0f);
+        iceCubeBody = world.CreateBody(&bodyDef);
 
-void MainWindow::createIceCubeBody(){
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(510.0f, 425.0f);
-    iceCubeBody = world.CreateBody(&bodyDef);
-
-    // Qlabel created purely for visually testing lemonBody.
+        // Qlabel created purely for visually testing lemonBody.
 
     iceImage->setFixedSize(25, 25);
     iceImage->setParent(ui->simulationFrame);
@@ -414,11 +416,17 @@ void MainWindow::on_yesterdayButton_clicked()
 void MainWindow::updateData()
 {
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
-    ui->profitLabel->setText("Profit: $" + QString::number(game.yesterday().profit));
-    ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
-    ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
-    ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
     ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
+
+    ui->incomeDisplay->setText(QString::number(game.yesterday().income));
+    ui->costDisplay->setText(QString::number(game.yesterday().cost));
+    ui->profitDisplay->setText(QString::number(game.yesterday().profit));
+
+    ui->demandDisplay->setText(QString::number(game.yesterday().demanded));
+    ui->salesDisplay->setText(QString::number(game.yesterday().sales));
+
+    ui->soldOutLabel->setVisible(game.yesterday().soldOut);
+
     checkAffordablilityOfUpgrades();
 }
 
@@ -521,6 +529,14 @@ void MainWindow::animationForDay()
     ui->profitLabel->setVisible(false);
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
+    ui->incomeLabel->setVisible(false);
+
+    ui->demandDisplay->setVisible(false);
+    ui->profitDisplay->setVisible(false);
+    ui->salesDisplay->setVisible(false);
+    ui->costDisplay->setVisible(false);
+    ui->incomeDisplay->setVisible(false);
+
     ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
     ui->day2Label->setVisible(false);
@@ -957,10 +973,19 @@ void MainWindow::imageScroll()
         crowdTimer.stop();
         ui->crowdLabel->setGeometry(-1200, 450, 1147, 369);
         emit showCalendar();
+
         ui->demandLabel->setVisible(true);
         ui->profitLabel->setVisible(true);
         ui->salesLabel->setVisible(true);
         ui->costLabel->setVisible(true);
+        ui->incomeLabel->setVisible(true);
+
+        ui->demandDisplay->setVisible(true);
+        ui->profitDisplay->setVisible(true);
+        ui->salesDisplay->setVisible(true);
+        ui->costDisplay->setVisible(true);
+        ui->incomeDisplay->setVisible(true);
+
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
 
