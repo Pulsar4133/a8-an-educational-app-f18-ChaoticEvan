@@ -52,11 +52,9 @@ public slots:
     void updateWorld();
     void onSimulationComplete();
 
-    /**
-     * A redirect to an outside resource.
-     * @brief redirectKhanAcademy
-     */
     void redirectKhanAcademy();
+    void redirectUofU();
+    void redirectYoutube();
     void updateSugarBody();
     void updateLemonBody();
     void updateIceBody();
@@ -131,6 +129,11 @@ private:
      * @brief noise
      */
     QMediaPlayer *noise = new QMediaPlayer();
+
+    /**
+     * Boolean variables to decide whether or not upgrades have been bought.
+     * @brief isMusicPlaying
+     */
     bool isMusicPlaying = true;
     bool hasBoughtUmbrella = false;
     bool hasBoughtGrapes = false;
