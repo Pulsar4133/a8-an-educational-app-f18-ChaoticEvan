@@ -34,8 +34,8 @@
       <rect>
        <x>130</x>
        <y>130</y>
-       <width>306</width>
-       <height>268</height>
+       <width>295</width>
+       <height>192</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -629,7 +629,7 @@ you’re about to make! </string>
      <property name="geometry">
       <rect>
        <x>250</x>
-       <y>260</y>
+       <y>250</y>
        <width>556</width>
        <height>535</height>
       </rect>

@@ -28,10 +28,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, EconEngine* model = EconEngine::instance());
     ~MainWindow();
-    void collisionCheck();
-    void createGroundBody();
-    void createLemonBody();
-    void createPitcherBody();
+
 
 signals:
     void sigNewPos(int);
@@ -45,6 +42,9 @@ public slots:
     void updateWorld();
     void onSimulationComplete();
     void redirectKhanAcademy();
+    void updateSugarBody();
+    void updateLemonBody();
+    void updateIceBody();
 
 private slots:
     void on_day_change(QString scrollText);
@@ -82,7 +82,10 @@ private slots:
     void on_beginButton_clicked();
 
 private:
+    bool jump = false;
     Ui::MainWindow *ui;
+    b2Body* iceCubeBody;
+    b2Body* sugarCubeBody;
     Ui::endgamedialog egd;
     QDialog egPopup;
     b2Body* groundBody;
@@ -92,6 +95,8 @@ private:
     QHBoxLayout* layout;
     QLabel* lemonImage;
     QLabel* pitcherImage;
+    QLabel* sugarImage;
+    QLabel* iceImage;
     QWidget *lemWin;
     GameState& game = *EconEngine::gameState();
     Lemonade lemonade;
@@ -103,6 +108,13 @@ private:
     void updateData();
     void changeNewsText(QString scrollText);
     void animationForDay();
+
+    void collisionCheck();
+    void createGroundBody();
+    void createLemonBody();
+    void createPitcherBody();
+    void createIceCubeBody();
+    void createSugarCubeBody();
     void calendarWeather(int currWeek);
     void playMusic();
     void checkAffordablilityOfUpgrades();
