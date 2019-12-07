@@ -16,8 +16,22 @@ class Lemonade
 {
 
 public:
-    Lemonade(int,int,int,double,int);
+    /**
+     * @brief Lemonade Constructor to hold values.
+     */
+    Lemonade(int lemon, int sugar, int ice, double price, int pitcher);
+
+    /**
+     * Default constructor.
+     * @brief Lemonade
+     */
     Lemonade();
+
+    /**
+     * Constructor to hold previous lemonade object.
+     * @brief Lemonade
+     * @param lemonade
+     */
     Lemonade(Lemonade *lemonade);
 
     //Setters and getters.
@@ -57,13 +71,12 @@ public:
 private:
     /**
      * Variables that store the quantity.
-     * @brief sugar, lemon, ice
+     * @brief sugar, lemon, ice, pricePerCup, numPitchers
      */
     int sugar;
     int lemon;
     int ice;
 
-    //Might be moved out of this class, but starting with it here for now. TODO
     double pricePerCup;
     int numPitchers;
 };

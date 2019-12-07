@@ -1,17 +1,24 @@
-#include "Box2D/Box2D.h"
+/**
+  * This class is mimicing a "view".
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Keegan Spencer, Ryan Williamson, and Theaux Mas.
+  */
+
+#include "educationalprompter.h"
 #include "mainwindow.h"
-#include "ui_endgamedialog.h"
 #include "ui_mainwindow.h"
 #include "scrolltext.h"
 #include <iostream>
 #include <QDebug>
-#include <vector>
 #include <QGraphicsPixmapItem>
+#include <QMediaPlaylist>
 #include <QMessageBox>
 #include <QSpinBox>
 #include <QTimer>
+#include <QFile>
+#include <QTime>
 #include "ui_endgamedialog.h"
 #include "educationalprompter.h"
+#include <vector>
 
 #define DEGTORAD 0.0174532925199432957f
 #define WIDTH 25
@@ -27,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     egd.setupUi(&egPopup);
 
     // These are UI connections.
+    QObject::connect(ui->actionMicroeconomics_Rule, &QAction::triggered, this, &MainWindow::redirectKhanAcademy);
     QObject::connect(ui->welcomeCheck4, &QPushButton::clicked, this, &MainWindow::on_welcomeCheck4_clicked);
     QTimer::singleShot(30,this,&MainWindow::updateWorld);
     QObject::connect(this, &MainWindow::sigStartSimulation, model, &EconEngine::onNewDayLemonade);
@@ -37,11 +45,10 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     QObject::connect(this, &MainWindow::showCalendar, this, &MainWindow::on_progress_start);
 
     // Image connections.
-    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::image_scroll);
+    QObject::connect(&crowdTimer, &QTimer::timeout, this, &MainWindow::imageScroll);
 
     // Connects the Create Lemonade button to the main window.
     // Allows us to build a lemonade object from the values within the UI.
-
     QObject::connect(ui->CreateLemonadeButton,&QPushButton::pressed,this,&MainWindow::createLemonade);
 
     // declare QLabel's for bodies in world.
@@ -66,19 +73,38 @@ MainWindow::MainWindow(QWidget *parent, EconEngine* model)
     crowdTimer.setInterval(50);
 
     // Set beginning text for the game.
+    newsLayout = new QHBoxLayout(ui->newsWidget);
+    news = new ScrollText(ui->newsWidget);
+    QFont font("manjari", 20);
+    news->setFont(font);
+    newsLayout->addWidget(news);
     changeNewsText("Welcome to Lemonomics! Beware of whales!");
+    // QVector of all news stories
+    newsStories = MainWindow::getNewsStories(":/txt/textResources/newsStories.txt");
+
 
     // End screen pop up.
     QObject::connect(egd.endGameButton, &QPushButton::pressed, this, &MainWindow::closeGame);
     QObject::connect(&egPopup, &QDialog::finished, this, &MainWindow::closeDialogClosed);
 
+    // Connects the ingredients panel spinboxes to update the cost in the ingredients panel.
     QObject::connect(ui->sugarSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::sugarSpinBox_valueChanged);
     QObject::connect(ui->LemonSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::lemonSpinBox_valueChanged);
     QObject::connect(ui->iceSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::iceSpinBox_valueChanged);
     QObject::connect(ui->pitchersSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::pitcherSpinBox_valueChanged);
 
     ui->startButton->setEnabled(false);
+
+    // Play begin playing the duck song as soon as the game loads.
     playMusic();
+
+    // Upgrade buttons should be false for the objects the player cannot win.
+        ui ->BuySugar->setEnabled(false);
+        ui ->BuyGrapes->setEnabled(false);
+        ui ->BuyLemons-> setEnabled(false);
+        ui ->BuyUmbrella ->setEnabled(false);
+        ui ->BuyPitcher ->setEnabled(false);
+        ui->BuyInsurance ->setEnabled(false);
 }
 
 ///Deconstructor.
@@ -96,6 +122,7 @@ void MainWindow::updateIceBody()
     float impulseIce = iceCubeBody->GetMass() * 10;
     iceCubeBody->ApplyLinearImpulse( b2Vec2(impulseIce,-impulseIce*2), iceCubeBody->GetWorldCenter(),true );
 }
+
 /// Applies linear impulse to move sugar body in a arc from lemonade stand into pitcher
 /// \brief MainWindow::updateSugarBody
 ///
@@ -115,6 +142,7 @@ void MainWindow::updateLemonBody()
     // Disable jump so all bodies in the world will only move one time per day.
     jump = false;
     // Activate body which enables body to have forces acted upon it
+
     float impulseLemon = lemonBody->GetMass() * 10;
     lemonBody->ApplyLinearImpulse( b2Vec2(impulseLemon,-impulseLemon*2), lemonBody->GetWorldCenter(),true );
 
@@ -193,6 +221,7 @@ void MainWindow::enablePitcherBody(bool enable)
     }
 }
 
+
 ///Performs a simulation step for box2d world.
 /// Updating the position & velocity of all bodies in the world.
 /// \brief MainWindow::updateWorld
@@ -207,6 +236,7 @@ void MainWindow::updateWorld()
         // Activates lemonBody to allow forces to act upon it.
         lemonBody->SetActive(true);
         // Updates velocity of the lemonBody.
+
         updateLemonBody();
     }
 
@@ -263,7 +293,6 @@ void MainWindow::createSugarCubeBody()
     // Add the shape to the body.
     sugarCubeBody->CreateFixture(&fixtureDef);
     sugarCubeBody->SetActive(false);
-
 }
 
 /// Creates iceCubeBody and initializes iceImage QLabel with a ice cube png.
@@ -301,7 +330,6 @@ void MainWindow::createIceCubeBody()
     // Add the shape to the body.
     iceCubeBody->CreateFixture(&fixtureDef);
     iceCubeBody->SetActive(false);
-
 }
 
 /// Creates lemonBody and initializes lemonImage QLabel with a lemon png.
@@ -410,6 +438,7 @@ void MainWindow::collisionCheck()
             updateIceBody();
         }
     }
+
     for (b2ContactEdge* edge2 = iceCubeBody->GetContactList(); edge2; edge2 = edge2->next)
     {
         //check if body is in contact with another body
@@ -423,6 +452,7 @@ void MainWindow::collisionCheck()
             updateSugarBody();
         }
     }
+
     for (b2ContactEdge* edge3 = sugarCubeBody->GetContactList(); edge3; edge3 = edge3->next)
     {
         //check if body is in contact with another body
@@ -435,7 +465,6 @@ void MainWindow::collisionCheck()
         }
     }
 }
-
 
 /// Slot used to build a lemonade object based on the values within the UI,
 /// and then pass by reference to the data member lemonade.
@@ -459,13 +488,12 @@ void MainWindow::createLemonade()
         return;
     }
 
-
     lemonade.setRecipe(ui->LemonSpinBox->value(),
                        ui->sugarSpinBox->value(),
                        ui->iceSpinBox->value(),
-
                        ui->priceSpinBox->value(),
                        ui->pitchersSpinBox->value());
+
     ui->startButton->setEnabled(true);
 }
 
@@ -484,9 +512,11 @@ void MainWindow::on_yesterdayButton_clicked()
     updateIngredientsFrameCost();
 
     ui->startButton->setEnabled(true);
-
 }
 
+/// Updates the game data for the player
+/// \brief MainWindow::updateData
+///
 void MainWindow::updateData()
 {
     ui->ingDayLabel->setText("Day: " + QString::number(game.currentDate));
@@ -494,16 +524,100 @@ void MainWindow::updateData()
     ui->salesLabel->setText("Sales: $"   + QString::number(game.yesterday().sales));
     ui->costLabel->setText("Cost: $"     + QString::number(game.yesterday().cost));
     ui->demandLabel->setText("Demand: "  + QString::number(game.yesterday().demanded));
+    checkAffordablilityOfUpgrades();
 }
 
+///
+/// A method that checks the affordability of upgrades to ensure
+/// that buttons are only enabled if they can afford them, disabled otherwise.
+/// It also checks to ensure that the player only buys one of each upgrade.
+/// \brief MainWindow::checkAffordablilityOfUpgrades
+///
+void MainWindow::checkAffordablilityOfUpgrades()
+{
+    int wallet = game.stand.wallet;
+    if (wallet > 75 && hasBoughtBoomBox == false)
+    {   
+        ui->BuyBoomBox -> setEnabled(true);
+    }
+    if (wallet > 50 && hasBoughtSign == false)
+    {
+        ui ->BuyNeonSIgn ->setEnabled(true);
+    }
+    if (wallet > 150 && hasBoughtLemon == false)
+    {
+        ui->BuyLemons->setEnabled(true);
+    }
+    if (wallet > 150 && hasBoughtSugar == false)
+    {
+        ui->BuySugar->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtInsurance ==false)
+    {
+        ui->BuyInsurance->setEnabled(true);
+    }
+    if (wallet > 250 && hasBoughtPitcher == false)
+    {
+        ui->BuyPitcher-> setEnabled(true);
+    }
+    if (wallet > 2000&& hasBoughtUmbrella == false)
+    {
+        ui->BuyUmbrella->setEnabled(true);
+    }
+    if (wallet > 2000 && hasBoughtGrapes == false)
+    {
+        ui->BuyGrapes->setEnabled(true);
+    }
+    if (wallet < 2000)
+    {
+        ui->BuyUmbrella->setEnabled(false);
+        ui->BuyGrapes->setEnabled(false);
+    }
+    if (wallet < 150)
+    {
+        ui->BuySugar->setEnabled(false);
+        ui->BuyLemons->setEnabled(false);
+    }
+
+    if (wallet < 250)
+    {
+        ui->BuyInsurance->setEnabled(false);
+        ui->BuyPitcher-> setEnabled(false);
+    }
+    if (wallet < 75)
+    {
+        ui->BuyBoomBox -> setEnabled(false);
+    }
+    if (wallet < 50)
+    {
+        ui ->BuyNeonSIgn ->setEnabled(false);
+    }
+}
+
+///
+/// \brief MainWindow::redirectKhanAcademy A method that pops open a hyperlink to khanacademy to learn more about microeconomics.
+///
+void MainWindow::redirectKhanAcademy()
+{
+    QMessageBox msgBox;
+    msgBox.setText("<a href='https://www.khanacademy.org/economics-finance-domain/microeconomics'>Khan Academy</a> <a href='https://eccles.utah.edu/programs/online-courses/'>UofU Business Courses</a>");
+    msgBox.exec();
+}
 
 ///
 /// A method to play music.
 /// \brief MainWindow::playMusic
 ///
-void MainWindow::playMusic()
-{
-    noise ->setMedia(QUrl("qrc:/music/The Duck Song.mp3"));
+
+void MainWindow::playMusic(){
+    // Create music playlist to repeat the song.
+    QMediaPlaylist* playlist= new QMediaPlaylist;
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->addMedia(QUrl("qrc:/music/ducksong.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    noise ->setMedia(playlist);
     noise ->play();
 }
 
@@ -511,23 +625,34 @@ void MainWindow::onSimulationComplete()
 {
     this->updateData();
     this->animationForDay();
+    ui->walletLabel->setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
+///
+/// Creates the proper background and crowd size for the daily animation
+/// Starts Crowdtimer
+/// \brief MainWindow::animationForDay
+///
 void MainWindow::animationForDay()
 {
+    //Sets all the calendar information to not visible
     ui->calendarLabel->setVisible(false);
     ui->demandLabel->setVisible(false);
     ui->profitLabel->setVisible(false);
     ui->salesLabel->setVisible(false);
     ui->costLabel->setVisible(false);
-    ui->simulationFrame->setVisible(true);
     ui->day1Label->setVisible(false);
     ui->day2Label->setVisible(false);
     ui->day3Label->setVisible(false);
     ui->day4Label->setVisible(false);
     ui->day5Label->setVisible(false);
+
+    //Shows the simulation frame
+    ui->simulationFrame->setVisible(true);
     QRect backgroundDimensions(350, 100, ui->welcomeBackground->width(), ui->welcomeBackground->height());
     QPixmap background;
+    //Sets the background QPixmap to the correct weather image
+    // We have to create a temp pixmap and set it to our default image
+    // because there is no obvious way to set a pixmap to a image
     if (game.yesterday().weatherState == 0)
     {
         // Rainy weather.
@@ -549,23 +674,28 @@ void MainWindow::animationForDay()
         QPixmap backgroundTemp(":/img/Images/Background Default.png");
         background = backgroundTemp;
     }
+
     ui->simulationPicture->setPixmap(background.copy(backgroundDimensions));
     QRect dimensions(0, 0, ui->crowdLabel->width(), ui->crowdLabel->height());
     QPixmap defaultImage;
+    // Set the crowd image to the correct size of crowd
     // We have to create a temp pixmap and set it to our default image
     // because there is no obvious way to set a pixmap to a image
     if(game.yesterday().demanded < 44)
     {
+        //Light crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Light.png");
         defaultImage = temp;
     }
     else if(game.yesterday().demanded < 74)
     {
+        //Medium crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Medium.png");
         defaultImage = temp;
     }
     else
     {
+        //Heavy crowd
         QPixmap temp(":/img/Images/Crowd_Levels/Crowd Heavy.png");
         defaultImage = temp;
     }
@@ -575,10 +705,16 @@ void MainWindow::animationForDay()
     // Crowd begins moving across screen.
     crowdTimer.start();
 }
-
+///
+/// Displays the correct calendar and weather information
+/// Creates the pop up windows on Day 1 and 5
+/// \brief MainWindow::on_progress_start
+///
 void MainWindow::on_progress_start()
 {
      enablePitcherBody(false);
+  
+    // Shows the calendar days
     ui->day1Label->setVisible(true);
     ui->day2Label->setVisible(true);
     ui->day3Label->setVisible(true);
@@ -586,20 +722,24 @@ void MainWindow::on_progress_start()
     ui->day5Label->setVisible(true);
     QPixmap calendar;
     int currWeek = -99;
+    // Displays the correct calendar dates based on the current date of the game
     if (game.currentDate <= 4)
     {
+        // Week 1 Days 1-7
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek1Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 0;
     }
     else if (game.currentDate > 4 && game.currentDate <= 9)
     {
+        // Week 2 Days 8-14
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek2Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 1;
     }
     else
     {
+        // Week 3 Days 15-21
         QPixmap calendarImage(":/img/Images/Calendars/lemonomicsCalendarWeek3Short.png");
         ui->calendarLabel->setPixmap(calendarImage);
         currWeek = 2;
@@ -609,20 +749,30 @@ void MainWindow::on_progress_start()
     ui->simulationPicture->setVisible(false);
     ui->calendarLabel->setVisible(true);
 
+    // Displays the informational pop up windows on Day 1 and 5
     if (game.currentDate == 1)
+    {
+        EPrompt::displayEduPrompt(EPrompt::P_REVENUE_COST_PROFIT);
+    }
+    else if (game.currentDate == 5)
     {
         EPrompt::displayEduPrompt(EPrompt::P_PRICE_EFFECT);
     }
 
 
 }
-
+///
+/// Sets the day of each calendar to the correct weather forecast
+/// \brief MainWindow::calendarWeather
+/// \param currWeek
+///
 void MainWindow::calendarWeather(int currWeek)
 {
     if(currWeek == -99)
     {
         return;
     }
+    // Load initial images into QPixmaps
     QPixmap sunnyDay(":/img/Images/Weather_Images/Sunny.png");
     QPixmap rainyDay(":/img/Images/Weather_Images/Rainy.png");
     QPixmap cloudyDay(":/img/Images/Weather_Images/Cloudy.png");
@@ -632,28 +782,33 @@ void MainWindow::calendarWeather(int currWeek)
     std::vector<QPixmap> currWeekWeather;
     for (unsigned int i = 0 ; i < 5 ; i++)
     {
-        if (game.days[i+currWeek*5].weatherState == 0)
+        if (game.days[i+currWeek*5].disaster == 1)
         {
-            //Rainy weather
+            //Tornado weather.
+            currWeekWeather.push_back(tornadoDay);
+        } else if (game.days[i+currWeek*5].weatherState == 0)
+        {
+            // Rainy weather.
             currWeekWeather.push_back(rainyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 1)
         {
-            //Snowy weather
+            // Snowy weather.
             currWeekWeather.push_back(snowyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 2)
         {
-            //Cloudy weather
+            // Cloudy weather.
             currWeekWeather.push_back(cloudyDay);
-            //background = backgroundTemp;
         } else if (game.days[i+currWeek*5].weatherState == 3)
         {
-            //Sunny weather
+            // Sunny weather.
             currWeekWeather.push_back(sunnyDay);
-            //background = backgroundTemp;
+        }
+        if (game.days[i+currWeek*5].disaster == 1){
+            //Tornado
+            currWeekWeather.push_back(tornadoDay);
         }
     }
+    // Set each day label to correct item in the vector
     ui->day1Label->setPixmap(currWeekWeather[0].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day2Label->setPixmap(currWeekWeather[1].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->day3Label->setPixmap(currWeekWeather[2].scaled(150, 235, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -677,10 +832,41 @@ void MainWindow::loadStartImages()
     ui->welcomeBackground->setPixmap(startBackground);
     ui->welcomeLogo->setPixmap(startLogo);
     ui->simulationPicture->setPixmap(defaultImage.copy(dimensions));
+
+    loadUpgradeImages();
 }
 
-/// Below are methods that occur due to a button being clicked in the ui.
+///
+/// \brief MainWindow::loadUpgradeImages Helper method for loading upgrade images.
+///
+void MainWindow::loadUpgradeImages()
+{
+    QPixmap boomBox(":/img/Images/Upgrades/Boom Box.png");
+    QPixmap grape(":/img/Images/Upgrades/grape.png");
+    QPixmap neonSign(":/img/Images/Upgrades/Neon Sign.png");
+    QPixmap insuranceSign(":/img/Images/Upgrades/Insurance Sign.png");
+    QPixmap orgLemons(":/img/Images/Upgrades/organic lemons.png");
+    QPixmap sugarDealer(":/img/Images/Upgrades/Sugar Dealer.png");
+    QPixmap umbrella(":/img/Images/Upgrades/Umbrella.png");
+    QPixmap pitcher(":/img/Images/ClipArtPitcher.png");
 
+    ui->boomBoxImage->setPixmap(boomBox.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->bigPitcherImage->setPixmap(pitcher.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->grapesImage->setPixmap(grape.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->neonSignImage->setPixmap(neonSign.scaled(540, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->insuranceImage->setPixmap(insuranceSign.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->lemonsImage->setPixmap(orgLemons.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->sugarImage->setPixmap(sugarDealer.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->umbrellaImage->setPixmap(umbrella.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+///
+/// Below are methods that occur due to a button being clicked in the ui.
+///
+
+///
+/// \brief MainWindow::on_startButton_clicked
+///
 void MainWindow::on_startButton_clicked()
 {
 
@@ -703,7 +889,11 @@ void MainWindow::on_startButton_clicked()
             return;
         }
 
-  //  changeNewsText();
+    // Sets new story semi-randomly via current time in miliseconds
+    QTime now = QTime::currentTime();
+    int storyIndex = now.msec() % newsStories->size();
+    QString story = newsStories->at(storyIndex);
+    changeNewsText(story);
 
     ui->startButton->setEnabled(false);
     ui->CreateLemonadeButton->setEnabled(false);
@@ -712,6 +902,10 @@ void MainWindow::on_startButton_clicked()
     emit sigStartSimulation(this->lemonade);
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck4_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck4_clicked(bool checked)
 {
     if (checked)
@@ -720,6 +914,10 @@ void MainWindow::on_welcomeCheck4_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck3_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck3_clicked(bool checked)
 {
     if (checked)
@@ -728,6 +926,10 @@ void MainWindow::on_welcomeCheck3_clicked(bool checked)
     }
 }
 
+/// Makes the welcome check disappear when checked.
+/// \brief MainWindow::on_welcomeCheck2_clicked
+/// \param checked
+///
 void MainWindow::on_welcomeCheck2_clicked(bool checked)
 {
     if (checked)
@@ -736,20 +938,21 @@ void MainWindow::on_welcomeCheck2_clicked(bool checked)
     }
 }
 
-void MainWindow::on_day_change(QString scrollText)
-{
-
-}
-
+///
+/// Check if the music is playing, if so, mute it. Otherwise, play it again.
+/// \brief MainWindow::on_MuteMusic_clicked
+///
 void MainWindow::on_MuteMusic_clicked()
 {
     if (isMusicPlaying)
     {
+        ui ->MuteMusic->setText("Unmute Music");
         isMusicPlaying = false;
         noise-> stop();
     }
     else
     {
+        ui ->MuteMusic->setText("Mute Music");
         isMusicPlaying = true;
         noise -> play();
     }
@@ -757,58 +960,156 @@ void MainWindow::on_MuteMusic_clicked()
 
 void MainWindow::changeNewsText(QString scrollText)
 {
-    QHBoxLayout* layout = new QHBoxLayout(ui->newsWidget);
-    ScrollText* news = new ScrollText(ui->newsWidget);
-    QFont font("manjari", 20);
-    news->setFont(font);
-    layout->addWidget(news);
+    // ScrollText method to change text being painted
     news->setText(scrollText);
 }
 
+
+///
+/// BELOW are methods that are button clicks of upgrades.
+///
+
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyUmbrella_clicked When buy umbrella button is clicked.
+///
 void MainWindow::on_BuyUmbrella_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->umbrellaImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
     emit updateWallet(1);
+    ui ->BuyUmbrella ->setEnabled(false);
+    hasBoughtUmbrella = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyPitcher_clicked When buy pitcher button is clicked.
+///
 void MainWindow::on_BuyPitcher_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->bigPitcherImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(7);
+    ui ->BuyPitcher ->setEnabled(false);
+    hasBoughtPitcher = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyGrapes_clicked When buy grapes button is clicked.
+///
 void MainWindow::on_BuyGrapes_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->grapesImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(5);
+    ui ->BuyGrapes->setEnabled(false);
+    hasBoughtGrapes = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyBoomBox_clicked When buy boom box button is clicked.
+///
 void MainWindow::on_BuyBoomBox_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->boomBoxImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(4);
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
+
+    // Start RickRolling.
+    QMediaPlaylist* playlist= new QMediaPlaylist;
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+    playlist -> addMedia(QUrl("qrc:/music/rickroll.mp3"));
+
     noise -> stop();
-    noise ->setMedia(QUrl("qrc:/music/Rick Astley - Never Gonna Give You Up (Video).mp3"));
+    noise ->setMedia(playlist);
     noise ->play();
+    hasBoughtBoomBox = true;
+    ui->BuyBoomBox->setEnabled(false);
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuySugar_clicked When buy sugar dealer button is clicked.
+///
 void MainWindow::on_BuySugar_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->sugarImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(2);
+    ui ->BuySugar->setEnabled(false);
+    hasBoughtSugar = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
-
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyLemons_clicked When buy lemons button is clicked.
+///
 void MainWindow::on_BuyLemons_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->lemonsImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(3);
+    ui ->BuyLemons-> setEnabled(false);
+    hasBoughtLemon = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyNeonSIgn_clicked When buy neon sign button is clicked.
+///
 void MainWindow::on_BuyNeonSIgn_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->neonSignImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(0);
+    ui ->BuyNeonSIgn ->setEnabled(false);
+    hasBoughtSign = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
+///
+/// Change image, wallet, and change backend.
+/// \brief MainWindow::on_BuyInsurance_clicked When buy insurance button is clicked.
+///
 void MainWindow::on_BuyInsurance_clicked()
 {
+    QPixmap purchased(":/img/Images/Upgrades/Purchased.png");
+    ui->insuranceImage->setPixmap(purchased.scaled(540, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     emit updateWallet(6);
+    ui->BuyInsurance ->setEnabled(false);
+    hasBoughtInsurance = true;
+    ui->walletLabel -> setText("Wallet: $ " + QString::number(game.stand.wallet));
 }
 
-void MainWindow::image_scroll()
+/// Sets up the game when the begin button is clicked.
+/// \brief MainWindow::on_beginButton_clicked
+///
+void MainWindow::on_beginButton_clicked()
+{
+    emit showCalendar();
+    ui->CreateLemonadeButton->setEnabled(true);
+    ui->yesterdayButton->setEnabled(true);
+    ui->welcomeFrame->setVisible(false);
+    ui->welcomeLabel1->setVisible(false);
+    ui->welcomeCheck2->setVisible(false);
+    ui->welcomeCheck3->setVisible(false);
+    ui->welcomeCheck4->setVisible(false);
+}
+
+///
+/// \brief MainWindow::imageScroll
+///
+void MainWindow::imageScroll()
 {
     int x = ui->crowdLabel->x();
     int y = ui->crowdLabel->y();
@@ -849,24 +1150,55 @@ void MainWindow::image_scroll()
         ui->costLabel->setVisible(true);
         ui->CreateLemonadeButton->setEnabled(true);
         ui->yesterdayButton->setEnabled(true);
+
+        // Checks the current date, if the game should end, opens the end game dialog.
         if(game.currentDate == 15)
         {
             openEndGameDialog();
         }
+        if(game.currentDate == 14){
+            int disaster = game.days[14].disaster;
+            if (disaster == 2){
+                if(!hasBoughtGrapes){
+                    openEndGameDialog();
+                }
+            }
+            else if (disaster == 3){
+                if(!hasBoughtUmbrella){
+                    openEndGameDialog();
+                }
+            }
+        }
+        if(game.currentDate == 9){
+            if(!hasBoughtInsurance){
+                openEndGameDialog();
+            }
+        }
     }
 }
 
+/// Calls the close game dialog when the end game dialog has been closed.
+/// \brief MainWindow::closeDialogClosed
+/// \param i -- Not used, required to connect slot to the signal.
+///
 void MainWindow::closeDialogClosed(int i)
 {
     closeGame();
 }
 
+/// Closes the game and the end game popup.
+/// \brief MainWindow::closeGame
+///
 void MainWindow::closeGame()
 {
     egPopup.close();
     this->close();
 }
 
+/// Gets all of the information needed for the total player statistics,
+/// adds them to the end game popup, and shows the dialog.
+/// \brief MainWindow::openEndGameDialog
+///
 void MainWindow::openEndGameDialog()
 {
     QString playerStats = "Total Income: ";
@@ -875,6 +1207,7 @@ void MainWindow::openEndGameDialog()
     int sales = 0;
     int daysSoldOut = 0;
     double profit = 0;
+    // Get player stats for the whole game
     for(int i = 0; i < 15; i++)
     {
         income += game.days[i].income;
@@ -885,22 +1218,30 @@ void MainWindow::openEndGameDialog()
             daysSoldOut++;
 
     }
+    // Set the string for all of the stats and add it to the dialog
     playerStats.append(QString::number(income) +
                        "\nTotal Cost: " + QString::number(cost) +
                        "\nTotal Sales: " + QString::number(sales) +
                        "\nDays Sold Out: " + QString::number(daysSoldOut) +
                        "\nTotal Profit/Loss: " + QString::number(profit));
     egd.playerStatsLabel->setText(playerStats);
-
+    // Show the popup
     egPopup.show();
 }
 
+/// Updates the cost label in the ingredients frame.
+/// \brief MainWindow::updateIngredientsFrameCost
+///
 void MainWindow::updateIngredientsFrameCost()
 {
     QString cost = QString::number(uiLemonadeCurrCost());
     ui->ingredientCostLabel->setText("$" + cost);
 }
 
+/// Gets all of the information from the ingredients panel and calculates the total cost.
+/// \brief MainWindow::uiLemonadeCurrCost
+/// \return Total cost of all ingredients and #pitchers for the lemonade
+///
 double MainWindow::uiLemonadeCurrCost()
 {
     int lemons = ui->LemonSpinBox->value();
@@ -919,34 +1260,50 @@ double MainWindow::uiLemonadeCurrCost()
     return totalCost;
 }
 
+/// The below 4 slots all will update the cost on the ingredients panel
+/// \brief MainWindow::lemonSpinBox_valueChanged, iceSpinBox_valueChanged, sugarSpinBox_valueChanged, pitcherSpinBox_valueChanged
+/// \param i -- Not used, signal requires slot to have an int param
+///
 void MainWindow::lemonSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::iceSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::sugarSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
-
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
 }
 
-void MainWindow::on_beginButton_clicked()
+/// Gets all of the news stories to be displayed.
+/// \brief MainWindow::getNewsStories
+/// \param filePath
+/// \return
+///
+QVector<QString>* MainWindow::getNewsStories(QString filePath)
 {
-    emit showCalendar();
-    ui->CreateLemonadeButton->setEnabled(true);
-    ui->yesterdayButton->setEnabled(true);
-    ui->welcomeFrame->setVisible(false);
-    ui->welcomeLabel1->setVisible(false);
-    ui->welcomeCheck2->setVisible(false);
-    ui->welcomeCheck3->setVisible(false);
-    ui->welcomeCheck4->setVisible(false);
+    QFile storiesFile(filePath);
+    QVector<QString>* storiesArray = new QVector<QString>;
+
+    // Makes sure stories file can be opened
+    if(!storiesFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(0, "error", storiesFile.errorString());
+    }
+
+    QTextStream input(&storiesFile);
+
+    // While there are still stories in the file
+    while(!input.atEnd())
+    {
+        QString story = input.readLine();
+        storiesArray->append(story);
+    }
+
+    return storiesArray;
 }
