@@ -474,7 +474,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>Start Day</string>
     </property>
    </widget>
    <widget class="QFrame" name="welcomeFrame">

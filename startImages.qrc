@@ -29,6 +29,7 @@
         <file>Images/Upgrades/Sugar Dealer.png</file>
         <file>Images/Upgrades/Umbrella.png</file>
         <file>Images/Upgrades/Neon Sign.png</file>
+        <file>Images/Upgrades/Purchased.png</file>
     </qresource>
     <qresource prefix="/txt">
         <file>textResources/newsStories.txt</file>
