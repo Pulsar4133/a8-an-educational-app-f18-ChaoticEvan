@@ -180,5 +180,6 @@ private:
     void openEndGameDialog();
     double uiLemonadeCurrCost();
     void updateIngredientsFrameCost();
+    void updateCupsofLemonadeMade();
 };
 #endif // MAINWINDOW_H

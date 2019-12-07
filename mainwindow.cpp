@@ -1251,6 +1251,18 @@ void MainWindow::updateIngredientsFrameCost()
     ui->ingredientCostLabel->setText("$" + cost);
 }
 
+/// Updates the amount of cups of lemonade made per day.
+/// \brief MainWindow::updateCupsofLemonadeMade
+///
+void MainWindow::updateCupsofLemonadeMade()
+{
+    int numPitchers = ui->pitchersSpinBox->value();
+    int cupsMade = game.stand.cupsPerPitcher;
+    QString cupsOfLemonade = QString::number(cupsMade * numPitchers);
+    ui->cupsOfLemonadeText->setText(cupsOfLemonade);
+
+}
+
 /// Gets all of the information from the ingredients panel and calculates the total cost.
 /// \brief MainWindow::uiLemonadeCurrCost
 /// \return Total cost of all ingredients and #pitchers for the lemonade
@@ -1292,6 +1304,7 @@ void MainWindow::sugarSpinBox_valueChanged(int i)
 void MainWindow::pitcherSpinBox_valueChanged(int i)
 {
     updateIngredientsFrameCost();
+    updateCupsofLemonadeMade();
 }
 
 /// Gets all of the news stories to be displayed.
