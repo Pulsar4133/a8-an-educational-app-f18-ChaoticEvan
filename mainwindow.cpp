@@ -1173,18 +1173,18 @@ void MainWindow::imageScroll()
         // Checks the current date, if the game should end, opens the end game dialog.
         if(game.currentDate == 15)
         {
-            openEndGameDialog();
+            openEndGameDialog("");
         }
         if(game.currentDate == 14){
             if (game.days[14].disaster == 3){
                 if(!hasBoughtUmbrella){
-                    openEndGameDialog();
+                    openEndGameDialog("A whale fell on your stand, and because\nyou didn't buy an umbrella, you lose!\n");
                 }
             }
         }
         if(game.currentDate == 10){
             if(!hasBoughtInsurance){
-                openEndGameDialog();
+                openEndGameDialog("A tornado hit your stand, and because\nyou didn't buy any insurance, you lose!\n");
             }
         }
     }
@@ -1212,9 +1212,9 @@ void MainWindow::closeGame()
 /// adds them to the end game popup, and shows the dialog.
 /// \brief MainWindow::openEndGameDialog
 ///
-void MainWindow::openEndGameDialog()
+void MainWindow::openEndGameDialog(QString message)
 {
-    QString playerStats = "Total Income: ";
+    QString playerStats = message + "Total Income: ";
     double income = 0;
     double cost = 0;
     int sales = 0;
