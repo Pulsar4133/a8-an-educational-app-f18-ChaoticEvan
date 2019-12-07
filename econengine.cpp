@@ -7,8 +7,6 @@
 #include <math.h>
 #include "upgrades.h"
 #include <QDebug>
-#include <iostream>
-using namespace std;
 
 #define TEMPERATURE_AVERAGE 85
 #define TEMPERATURE_VARIANCE 5
@@ -263,7 +261,6 @@ void EconEngine::generateDays(Day* days, int numDays)
         }
         else{ // No Disaster.
             game.days[i].disaster = 0;
-            cout << i<<endl;
         }
         int random = 0 + ( std::rand() % ( 3 - 0 + 1 ) );
         game.days[i].weatherState = random;
@@ -286,11 +283,13 @@ void EconEngine::generateDays(Day* days, int numDays)
             break;
         }
     }
+    // Generate day 14.
     setDisasterLevel3();
     return;
 }
 
 void EconEngine::setDisasterLevel3(){
+    // Even or odd case.
     int random = std::rand() % 2;
     switch (random){
     case 0:
