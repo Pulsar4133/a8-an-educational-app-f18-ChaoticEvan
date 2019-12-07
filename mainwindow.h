@@ -98,6 +98,14 @@ private:
     QTimer crowdTimer;
     QMediaPlayer *noise = new QMediaPlayer();
     bool isMusicPlaying = true;
+    bool hasBoughtUmbrella = false;
+    bool hasBoughtGrapes = false;
+    bool hasBoughtBoomBox = false;
+    bool hasBoughtInsurance = false;
+    bool hasBoughtSugar = false;
+    bool hasBoughtLemon = false;
+    bool hasBoughtPitcher = false;
+    bool hasBoughtSign = false;
 
     void loadStartImages();
     void updateData();
