@@ -113,7 +113,7 @@ private:
      * @param days, The array of all days in the game.
      * @param numDays, The number of days in the game.
      */
-    void generateDays(Day* days, int numDays);
+    void generateDays(Day* days);
 
     /**
      * @brief calculateProfit A method to calculate the profit by subracting the cost from income.

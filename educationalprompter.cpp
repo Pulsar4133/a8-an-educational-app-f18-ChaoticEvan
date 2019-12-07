@@ -12,10 +12,14 @@
 
 #define INIT_PROMPT(id) EPrompt::PROMPTS[EPrompt::id] =
 
-
 bool EPrompt::initialized = false;
 PromptData EPrompt::PROMPTS[EPrompt::NUM_ENUMS] = {};
 
+///
+/// \brief EPrompt::displayEduPrompt Displays the prompt from the given ID.
+/// \param promptID ID of the prompt to show.
+/// \param force Boolean for forcing the message box to display or not.
+///
 void EPrompt::displayEduPrompt(int promptID, bool force)
 {
     PromptData& prompt = EPrompt::getPromptData(promptID);
@@ -52,6 +56,9 @@ void EPrompt::displayEduPrompt(int promptID, bool force)
 
 }
 
+///
+/// \brief EPrompt::initPrompts "Constructor" for our prompt messages.
+///
 void EPrompt::initPrompts()
 {
     // Set initialized to true.
@@ -176,6 +183,11 @@ void EPrompt::initPrompts()
 
 }
 
+///
+/// \brief EPrompt::getPromptData Getter for our prompts.
+/// \param promptID ID of the prompt you would like to get.
+/// \return Returns the prompt specified by the ID.
+///
 PromptData& EPrompt::getPromptData(int promptID)
 {
     if (!EPrompt::initialized)

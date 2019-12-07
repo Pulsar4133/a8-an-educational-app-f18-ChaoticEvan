@@ -22,8 +22,8 @@
 EconEngine* EconEngine::m_engineInstance = NULL;
 
 ///
-/// \brief EconEngine::instance Create an instance of our engin
-/// \return returns the created instance
+/// \brief EconEngine::instance Creates an instance of our engine.
+/// \return Returns the created instance.
 ///
 EconEngine* EconEngine::instance()
 {
@@ -38,20 +38,20 @@ EconEngine* EconEngine::instance()
 }
 
 ///
-/// \brief EconEngine::gameState gettter for game object
-/// \return our game object
+/// \brief EconEngine::gameState Gettter for game object.
+/// \return The game object.
 ///
 GameState* EconEngine::gameState()
 {
     return &EconEngine::instance()->game;
 }
 
+///
+/// \brief EconEngine::EconEngine Constructs an EconEngine object.
+/// \param parent
+///
 EconEngine::EconEngine(QObject *parent) : QObject(parent)
 {
-    // SETTLE: Do we want to calculate/randomize game conditions
-    //		   at the beginning of the game, in order to give forecasts
-    // 		   through the calendar and foreshadow news events?
-
     // Set the future weather for all days in the game.
     this->generateDays(game.days, game.gameLength);
 
@@ -61,7 +61,10 @@ EconEngine::EconEngine(QObject *parent) : QObject(parent)
     game.perfectLemonade.pricePerCup = PERFECT_PRICE;
 }
 
-
+///
+/// \brief EconEngine::onNewDayRecipe Runs simulation when given a new lemonade recipe.
+/// \param newLemonadeRecipe Recipe created for the day.
+///
 void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
 {
     // Set today's lemonade recipe from the provided recipe.
@@ -83,6 +86,10 @@ void EconEngine::onNewDayRecipe(LemonadeRecipe newLemonadeRecipe)
     return;
 }
 
+///
+/// \brief EconEngine::onNewDayLemonade Public method for running simulation with given lemonade object.
+/// \param newLemonade lemonade to run the simulation on.
+///
 void EconEngine::onNewDayLemonade(Lemonade newLemonade)
 {
     // Convert Lemonade to a LemonadeStats struct.
@@ -95,6 +102,10 @@ void EconEngine::onNewDayLemonade(Lemonade newLemonade)
     return;
 }
 
+///
+/// \brief EconEngine::onUpgradePurchased When an upgrade is purahased update backend values.
+/// \param upgradeId ID of upgrade that was purchased.
+///
 void EconEngine::onUpgradePurchased(int upgradeId)
 {
 
@@ -113,9 +124,11 @@ void EconEngine::onUpgradePurchased(int upgradeId)
     return;
 }
 
+///
+/// \brief EconEngine::runSimulation method for running simulation.
+///
 void EconEngine::runSimulation()
 {
-
     // Perfect lemonade: One ice cube per 5 degrees over 70 degrees.
     game.perfectLemonade.ice = (game.today().temperature - 70) / 5;
     if (game.perfectLemonade.ice < 0)
@@ -157,11 +170,21 @@ void EconEngine::runSimulation()
     return;
 }
 
+///
+/// \brief EconEngine::calculateProfit Helper method for calculating profit,
+/// \param cost Cost of running the Lemonade stand for a day,
+/// \param income Money made from running the lemonade stand on the same day.
+/// \return Returns the profit made from a day.
+///
 float EconEngine::calculateProfit(float cost, float income)
 {
     return income - cost;
 }
 
+///
+/// \brief EconEngine::calculateDemand Helper method for calculating the demand of the stand's patrons.
+/// \return Returns today's demand.
+///
 int EconEngine::calculateDemand()
 {
     int result = 0; // Default have it max demand (without upgrades).
@@ -216,13 +239,19 @@ int EconEngine::calculateDemand()
     return result;
 }
 
+///
+/// \brief EconEngine::balanceWeights helper method for balancing the game.
+///
 void EconEngine::balanceWeights()
 {
     game.stand.reputation += int(game.today().sales * REPUTATION_POINTS_PER_SALE);
     game.stand.reputation += determineRecipeBonus();
-    // TODO: Incorporate price into reputation
 }
 
+///
+/// \brief EconEngine::determineRecipeBonus Method for calculating the recipe's bonus.
+/// \return returns the calculated bonus.
+///
 int EconEngine::determineRecipeBonus()
 {
     int result = BASE_RECIPE_BONUS;
@@ -243,9 +272,12 @@ int EconEngine::determineRecipeBonus()
     result -= squaredDiffSum;
 
     return result;
-
 }
 
+///
+/// \brief EconEngine::determinePriceWeight Determines the relative weight of price compared to ideal price
+/// \return Returns the calculated weight
+///
 float EconEngine::determinePriceWeight()
 {
     float idealPrice = game.perfectLemonade.pricePerCup;
@@ -255,7 +287,11 @@ float EconEngine::determinePriceWeight()
     return 1 / (diffRatio);
 }
 
-void EconEngine::generateDays(Day* days, int numDays)
+///
+/// \brief EconEngine::generateDays Generates 3 weeks worth of weather simulation/disasters.
+/// \param Array of days
+///
+void EconEngine::generateDays(Day* days)
 {
     for (int i = 0; i < 14; i++)
     {
@@ -306,7 +342,10 @@ void EconEngine::generateDays(Day* days, int numDays)
     return;
 }
 
-
+///
+/// \brief EconEngine::totalCostOfLemonade Calculates the total cost of today's lemonade recipe.
+/// \return Returns the cost.
+///
 float EconEngine::totalCostOfLemonade()
 {
     float costOfLemons = game.today().lemonade.lemons * game.world.priceLemons();
