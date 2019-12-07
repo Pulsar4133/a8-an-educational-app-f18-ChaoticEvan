@@ -35,7 +35,7 @@
        <x>130</x>
        <y>130</y>
        <width>295</width>
-       <height>192</height>
+       <height>198</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="dataLayout">
@@ -689,7 +689,7 @@ you’re about to make! </string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="umbrellaUpgrade">
      <attribute name="title">
@@ -760,6 +760,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>UmbrellaDescription</zorder>
      <zorder>umbrellaImage</zorder>
      <zorder>BuyUmbrella</zorder>
      <zorder>umbrellaPrice</zorder>
@@ -833,6 +834,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>PitcherDescription</zorder>
      <zorder>bigPitcherImage</zorder>
      <zorder>BuyPitcher</zorder>
      <zorder>PricePitcher</zorder>
@@ -905,6 +907,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>GrapeDescription</zorder>
      <zorder>grapesImage</zorder>
      <zorder>BuyGrapes</zorder>
      <zorder>GrapesPrice</zorder>
@@ -947,10 +950,10 @@ you’re about to make! </string>
      <widget class="QLabel" name="BoomBoxDescprtion">
       <property name="geometry">
        <rect>
-        <x>296</x>
-        <y>12</y>
-        <width>211</width>
-        <height>81</height>
+        <x>370</x>
+        <y>30</y>
+        <width>191</width>
+        <height>121</height>
        </rect>
       </property>
       <property name="font">
@@ -960,16 +963,17 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>Invest in the sound of 
- music. Gather the kiddos 
- to drink to the sound 
- of some sick tunes.</string>
+ music. Gather the 
+ kiddos to drink to the 
+ sound of some sick 
+ tunes.</string>
       </property>
      </widget>
      <widget class="QLabel" name="boomBoxImage">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>10</y>
         <width>535</width>
         <height>300</height>
        </rect>
@@ -981,6 +985,7 @@ you’re about to make! </string>
      <zorder>boomBoxImage</zorder>
      <zorder>BuyBoomBox</zorder>
      <zorder>PriceBoomBox</zorder>
+     <zorder>BoomBoxDescprtion</zorder>
     </widget>
     <widget class="QWidget" name="SugarDealerUpgrade">
      <attribute name="title">
@@ -1054,6 +1059,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>SugarDescription</zorder>
      <zorder>sugarImage</zorder>
      <zorder>BuySugar</zorder>
      <zorder>PriceSugar</zorder>
@@ -1130,6 +1136,7 @@ you’re about to make! </string>
        <string/>
       </property>
      </widget>
+     <zorder>LemonsDescprtion</zorder>
      <zorder>lemonsImage</zorder>
      <zorder>BuyLemons</zorder>
      <zorder>LemonPrice</zorder>
@@ -1172,8 +1179,8 @@ you’re about to make! </string>
      <widget class="QLabel" name="NeonSIgnDescription">
       <property name="geometry">
        <rect>
-        <x>340</x>
-        <y>22</y>
+        <x>370</x>
+        <y>40</y>
         <width>311</width>
         <height>101</height>
        </rect>
@@ -1185,8 +1192,9 @@ you’re about to make! </string>
       </property>
       <property name="text">
        <string>Throw a neon sign on 
- that dingy stand to attract 
- some new customers!</string>
+ that dingy stand to 
+ attract some new 
+ customers!</string>
       </property>
      </widget>
      <widget class="QLabel" name="neonSignImage">
@@ -1205,6 +1213,7 @@ you’re about to make! </string>
      <zorder>neonSignImage</zorder>
      <zorder>BuyNeonSIgn</zorder>
      <zorder>NeonSIgnPrice</zorder>
+     <zorder>NeonSIgnDescription</zorder>
     </widget>
     <widget class="QWidget" name="InsuranceUpgrade">
      <attribute name="title">
@@ -1244,8 +1253,8 @@ you’re about to make! </string>
      <widget class="QLabel" name="InsuranceDescription">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>50</y>
+        <x>390</x>
+        <y>60</y>
         <width>201</width>
         <height>101</height>
        </rect>
@@ -1256,9 +1265,10 @@ you’re about to make! </string>
        </font>
       </property>
       <property name="text">
-       <string>Want to ensure you don't 
- have to rebuy your decked 
- out lemonade stand? 
+       <string>Want to ensure you 
+ don't have to rebuy 
+ your decked out 
+ lemonade stand? 
  Invest in Insurance!</string>
       </property>
      </widget>
