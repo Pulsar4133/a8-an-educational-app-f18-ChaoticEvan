@@ -1,6 +1,6 @@
 /**
   * This class is mimicing a class to scroll the text at the top of the screen.
-  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, Keegan Spencer, and Theaux Masqulier.
   */
 
 #include "scrolltext.h"

@@ -1,6 +1,6 @@
 /**
   * This class shows the educational aspects of this game.
-  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson, and Theaux Mas.
+  * Created by Serena Aeschilman, Spencer Elkington, Andrew Stender, Evan Voordeckers, Ryan Williamson,Keegan Spencer, and Theaux Masqulier.
   */
 
 #include "educationalprompter.h"
